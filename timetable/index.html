@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>無駄にかっこいい時刻表(仮)</title>
+<style>
+	@font-face {
+		font-family: "originalFont";
+		/* src: url(/0_data/fonts/MPLUS1p-Medium.ttf) format("truetype"); */
+		src: url(https://u-12031.github.io/0_data/fonts/MPLUS1p-Medium.ttf) format("truetype");
+	}
+
+	:root {
+		--animation-timing: cubic-bezier(.2, 1, .7, 1);
+		--light-color: #f4f4f4;
+		--dark-color: #444
+	}
+
+	* {
+		font-family: "originalFont";
+		font-weight: lighter; /* 限界まで細く */
+		animation-timing-function: var(--animation-timing);
+		transition-timing-function: var(--animation-timing);
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+		background-color: var(--light-color);
+	}
+
+	@keyframes testAni {
+		from {width: 0%;}
+		to {width: 100%;}
+	}
+
+	h1::after {
+		content: "";
+		position: absolute;
+		top: 1em;
+		left: 0;
+		display: inline-block;
+		/* background-color: #f003; */
+		border-bottom: 1px solid black;
+		animation: testAni 1.5s forwards;
+		height: 1em;
+	}
+
+	#whatSelectFrom {
+		/* background-color: #f003; */
+		text-align: center;
+	}
+
+	#whatSelectFrom>button {
+		position: relative;
+		padding: 15px 20px;
+		background-color: var(--dark-color);
+		color: var(--light-color);
+		font-size: 27px;
+		border-color: var(--dark-color);
+		margin: 0 min(80px, calc((100vw - 400px) / 6));
+		transition: all .4s;
+		overflow: hidden;
+		
+		
+		&::before {
+			content: "\"Tokyo\"";
+			color: #e0e0e0;
+			font-style: italic;
+			opacity: 0;
+			position: absolute;
+			top: -20px;
+			left: -15px;
+			font-weight: bolder;
+			font-size: calc(1em + 40px);
+			transition: all .4s;
+			z-index: -1;
+		}
+
+		&>span>span {font-weight: 400;}
+	}
+	
+	#whatSelectFrom>button:hover {
+		background-color: transparent;
+		color: var(--dark-color);
+
+		&::before {opacity: 1;}
+	}
+</style>
+</head>
+<body>
+	<h1>てすとおおおおおおうわああああああ</h1>
+	<div id="whatSelectFrom">
+		<button id="selectStationName"><span><span>駅名</span>から選択</span></button>
+		<button id="selectRouteName"><span>路線</span>から選択</button>
+	</div>
+	<script>
+		function el(id) {return document.getElementById(id)};
+		/*
+
+		全体: 100vw
+		全体-ボタンたち: 100vw - 400px
+		それ/6
+
+		*/
+	</script>
+</body>
+</html>
