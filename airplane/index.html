@@ -25,12 +25,24 @@
 			background-color: #010;
 		}
 
+		#speedMeter {
+			display: inline-block;
+			position: relative;
+			width: 100px;
+			height: 500px;
+			background-color: #444;
+		}
+
+		#speedScale {
+			display: block;
+		}
+
 		#parent {
 			position: relative;
+			display: inline-block;
 			background-color: #09e;
-			display: block;
 			width: 400px;
-			height: 500px;
+			height: 450px;
 			border: none;
 			border-radius: 50px;
 			overflow: hidden;
@@ -48,11 +60,10 @@
 			transform-origin: top center;
 			background-color: #840;
 			width: 1400px;
-			height: 100%;
+			height: 50%;
 		}
 
 		#high {
-			/* background-color: #06c; */
 			width: 400px;
 			height: 500px;
 			clip-path: path("M 0 130 L 25 130 A 200 200 0 0 1 375 130 L 400 130, 400 500, 0 500");
@@ -60,7 +71,7 @@
 		}
 
 		#high #highScale {
-			top: -450px;
+			top: -475px;
 			left: -500px;
 			transform-origin: center;
 		}
@@ -100,6 +111,12 @@
 	</style>
 </head>
 <body>
+	<div id="speedMeter">
+		<canvas id="speedScale"></canvas>
+		<div id="speedNumParent">
+			<span id="sppedNum"></span>
+		</div>
+	</div>
 	<div id="parent">
 		<div id="ground"></div>
 		<div id="high">
@@ -156,6 +173,13 @@
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
 		const LINE_WIDTH = 3;
+
+		document.querySelectorAll("canvas").forEach((canvas,index) => {
+			canvas.style.width = canvas.width + "px";
+			canvas.style.height = canvas.height + "px";
+			console.log(index + " " + canvas.id);
+			console.log(canvas.style.width + ", " + canvas.style.height);
+		});
 
 		/** この関数は、要素に線を描画します。
 		 * @param {object} objective - 描画先の要素の描画コンテキストです。
