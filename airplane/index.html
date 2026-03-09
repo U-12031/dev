@@ -257,7 +257,6 @@
 			drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
 			drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
 			drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
-			addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, -80*i + 627.5);
 		};
 		for(let i=0;i<9;i++) { // 下方向
 			let linePositionY = [];
@@ -268,8 +267,14 @@
 			drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
 			drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
 			drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
-			addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5);
 		};
+		// フォントを読み込めたら目盛りの数字を描画する
+		document.fonts.ready.then(() => {
+			for(let i=0;i<9;i++) {
+				addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, -80*i + 627.5); // 上方向
+				addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5); // 下方向
+			};
+		})
 		
 		BANK_SCALE.fillStyle = "white";
 		BANK_SCALE.lineWidth = LINE_WIDTH;
