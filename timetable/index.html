@@ -34,6 +34,10 @@
 		to {width: 100%;}
 	}
 
+	h1 {
+		font-weight: bold;
+	}
+
 	h1::after {
 		content: "";
 		position: absolute;
@@ -59,7 +63,7 @@
 		font-size: 27px;
 		border: 2px solid var(--dark-color);
 		margin: 0 min(80px, calc((100vw - 400px) / 6));
-		transition: all .4s;
+		transition: all .3s;
 		overflow: hidden;
 		
 		&::before {
@@ -70,9 +74,8 @@
 			position: absolute;
 			top: -30px;
 			left: -15px;
-			font-weight: bolder;
 			font-size: calc(1em + 50px);
-			transition: all .4s;
+			transition: all .3s;
 			z-index: -1;
 		}
 
