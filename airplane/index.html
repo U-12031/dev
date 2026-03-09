@@ -211,25 +211,35 @@
 			objective.fillText(text, 560, y);
 			objective.fillText(text, 820, y);
 		};
+
 		HIGH_SCALE.fillStyle = "white";
-		HIGH_SCALE.font = "bold 25px 'numFont'"
+		HIGH_SCALE.font = "bold 25px \"numFont\""
 		HIGH_SCALE.lineWidth = LINE_WIDTH;
 		HIGH_SCALE.strokeStyle = "white";
 
 		drawLineOnCenter(HIGH_SCALE, 697.5, 1400);
 		
-		for(let i=0;i<9;i++) {
-			drawLineOnCenter(HIGH_SCALE, -80*i + 677.5, 50);
-			drawLineOnCenter(HIGH_SCALE, -80*i + 657.5, 100);
-			drawLineOnCenter(HIGH_SCALE, -80*i + 637.5, 50);
-			drawLineOnCenter(HIGH_SCALE, -80*i + 617.5, 200);
+		// 上下の角度を表す線を描く
+		for(let i=0;i<9;i++) { // 上方向
+			let linePositionY = [];
+			for(let j=0;j<4;j++) {
+				linePositionY[j] = (-80*i) + (677.5 - 20*j)
+			};
+			drawLineOnCenter(HIGH_SCALE, linePositionY[0], 50);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
 			addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, -80*i + 627.5);
 		};
-		for(let i=0;i<9;i++) {
-			drawLineOnCenter(HIGH_SCALE, 80*i + 717.5, 50);
-			drawLineOnCenter(HIGH_SCALE, 80*i + 737.5, 100);
-			drawLineOnCenter(HIGH_SCALE, 80*i + 757.5, 50);
-			drawLineOnCenter(HIGH_SCALE, 80*i + 777.5, 200);
+		for(let i=0;i<9;i++) { // 下方向
+			let linePositionY = [];
+			for(let j=0;j<4;j++) {
+				linePositionY[j] = (80*i) + (717.5 + 20*j);
+			};
+			drawLineOnCenter(HIGH_SCALE, linePositionY[0], 50);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
+			drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
 			addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5);
 		};
 		
