@@ -247,20 +247,32 @@
 		BANK_SCALE.lineWidth = LINE_WIDTH;
 		BANK_SCALE.strokeStyle = "white";
 
-		const MAIN_CIRCLE = [200, 220]; // 基準となる円の中心の座標
-		const CIRCLE_RADIUS = [200, 230, 250] // 基準となる2つの円の半径
-		drawLine(BANK_SCALE, [[185,0], [215,0], onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 90)], true, true);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 100), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 100)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 110), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 110)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 120), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[2], 120)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 135), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 135)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 150), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 150)]);
+		// 上のバンク角の目盛りを描く
+		const CIRCLES_CENTER = [200, 220]; // 基準となる3つの円の中心の座標(x,y)
+		const CIRCLE_RADIUS = { // 基準となる3つの円の半径
+			basic: 200, // 全ての目盛りの内側の始点となる円
+			short: 230, // 短い目盛りの外側の終点となる円
+			long: 250 // 長い目盛りの外側の終点となる円
+		};
+		/** この関数は、ここでのみ使われる基準の一つである最も内側の円の円周上の点の座標を返します。
+		 * @param {number} deg - oncircle関数のdegと同じです。oncircle関数自身の引数degと混同しないように注意してください。 
+		 */
+		function onBasicCircle(deg) {
+			return onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.basic, deg);
+		};
+		// 上のバンク角の中央の三角形
+		drawLine(BANK_SCALE, [[185,0], [215,0], onBasicCircle(90)], true, true);
+		drawLine(BANK_SCALE, [onBasicCircle(100), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 100)]);
+		drawLine(BANK_SCALE, [onBasicCircle(110), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 110)]);
+		drawLine(BANK_SCALE, [onBasicCircle(120), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.long, 120)]);
+		drawLine(BANK_SCALE, [onBasicCircle(135), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 135)]);
+		drawLine(BANK_SCALE, [onBasicCircle(150), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 150)]);
 
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 80), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 80)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 70), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 70)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 60), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[2], 60)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 45), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 45)]);
-		drawLine(BANK_SCALE, [onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[0], 30), onCircle(MAIN_CIRCLE, CIRCLE_RADIUS[1], 30)]);
+		drawLine(BANK_SCALE, [onBasicCircle(80), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 80)]);
+		drawLine(BANK_SCALE, [onBasicCircle(70), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 70)]);
+		drawLine(BANK_SCALE, [onBasicCircle(60), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.long, 60)]);
+		drawLine(BANK_SCALE, [onBasicCircle(45), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 45)]);
+		drawLine(BANK_SCALE, [onBasicCircle(30), onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, 30)]);
 
 		BANK_POINTER.fillStyle = "#fb1"
 		BANK_POINTER.lineWidth = LINE_WIDTH;
