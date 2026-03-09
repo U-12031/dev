@@ -175,10 +175,14 @@
 		const LINE_WIDTH = 3;
 
 		document.querySelectorAll("canvas").forEach((canvas,index) => {
-			canvas.style.width = canvas.width + "px";
-			canvas.style.height = canvas.height + "px";
-			console.log(index + " " + canvas.id);
-			console.log(canvas.style.width + ", " + canvas.style.height);
+			// canvas.style.width = canvas.width + "px";
+			// canvas.style.height = canvas.height + "px";
+			canvas.width *= window.devicePixelRatio;
+			canvas.height *= window.devicePixelRatio;
+			canvas.style.width = String(canvas.width / devicePixelRatio) + "px";
+			canvas.style.height = String(canvas.height / devicePixelRatio) + "px";
+
+			console.log(`${index} ${canvas.id} ${canvas.style.width} ${canvas.style.height} ${window.devicePixelRatio}`);
 		});
 
 		/** この関数は、要素に線を描画します。
