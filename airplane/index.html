@@ -83,25 +83,9 @@
 			left: 0;
 		}
 
-		#test {
-			left: 20px;
-			top: 20px;
-			height: 360px;
-			width: 360px;
-			clip-path: circle(50% at 50% 50%);
-		}
-
 		#bankScale {
 			top: 0;
 			left: 0;
-		}
-
-		#bankTest {
-			top: 25px;
-			left: 0;
-			width: 400px;
-			height: 400px;
-			border-radius: 100%;
 		}
 
 		#bankPointer {
@@ -111,21 +95,22 @@
 	</style>
 </head>
 <body>
-	<div id="speedMeter">
-		<canvas id="speedScale"></canvas>
-		<div id="speedNumParent">
-			<span id="sppedNum"></span>
+	<div>
+		<div id="speedMeter">
+			<canvas id="speedScale"></canvas>
+			<div id="speedNumParent">
+				<span id="sppedNum"></span>
+			</div>
 		</div>
-	</div>
-	<div id="parent">
-		<div id="ground"></div>
-		<div id="high">
-			<canvas id="highScale" width="1400" height="1400"></canvas>
-		</div>
-		<div id="bank">
-			<div id="test"></div>
-			<canvas id="bankScale" width="400" height="250"></canvas>
-			<canvas id="bankPointer" width="400" height="225"></canvas>
+		<div id="parent">
+			<div id="ground"></div>
+			<div id="high">
+				<canvas id="highScale" width="1400" height="1400"></canvas>
+			</div>
+			<div id="bank">
+				<canvas id="bankScale" width="400" height="250"></canvas>
+				<canvas id="bankPointer" width="400" height="225"></canvas>
+			</div>
 		</div>
 	</div>
 	TEST<br>
@@ -134,7 +119,6 @@
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
 	<br>
 	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
-	<br>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -274,7 +258,7 @@
 				addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, -80*i + 627.5); // 上方向
 				addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5); // 下方向
 			};
-		})
+		});
 		
 		BANK_SCALE.fillStyle = "white";
 		BANK_SCALE.lineWidth = LINE_WIDTH;
