@@ -25,24 +25,66 @@
 			background-color: #010;
 		}
 
-		#speedMeter {
-			display: inline-block;
+		#speedMeter, #altitudeMeter {
 			position: relative;
-			width: 100px;
+			display: inline-block;
+			width: 90px;
 			height: 500px;
+			margin: 25px;
 			background-color: #444;
 		}
 
-		#speedScale {
-			display: block;
+		#speedNumParent, #altitudeNumParent {
+			position: absolute;
+			top: 50%;
+			translate: 0 -50%;
+			display: inline-block;
+			background-color: black;
+			border: 3px solid white;
+			border-radius: 2px;
+			height: 100px;
+
+			&::after {
+				content: "";
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				background-color: inherit;
+				/* border: inherit; */
+			}
+		}
+		
+		#speedNumParent {
+			left: 0;
+			width: 20px;
+			
+			&::after {
+				top: 50%;
+				right: -20px;
+				translate: 0 -50%;
+				clip-path: polygon(0 0, 0% 100%, 100% 50%);
+			}
+		}
+
+		#altitudeNumParent {
+			right: 0;
+			width: 20px;
+
+			&::after {
+				top: 50%;
+				left: -20px;
+				translate: 0 -50%;
+				clip-path: polygon(100% 0, 100% 100%, 0 50%);
+			}
 		}
 
 		#parent {
+			margin: 35px auto;
 			position: relative;
 			display: inline-block;
 			background-color: #09e;
 			width: 400px;
-			height: 450px;
+			height: 430px;
 			border: none;
 			border-radius: 50px;
 			overflow: hidden;
@@ -71,7 +113,7 @@
 		}
 
 		#high #highScale {
-			top: -475px;
+			top: -485px;
 			left: -500px;
 			transform-origin: center;
 		}
@@ -97,9 +139,9 @@
 <body>
 	<div>
 		<div id="speedMeter">
-			<canvas id="speedScale"></canvas>
+			<canvas id="speedScale" width="90" height="500"></canvas>
 			<div id="speedNumParent">
-				<span id="sppedNum"></span>
+				<span id="speedNum"></span>
 			</div>
 		</div>
 		<div id="parent">
@@ -110,6 +152,12 @@
 			<div id="bank">
 				<canvas id="bankScale" width="400" height="250"></canvas>
 				<canvas id="bankPointer" width="400" height="225"></canvas>
+			</div>
+		</div>
+		<div id="altitudeMeter">
+			<canvas id="altitudeScale" width="90" height="500"></canvas>
+			<div id="altitudeNumParent">
+				<span id="altitudeNum"></span>
 			</div>
 		</div>
 	</div>
