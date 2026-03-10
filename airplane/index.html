@@ -12,7 +12,7 @@
 		@font-face {
 			font-family: "numFont";
 			src: url(/0_data/fonts/Lekton-Bold.ttf) format("truetype");
-			src: url(https://u-12031.github.io/0_data/fonts/Lekton-Bold.ttf) format("truetype");
+			src: url(http://u-12031.github.io/dev-github.io/0_data/fonts/Lekton-Regular.ttf) format("truetype");
 		}
 
 		* {
@@ -44,38 +44,57 @@
 			border-radius: 2px;
 			height: 100px;
 
-			&::after {
+			* {font-family: "numFont";}
+
+			&::before, &::after {
 				content: "";
 				position: absolute;
-				width: 20px;
-				height: 20px;
+			}
+			
+			&::before {
+				width: 13px;
+				height: 15px;
+				background-color: white;
+			}
+
+			&::after {
+				width: 12px;
+				height: 13px;
 				background-color: inherit;
-				/* border: inherit; */
 			}
 		}
 		
 		#speedNumParent {
-			left: 0;
-			width: 20px;
-			
-			&::after {
+			left: -5px;
+			width: 67.5px;
+			height: 4rem;
+			font-size: 2rem;
+
+			&::before, &::after {
 				top: 50%;
-				right: -20px;
 				translate: 0 -50%;
 				clip-path: polygon(0 0, 0% 100%, 100% 50%);
 			}
+
+			&::after {right: -11px;}
+
+			&::before {right: -15px;}
 		}
 
 		#altitudeNumParent {
-			right: 0;
-			width: 20px;
+			right: -15px;
+			width: 75px;
+			height: 3rem;
 
-			&::after {
+			&::before, &::after {
 				top: 50%;
-				left: -20px;
 				translate: 0 -50%;
 				clip-path: polygon(100% 0, 100% 100%, 0 50%);
 			}
+
+			&::after {left: -11px;}
+
+			&::before {left: -15px;}
 		}
 
 		#parent {
@@ -141,7 +160,7 @@
 		<div id="speedMeter">
 			<canvas id="speedScale" width="90" height="500"></canvas>
 			<div id="speedNumParent">
-				<span id="speedNum"></span>
+				<span id="speedNum">360</span>
 			</div>
 		</div>
 		<div id="parent">
