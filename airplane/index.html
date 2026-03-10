@@ -47,7 +47,6 @@
 			font-family: "numFont";
 			font-weight: bold;
 			justify-content: center;
-			align-items: center;
 			
 			* {
 				display: flex;
@@ -58,7 +57,11 @@
 			}
 			
 			&>span {
-				
+				display: flex;
+				align-items: center;
+				translate: 0 2px;
+				height: 100%;
+				overflow: hidden;
 			}
 
 			&::before, &::after {
@@ -81,6 +84,20 @@
 			}
 		}
 		
+		#speedOncePlace, #altitudeOncePlace {
+			position: relative;
+			height: 1em;
+
+			&>span {
+				position: absolute;
+				left: 0;
+			}
+		}
+
+		.oncePlaceTop {top: calc(-1em + 20%);}
+		.oncePlaceMiddle {top: 0em;}
+		.oncePlaceBottom {top: calc(1em - 20%);}
+
 		#speedNumParent {
 			left: -5px;
 			width: 67.5px;
@@ -88,16 +105,18 @@
 
 			&::before, &::after {
 				clip-path: polygon(0 0, 0% 100%, 100% 50%);
-			}
+			}	
 
 			&::after {right: -11px;}
 
 			&::before {right: -16px;}
 		}
 
+		#speedOncePlace {width: 20px;}
+
 		#altitudeNumParent {
-			right: -15px;
-			width: 75px;
+			right: -25px;
+			width: 85px;
 			height: 3rem;
 
 			&::before, &::after {
@@ -108,11 +127,17 @@
 
 			&::before {left: -16px;}
 
-			#altitudeTensPlace {
-				display: flex;
-				font-size: .8em;
-				margin: 2px;
-			}
+		}
+
+		#altitudeTensPlace {
+			display: flex;
+			font-size: .8em;
+			margin: 2px;
+		}
+
+		#altitudeOncePlace {
+			width: 23px;
+			font-size: 0.6em;
 		}
 
 		#parent {
@@ -178,11 +203,11 @@
 		<div id="speedMeter">
 			<canvas id="speedScale" width="90" height="500"></canvas>
 			<div id="speedNumParent">
-				<span>360
+				<span>36
 					<span id="speedOncePlace">
-						<span id="speedOncePlaceTop"></span>
-						<span id="speedOncePlaceMiddle"></span>
-						<span id="speedOncePlaceBottom"></span>
+						<span class="oncePlaceTop">1</span>
+						<span class="oncePlaceMiddle">0</span>
+						<span class="oncePlaceBottom">9</span>
 					</span>
 				</span>
 			</div>
@@ -203,9 +228,9 @@
 				<span>12
 					<span id="altitudeTensPlace">8</span>
 					<span id="altitudeOncePlace">
-						<span id="altitudeOncePlaceTop"></span>
-						<span id="altitudeOncePlaceMiddle"></span>
-						<span id="altitudeOncePlaceBottle"></span>
+						<span class="oncePlaceTop">20</span>
+						<span class="oncePlaceMiddle">00</span>
+						<span class="oncePlaceBottom">80</span>
 					</span>
 				</span>
 			</div>
