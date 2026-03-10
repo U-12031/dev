@@ -43,17 +43,22 @@
 			background-color: black;
 			border: 3px solid white;
 			border-radius: 2px;
-			font-size: 2rem;
+			font-size: 2.4rem;
 			font-family: "numFont";
 			font-weight: bold;
 			justify-content: center;
 			align-items: center;
-
+			
 			* {
+				display: flex;
 				margin: 0;
 				padding: 0;
 				font-family: "numFont";
 				font-weight: bold;
+			}
+			
+			&>span {
+				
 			}
 
 			&::before, &::after {
@@ -64,7 +69,7 @@
 			}
 			
 			&::before {
-				width: 13px;
+				width: 14px;
 				height: 15px;
 				background-color: white;
 			}
@@ -79,7 +84,7 @@
 		#speedNumParent {
 			left: -5px;
 			width: 67.5px;
-			height: 3.5rem;
+			height: 4rem;
 
 			&::before, &::after {
 				clip-path: polygon(0 0, 0% 100%, 100% 50%);
@@ -87,7 +92,7 @@
 
 			&::after {right: -11px;}
 
-			&::before {right: -15px;}
+			&::before {right: -16px;}
 		}
 
 		#altitudeNumParent {
@@ -101,10 +106,11 @@
 
 			&::after {left: -11px;}
 
-			&::before {left: -15px;}
+			&::before {left: -16px;}
 
 			#altitudeTensPlace {
-				font-size: 0.8em;
+				display: flex;
+				font-size: .8em;
 				margin: 2px;
 			}
 		}
@@ -171,11 +177,13 @@
 	<div>
 		<div id="speedMeter">
 			<canvas id="speedScale" width="90" height="500"></canvas>
-			<div id="speedNumParent">360
-				<span id="speedOncePlace">
-					<span id="speedOncePlaceTop"></span>
-					<span id="speedOncePlaceMiddle"></span>
-					<span id="speedOncePlaceBottom"></span>
+			<div id="speedNumParent">
+				<span>360
+					<span id="speedOncePlace">
+						<span id="speedOncePlaceTop"></span>
+						<span id="speedOncePlaceMiddle"></span>
+						<span id="speedOncePlaceBottom"></span>
+					</span>
 				</span>
 			</div>
 		</div>
@@ -191,12 +199,14 @@
 		</div>
 		<div id="altitudeMeter">
 			<canvas id="altitudeScale" width="90" height="500"></canvas>
-			<div id="altitudeNumParent">12
-				<span id="altitudeTensPlace">8</span>
-				<span id="altitudeOncePlace">
-					<span id="altitudeOncePlaceTop"></span>
-					<span id="altitudeOncePlaceMiddle"></span>
-					<span id="altitudeOncePlaceBottle"></span>
+			<div id="altitudeNumParent">
+				<span>12
+					<span id="altitudeTensPlace">8</span>
+					<span id="altitudeOncePlace">
+						<span id="altitudeOncePlaceTop"></span>
+						<span id="altitudeOncePlaceMiddle"></span>
+						<span id="altitudeOncePlaceBottle"></span>
+					</span>
 				</span>
 			</div>
 		</div>
