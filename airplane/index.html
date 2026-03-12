@@ -70,7 +70,7 @@
 				top: 50%;
 				translate: 0 -50%;
 			}
-			
+
 			&::before {
 				width: 14px;
 				height: 15px;
@@ -83,7 +83,7 @@
 				background-color: inherit;
 			}
 		}
-		
+
 		#speedOncePlace, #altitudeOncePlace {
 			position: relative;
 			height: 1em;
@@ -105,7 +105,7 @@
 
 			&::before, &::after {
 				clip-path: polygon(0 0, 0% 100%, 100% 50%);
-			}	
+			}
 
 			&::after {right: -11px;}
 
@@ -275,7 +275,7 @@
 		 * @returns {ElementObject} そのidを持つ要素です。
 		*/
 		function el(id) {return document.getElementById(id)};
-		const HIGH_SCALE = el("highScale").getContext("2d");		
+		const HIGH_SCALE = el("highScale").getContext("2d");
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
 		const LINE_WIDTH = 3;
@@ -338,14 +338,14 @@
 
 			return result;
 		};
-		
+
 		HIGH_SCALE.fillStyle = "white";
 		HIGH_SCALE.font = "bold 25px \"numFont\""
 		HIGH_SCALE.lineWidth = LINE_WIDTH;
 		HIGH_SCALE.strokeStyle = "white";
-		
+
 		drawLineOnCenter(HIGH_SCALE, 697.5, 1400);
-		
+
 		/** この関数は、addScaleOnCenter関数で描画したような目盛りの左右にラベルを付けます。上下の角度を表す目盛りのみに使われます。
 		 * @param {string} [text=""] - 描画するテキストです(英数半角2文字指定)。
 		 * @param {number} y - テキストのy座標です。描画したいところのy座標から10増やした値を入れます。
@@ -382,7 +382,7 @@
 				addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5); // 下方向
 			};
 		});
-		
+
 		BANK_SCALE.fillStyle = "white";
 		BANK_SCALE.lineWidth = LINE_WIDTH;
 		BANK_SCALE.strokeStyle = "white";
@@ -395,21 +395,21 @@
 			long: 250 // 長い目盛りの外側の終点となる円
 		};
 		/** この関数は、ここでのみ使われる基準の一つである最も内側の円の円周上の点の座標を返します。
-		 * @param {number} deg - oncircle関数のdegと同じです。oncircle関数自身の引数degと混同しないように注意してください。
+		 * @param {number} deg - onCircle関数のdegと同じです。onCircle関数自身の引数degと混同しないように注意してください。
 		 * @returns {Array} [x,y]の形の、その円の円周上の指定した角度の点の座標です。
 		 */
 		function onBasicCircle(deg) {
 			return onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.basic, deg);
 		};
 		/** この関数は、ここでのみ使われる基準の一つである2番目の円の円周上の点の座標を返します。
-		 * @param {number} deg - oncircle関数のdegと同じです。oncircle関数自身の引数degと混同しないように注意してください。 
+		 * @param {number} deg - onCircle関数のdegと同じです。onCircle関数自身の引数degと混同しないように注意してください。
 		 * @returns {Array} [x,y]の形の、その円の円周上の指定した角度の点の座標です。
 		 */
 		function onShortCircle(deg) {
 			return onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.short, deg);
 		};
 		/** この関数は、ここでのみ使われる基準の一つである最も外側の円の円周上の点の座標を返します。
-		 * @param {number} deg - oncircle関数のdegと同じです。oncircle関数自身の引数degと混同しないように注意してください。 
+		 * @param {number} deg - onCircle関数のdegと同じです。onCircle関数自身の引数degと混同しないように注意してください。
 		 * @returns {Array} [x,y]の形の、その円の円周上の指定した角度の点の座標です。
 		 */
 		function onLongCircle(deg) {
