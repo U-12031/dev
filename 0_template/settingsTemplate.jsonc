@@ -1,10 +1,15 @@
 {
 	/*
 		拡張機能を入れるのも忘れずに
+			Japanese Language Pack for Visual Studio Code
 			CodeSwing
 			Color Highlight
 			indent-rainbow
-			GitHub Copilot
+			GitHub Copilot Chat
+			Code Spell Checker
+			Indenticator
+			Trailing Spaces
+			vscode-pets
 	*/
 	"editor.tabSize": 2,
 	"editor.detectIndentation": false,
