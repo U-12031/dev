@@ -13,7 +13,7 @@
 	<br>Altitude: <span id="altitude"></span>
 	<br>Speed: <span id="speed"></span>
 	<br>Heading: <span id="heading"></span>
-	<br>error: <span id="error"></span>
+	<br>Error: <span id="error"></span>
 <script>
 	function el(id) {return document.getElementById(id)};
 
@@ -38,9 +38,9 @@
 				alpha = event.alpha;
 				beta = event.beta;
 				gamma = event.gamma;
-				el("alpha").innerHTML = alpha + "deg";
-				el("beta").innerHTML = beta + "deg";
-				el("gamma").innerHTML = gamma + "deg";
+				el("alpha").innerHTML = alpha.toFixed(2) + "deg";
+				el("beta").innerHTML = beta.toFixed(2) + "deg";
+				el("gamma").innerHTML = gamma.toFixed(2) + "deg";
 			});
 
 			// GPS
@@ -49,10 +49,14 @@
 				altitude = coords.altitude;
 				speed = coords.speed;
 				heading = coords.heading;
-				el("altitude").innerHTML = altitude + "m";
-				el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
-				el("heading").innerHTML = heading + "deg";
-			}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
+				el("altitude").innerHTML = altitude.toFixed(2) + "m";
+				el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
+				el("heading").innerHTML = heading.toFixed(2) + "deg";
+			}, null, {
+				enableHighAccuracy: true,
+				maximumAge: 0,
+				timeout: 500,
+			});// 高精度な位置情報を取得する
 		};
 	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 </script>
