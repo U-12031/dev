@@ -250,7 +250,7 @@
 	<br>Altitude: <span id="altitude"></span>
 	<br>Speed: <span id="speed"></span>
 	<br>Heading: <span id="heading"></span>
-	<br>error: <span id="error"></span>
+	<br>Error: <span id="error"></span>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -287,6 +287,8 @@
 		const HIGH_SCALE = el("highScale").getContext("2d");
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
+		const SPEED_SCALE = el("speedScale").getContext("2d");
+		const ALTITUDE_SCALE = el("altitudeScale").getContext("2d");
 		const LINE_WIDTH = 3;
 
 		// canvasタグの画質を良くする
@@ -444,6 +446,19 @@
 
 		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
 
+		SPEED_SCALE.fillStyle = "white";
+		SPEED_SCALE.lineWidth = LINE_WIDTH;
+		SPEED_SCALE.strokeStyle = "white";
+		for(let i=0;i<13;i++) {
+			drawLine(SPEED_SCALE, [[72, 500 - (40*i)], [90, 500 - (40*i)]]);
+		};
+
+		ALTITUDE_SCALE.fillStyle = "white";
+		ALTITUDE_SCALE.lineWidth = LINE_WIDTH;
+		ALTITUDE_SCALE.strokeStyle = "white";
+		for(let i=0;i<9;i++) {
+			drawLine(ALTITUDE_SCALE, [[0, 500 - (62.5*i)], [18, 500 - (62.5*i)]]);
+		};
 // ここからセンサーの値を取得するプログラム
 try {
 let alpha, beta, gamma; // 角度
