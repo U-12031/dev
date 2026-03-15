@@ -7,6 +7,7 @@
 </head>
 <body>
 	<button onclick="start();">センサーからのデータの取得を開始</button>
+	<br>Update Times: <span id="updateTimes">0</span>
 	<br>Alpha: <span id="alpha"></span>
 	<br>Beta: <span id="beta"></span>
 	<br>Gamma: <span id="gamma"></span>
@@ -18,6 +19,7 @@
 	function el(id) {return document.getElementById(id)};
 
 	try {
+		let whatTimesUpdated = 0; // 更新回数
 		let alpha, beta, gamma; // 角度
 		let altitude, speed, heading; // GPS
 
@@ -45,6 +47,8 @@
 
 			// GPS
 			navigator.geolocation.watchPosition((pos)=>{
+				whatTimesUpdated++;
+				el("updateTimes").innerHTML = whatTimesUpdated;
 				const coords = pos.coords;
 				altitude = coords.altitude;
 				speed = coords.speed;
@@ -55,7 +59,7 @@
 			}, null, {
 				enableHighAccuracy: true,
 				maximumAge: 0,
-				timeout: 500,
+				timeout: 100,
 			});// 高精度な位置情報を取得する
 		};
 	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
