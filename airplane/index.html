@@ -31,7 +31,7 @@
 			position: relative;
 			display: inline-block;
 			width: 90px;
-			height: 500px;
+			height: 600px;
 			margin: 25px;
 			background-color: #444;
 		}
@@ -143,7 +143,7 @@
 		}
 
 		#parent {
-			margin: 35px auto;
+			margin: 80px auto;
 			position: relative;
 			display: inline-block;
 			background-color: #09e;
@@ -203,7 +203,7 @@
 <body>
 	<div>
 		<div id="speedMeter">
-			<canvas id="speedScale" width="90" height="500"></canvas>
+			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
 				<span>36
 					<span id="speedOncePlace">
@@ -225,7 +225,7 @@
 			</div>
 		</div>
 		<div id="altitudeMeter">
-			<canvas id="altitudeScale" width="90" height="500"></canvas>
+			<canvas id="altitudeScale" width="90" height="600"></canvas>
 			<div id="altitudeNumParent">
 				<span>12
 					<span id="altitudeTensPlace">8</span>
@@ -453,14 +453,16 @@
 		SPEED_SCALE.lineWidth = LINE_WIDTH;
 		SPEED_SCALE.strokeStyle = "white";
 		for(let i=0;i<13;i++) {
-			drawLine(SPEED_SCALE, [[72, 500 - (40*i)], [90, 500 - (40*i)]]);
+			const linePositionY = 600 - (600/12*i);
+			drawLine(SPEED_SCALE, [[72, linePositionY], [90, linePositionY]]);
 		};
 
 		ALTITUDE_SCALE.fillStyle = "white";
 		ALTITUDE_SCALE.lineWidth = LINE_WIDTH;
 		ALTITUDE_SCALE.strokeStyle = "white";
 		for(let i=0;i<9;i++) {
-			drawLine(ALTITUDE_SCALE, [[0, 500 - (62.5*i)], [18, 500 - (62.5*i)]]);
+			const linePositionY = 600 * (i/8);
+			drawLine(ALTITUDE_SCALE, [[0, linePositionY], [18, linePositionY]]);
 		};
 // ここからセンサーの値を取得するプログラム
 try {
