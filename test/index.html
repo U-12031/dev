@@ -22,6 +22,7 @@
 		let whatTimesUpdated = 0; // 更新回数
 		let alpha, beta, gamma; // 角度
 		let altitude, speed, heading; // GPS
+		let lastTime = performance.now(); // 加速度の更新時間
 
 		function start() {
 			// iPhone用許可
@@ -59,8 +60,25 @@
 			}, null, {
 				enableHighAccuracy: true,
 				maximumAge: 0,
-				timeout: 100,
 			});// 高精度な位置情報を取得する
+
+			// 加速度
+			window.addEventListener("devicemotion",(e)=>{
+				const acc = e.accelerationIncludingGravity;
+				if(acc && acc.y) {
+					const now = performance.now();
+					const dt = (now-lastTime)/1000;
+					speed += acc.y * dt;
+					lastTime = now;
+				};
+			});
+			// 表示更新
+			update();
+		};
+
+		function update() {
+			if(speed) el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed * 3.6).toFixed(2) + "km/h" + ")";
+			requestAnimationFrame(update);
 		};
 	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 </script>
