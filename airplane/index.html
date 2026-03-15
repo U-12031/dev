@@ -284,12 +284,14 @@
 		 * @returns {ElementObject} そのidを持つ要素です。
 		*/
 		function el(id) {return document.getElementById(id)};
+		let alpha, beta, gamma; // 角度
+		let altitude, speed, heading; // GPS
 		const HIGH_SCALE = el("highScale").getContext("2d");
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
 		const SPEED_SCALE = el("speedScale").getContext("2d");
 		const ALTITUDE_SCALE = el("altitudeScale").getContext("2d");
-		const LINE_WIDTH = 3;
+		const LINE_WIDTH = 3; // 目盛りの線の太さ
 
 		// canvasタグの画質を良くする
 		document.querySelectorAll("canvas").forEach((canvas) => {
@@ -461,8 +463,6 @@
 		};
 // ここからセンサーの値を取得するプログラム
 try {
-let alpha, beta, gamma; // 角度
-let altitude, speed, heading; // GPS
 // iPhone用許可
 if (typeof DeviceOrientationEvent.requestPermission === "function") {
 	DeviceOrientationEvent.requestPermission().then(response => {
