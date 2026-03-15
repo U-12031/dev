@@ -250,6 +250,7 @@
 	<br>Altitude: <span id="altitude"></span>
 	<br>Speed: <span id="speed"></span>
 	<br>Heading: <span id="heading"></span>
+	<br>error: <span id="error"></span>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -444,6 +445,7 @@
 		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
 
 // ここからセンサーの値を取得するプログラム
+try {
 let alpha, beta, gamma; // 角度
 let altitude, speed, heading; // GPS
 // iPhone用許可
@@ -477,6 +479,7 @@ function startSensors(){
 		el("heading").innerHTML = heading + "deg";
 	}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
 };
+} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 </script>
 </body>
 </html>
