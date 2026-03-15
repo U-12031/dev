@@ -486,40 +486,39 @@
 			const linePositionY = 600 * (i/8);
 			drawLine(ALTITUDE_SCALE, [[0, linePositionY], [18, linePositionY]]);
 		};
-// ここからセンサーの値を取得するプログラム
-try {
-function start() { // iPhone用許可
-	if (typeof DeviceOrientationEvent.requestPermission === "function") {
-		DeviceOrientationEvent.requestPermission().then(response => {
-			if (response === "granted") startSensors();
-		});
-	}else{
-		startSensors();
-	};
-}
-function startSensors() {
-	// 角度
-	window.addEventListener("deviceorientation",(event)=>{
-		alpha = event.alpha;
-		beta = event.beta;
-		gamma = event.gamma;
-		el("alpha").innerHTML = alpha + "deg";
-		el("beta").innerHTML = beta + "deg";
-		el("gamma").innerHTML = gamma + "deg";
-	});
 
-	// GPS
-	navigator.geolocation.watchPosition((pos)=>{
-		const coords = pos.coords;
-		altitude = coords.altitude;
-		speed = coords.speed;
-		heading = coords.heading;
-		el("altitude").innerHTML = altitude + "m";
-		el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
-		el("headingTest").innerHTML = heading + "deg";
-	}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
-};
-} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
-</script>
+		// ここからセンサーの値を取得するプログラム
+		function start() { // iPhone用許可
+			if (typeof DeviceOrientationEvent.requestPermission === "function") {
+				DeviceOrientationEvent.requestPermission().then(response => {
+					if (response === "granted") startSensors();
+				});
+			}else{
+				startSensors();
+			};
+		}
+		function startSensors() {
+			// 角度
+			window.addEventListener("deviceorientation",(event)=>{
+				alpha = event.alpha;
+				beta = event.beta;
+				gamma = event.gamma;
+				el("alpha").innerHTML = alpha + "deg";
+				el("beta").innerHTML = beta + "deg";
+				el("gamma").innerHTML = gamma + "deg";
+			});
+
+			// GPS
+			navigator.geolocation.watchPosition((pos)=>{
+				const coords = pos.coords;
+				altitude = coords.altitude;
+				speed = coords.speed;
+				heading = coords.heading;
+				el("altitude").innerHTML = altitude + "m";
+				el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
+				el("headingTest").innerHTML = heading + "deg";
+			}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
+		};
+	</script>
 </body>
 </html>
