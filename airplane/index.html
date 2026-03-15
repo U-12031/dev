@@ -251,6 +251,7 @@
 	<br>Speed: <span id="speed"></span>
 	<br>Heading: <span id="heading"></span>
 	<br>Error: <span id="error"></span>
+	<br><button onclick="start()" style="color: black;">start</button>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -463,16 +464,16 @@
 		};
 // ここからセンサーの値を取得するプログラム
 try {
-// iPhone用許可
-if (typeof DeviceOrientationEvent.requestPermission === "function") {
-	DeviceOrientationEvent.requestPermission().then(response => {
-		if (response === "granted") startSensors();
-	});
-}else{
-	startSensors();
-};
-
-function startSensors(){
+function start() { // iPhone用許可
+	if (typeof DeviceOrientationEvent.requestPermission === "function") {
+		DeviceOrientationEvent.requestPermission().then(response => {
+			if (response === "granted") startSensors();
+		});
+	}else{
+		startSensors();
+	};
+}
+function startSensors() {
 	// 角度
 	window.addEventListener("deviceorientation",(event)=>{
 		alpha = event.alpha;
