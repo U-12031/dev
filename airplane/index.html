@@ -143,7 +143,7 @@
 		}
 
 		#parent {
-			margin: 80px auto;
+			margin: 85px auto;
 			position: relative;
 			display: inline-block;
 			background-color: #09e;
@@ -198,10 +198,28 @@
 			top: 25px;
 			transform-origin: center 200px;
 		}
+
+		#heading {
+			position: absolute;
+			top: 625px;
+			left: 50%;
+			translate: -50% 0;
+			background-color: #444;
+			width: 600px;
+			height: 600px;
+			border-radius: 100%;
+			/* clip-path: polygon(0 -50px, 100% -50px, 100% 110px, 0 110px); */
+		}
+
+		#headingPointer {
+			position:absolute;
+			top: -50px;
+			left:0;
+		}
 	</style>
 </head>
 <body>
-	<div>
+	<div style="text-align: center;">
 		<div id="speedMeter">
 			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
@@ -237,6 +255,10 @@
 				</span>
 			</div>
 		</div>
+		<div id="heading">
+			<canvas id="headingScale" width="600" height="600"></canvas>
+			<canvas id="headingPointer" width="600" height="50"></canvas>
+		</div>
 	</div>
 	TEST<br>
 	ROTATE<input type="range" id="input1" min="-50" value="0" max="50" style="width: 300px;"><span id="output1">0 deg</span>
@@ -249,7 +271,7 @@
 	<br>Gamma: <span id="gamma"></span>
 	<br>Altitude: <span id="altitude"></span>
 	<br>Speed: <span id="speed"></span>
-	<br>Heading: <span id="heading"></span>
+	<br>Heading: <span id="headingTest"></span>
 	<br>Error: <span id="error"></span>
 	<br><button onclick="start()" style="color: black;">start</button>
 
@@ -494,7 +516,7 @@ function startSensors() {
 		heading = coords.heading;
 		el("altitude").innerHTML = altitude + "m";
 		el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
-		el("heading").innerHTML = heading + "deg";
+		el("headingTest").innerHTML = heading + "deg";
 	}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
 };
 } catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
