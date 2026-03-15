@@ -49,7 +49,7 @@
 			font-family: "numFont";
 			font-weight: bold;
 			justify-content: center;
-			
+
 			* {
 				display: flex;
 				margin: 0;
@@ -57,7 +57,7 @@
 				font-family: "numFont";
 				font-weight: bold;
 			}
-			
+
 			&>span {
 				display: flex;
 				align-items: center;
@@ -244,6 +244,12 @@
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
 	<br>
 	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
+	<br><br><!-- 本当はやっちゃいけないけど -->Alpha: <span id="alpha"></span>
+	<br>Beta: <span id="beta"></span>
+	<br>Gamma: <span id="gamma"></span>
+	<br>Altitude: <span id="altitude"></span>
+	<br>Speed: <span id="speed"></span>
+	<br>Heading: <span id="heading"></span>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -436,6 +442,41 @@
 		BANK_POINTER.strokeStyle = "white";
 
 		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
+
+// ここからセンサーの値を取得するプログラム
+let alpha, beta, gamma; // 角度
+let altitude, speed, heading; // GPS
+// iPhone用許可
+if (typeof DeviceOrientationEvent.requestPermission === "function") {
+	DeviceOrientationEvent.requestPermission().then(response => {
+		if (response === "granted") startSensors();
+	});
+}else{
+	startSensors();
+};
+
+function startSensors(){
+	// 角度
+	window.addEventListener("deviceorientation",(event)=>{
+		alpha = event.alpha;
+		beta = event.beta;
+		gamma = event.gamma;
+		el("alpha").innerHTML = alpha + "deg";
+		el("beta").innerHTML = beta + "deg";
+		el("gamma").innerHTML = gamma + "deg";
+	});
+
+	// GPS
+	navigator.geolocation.watchPosition((pos)=>{
+		const coords = pos.coords;
+		altitude = coords.altitude;
+		speed = coords.speed;
+		heading = coords.heading;
+		el("altitude").innerHTML = altitude + "m";
+		el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
+		el("heading").innerHTML = heading + "deg";
+	}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
+};
 </script>
 </body>
 </html>
