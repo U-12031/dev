@@ -6,6 +6,7 @@
 	<title>Test</title>
 </head>
 <body>
+	<button onclick="start();">センサーからのデータの取得を開始</button>
 	<br>Alpha: <span id="alpha"></span>
 	<br>Beta: <span id="beta"></span>
 	<br>Gamma: <span id="gamma"></span>
@@ -19,13 +20,16 @@
 	try {
 		let alpha, beta, gamma; // 角度
 		let altitude, speed, heading; // GPS
-		// iPhone用許可
-		if (typeof DeviceOrientationEvent.requestPermission === "function") {
-			DeviceOrientationEvent.requestPermission().then(response => {
-				if (response === "granted") startSensors();
-			});
-		}else{
-			startSensors();
+
+		function start() {
+			// iPhone用許可
+			if (typeof DeviceOrientationEvent.requestPermission === "function") {
+				DeviceOrientationEvent.requestPermission().then(response => {
+					if (response === "granted") startSensors();
+				});
+			}else{
+				startSensors();
+			};
 		};
 
 		function startSensors(){
