@@ -7,6 +7,7 @@
 </head>
 <body>
 	<button onclick="start();">センサーからのデータの取得を開始</button>
+	<button onclick="updateAccError = true;">加速度の誤差を今で登録</button>
 	<br>Update Times: <span id="updateTimes">0</span>
 	<br>Alpha: <span id="alpha"></span>
 	<br>Beta: <span id="beta"></span>
@@ -24,6 +25,8 @@
 		let alpha, beta, gamma; // 角度
 		let altitude, speed, heading; // GPS
 		let lastTime = performance.now(); // 加速度の更新時間
+		let accError = 0; // 加速度の誤差
+		let updateAccError = false; // 加速度の誤差を更新するかどうか
 
 		function start() {
 			// iPhone用許可
@@ -70,9 +73,13 @@
 				if(acc && acc.y) {
 					const now = performance.now();
 					const dt = (now-lastTime)/1000;
-					speed += acc.y * dt;
+					if(updateAccError) {
+						accError = acc.y * dt;
+						updateAccError = false;
+					};
+					speed += acc.y * dt - accError;
 					lastTime = now;
-					el("speed2").innerHTML = acc.y * dt + "m/s^2";
+					el("speed2").innerHTML = (acc.y * dt - accError).toFixed(2) + "m/s^2";
 				};
 			});
 			// 表示更新
