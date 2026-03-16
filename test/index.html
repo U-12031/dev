@@ -20,6 +20,7 @@
 	<br>Error: <span id="error"></span>
 	<br>accError: <span id="accError"></span>
 	<br>dt: <span id="dt"></span>
+	<br>acc.y: <span id="accY"></span>
 	<br>acc.y*dt: <span id="accYdt"></span>
 <script>
 	function el(id) {return document.getElementById(id)};
@@ -93,9 +94,10 @@
 				speed += acc.y * dt - accError;
 				lastTime = now;
 				el("dt").innerHTML = dt.toFixed(3) + "s";
-				el("accYdt").innerHTML = (acc.y * dt).toFixed(2) + "m/s";
-				el("accError").innerHTML = accError.toFixed(2) + "m/s";
-				el("speed2").innerHTML = (acc.y * dt - accError).toFixed(2) + "m/s^2";
+				el("accY").innerHTML = acc.y.toFixed(4) + "m/s^2";
+				el("accYdt").innerHTML = (acc.y * dt).toFixed(4) + "m/s";
+				el("accError").innerHTML = accError.toFixed(4) + "m/s";
+				el("speed2").innerHTML = (acc.y * dt - accError).toFixed(4) + "m/s^2";
 			};
 		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 		});
