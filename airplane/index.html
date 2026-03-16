@@ -23,8 +23,13 @@
 		}
 
 		body {
+			text-align: center;
 			margin: 0;
 			background-color: #010;
+		}
+
+		#instruments {
+			padding-bottom: 100px; /* position:absoluteの要素も囲みきるため */
 		}
 
 		#speedMeter, #altitudeMeter {
@@ -142,7 +147,7 @@
 			font-size: 0.6em;
 		}
 
-		#parent {
+		#center {
 			margin: 85px 30px;
 			position: relative;
 			display: inline-block;
@@ -154,7 +159,7 @@
 			overflow: hidden;
 		}
 
-		#parent * {
+		#center * {
 			display: block;
 			position: absolute;
 		}
@@ -216,10 +221,29 @@
 			top: -50px;
 			left:0;
 		}
+
+		@keyframes startSensorsAni {
+			0% {background-color: #09e;}
+			50% {background-color: #5ef;}
+			100% {background-color: #09e;}
+		}
+
+		#startSensors {
+			animation: startSensorsAni 1s ease-in-out infinite;
+			margin: auto;
+			padding: 10px 20px;
+			font-size: 1.2rem;
+			font-weight: bold;
+			border: none;
+			border-radius: 5px;
+			background-color: #09e;
+			color: white;
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
-	<div style="text-align: center;">
+	<div id="instruments">
 		<div id="speedMeter">
 			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
@@ -232,7 +256,7 @@
 				</span>
 			</div>
 		</div>
-		<div id="parent">
+		<div id="center">
 			<div id="ground"></div>
 			<div id="high">
 				<canvas id="highScale" width="1400" height="1400"></canvas>
@@ -260,7 +284,8 @@
 			<canvas id="headingPointer" width="600" height="50"></canvas>
 		</div>
 	</div>
-	TEST<br>
+	<button id="startSensors" onclick="startSensors()">Start using Sensors</button>
+	<br><br><br><br>TEST<br>
 	ROTATE<input type="range" id="input1" min="-50" value="0" max="50" style="width: 300px;"><span id="output1">0 deg</span>
 	<br>
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
@@ -525,6 +550,7 @@
 		let lastTime = performance.now(); // 加速度の更新時間
 
 		function startSensors() {
+			el("startSensors").style.display = "none"; // ボタンを消す
 			if(updateID) navigator.geolocation.clearWatch(updateID); // すでに位置情報の更新を取得しているときはそれを止める
 			// iPhoneの位置情報の許可を取る
 			if(typeof DeviceOrientationEvent.requestPermission === "function") { // iPhone用の許可するための関数が存在するか
