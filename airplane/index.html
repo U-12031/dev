@@ -583,7 +583,11 @@
 
 			if(updateID == 1) { // 最初だけ定義をする
 				window.addEventListener("deviceorientation",(event)=>{ // 角度の定義
-					alpha = event.alpha;
+					if(event.webkitCompassHeading) { // iPhoneの方位角はalphaではなくwebkitCompassHeadingに入っているので、そっちがあるときはそっちをheadingに入れる
+						alpha = event.webkitCompassHeading;
+					} else {
+						alpha = event.alpha;
+					};
 					beta = event.beta;
 					gamma = event.gamma;
 				});
