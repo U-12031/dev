@@ -378,7 +378,7 @@
 		};
 
 		HIGH_SCALE.fillStyle = "white";
-		HIGH_SCALE.font = "bold 25px \"numFont\""
+		HIGH_SCALE.font = "bold 25px \"numFont\"";
 		HIGH_SCALE.lineWidth = LINE_WIDTH;
 		HIGH_SCALE.strokeStyle = "white";
 
@@ -492,11 +492,16 @@
 		HEADING_SCALE.fillStyle = "white";
 		HEADING_SCALE.lineWidth = LINE_WIDTH;
 		HEADING_SCALE.strokeStyle = "white";
+		HEADING_SCALE.font = "bold 25px \"numFont\"";
 		for(let i=0;i<72;i++) {
 			const lineStartPosition = onCircle([300,300], 300, i*5);
 			const lineEndPosition = onCircle([300,300], i%2===0 ? 280 : 290, i*5);
 			drawLine(HEADING_SCALE, [lineStartPosition, lineEndPosition]);
 		};
+		HEADING_SCALE.scale(.5,.55);
+		HEADING_SCALE.rotate(Math.PI/2*0.2);
+		// HEADING_SCALE.translate(0,-300);
+		HEADING_SCALE.fillText("0", 300, 50);
 
 		// ここからセンサーの値を取得するプログラム
 		function start() { // iPhone用許可
