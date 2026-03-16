@@ -88,7 +88,7 @@
 
 		function update() {
 			if(speed) el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed * 3.6).toFixed(2) + "km/h" + ")";
-			requestAnimationFrame(update);
+			// requestAnimationFrame(update);
 		};
 	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 </script>
