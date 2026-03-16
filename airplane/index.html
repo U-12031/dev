@@ -307,8 +307,6 @@
 		 * @returns {ElementObject} そのidを持つ要素です。
 		*/
 		function el(id) {return document.getElementById(id)};
-		let alpha, beta, gamma; // 角度
-		let altitude, speed, heading; // GPS
 		const HIGH_SCALE = el("highScale").getContext("2d");
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
@@ -519,36 +517,68 @@
 		drawLine(HEADING_POINTER, [[285,25], [315,25], [300,47]], true, false);
 
 		// ここからセンサーの値を取得するプログラム
-		function start() { // iPhone用許可
-			if (typeof DeviceOrientationEvent.requestPermission === "function") {
-				DeviceOrientationEvent.requestPermission().then(response => {
-					if (response === "granted") startSensors();
-				});
-			}else{
-				startSensors();
-			};
-		}
-		function startSensors() {
-			// 角度
-			window.addEventListener("deviceorientation",(event)=>{
-				alpha = event.alpha;
-				beta = event.beta;
-				gamma = event.gamma;
-				el("alpha").innerHTML = alpha + "deg";
-				el("beta").innerHTML = beta + "deg";
-				el("gamma").innerHTML = gamma + "deg";
-			});
+		let altitude, speed, heading; // GPS
+		let alpha, beta, gamma; // 角度
+		let updateID; // 更新のID
+		let accError = 9.8; // 加速度の誤差 初期値は重力加速度(の近似値)
+		let doUpdateAccError = false; // 加速度の誤差を更新するかどうか
+		let lastTime = performance.now(); // 加速度の更新時間
 
-			// GPS
-			navigator.geolocation.watchPosition((pos)=>{
+		function startSensors() {
+			if(updateID) navigator.geolocation.clearWatch(updateID); // すでに位置情報の更新を取得しているときはそれを止める
+			// iPhoneの位置情報の許可を取る
+			if(typeof DeviceOrientationEvent.requestPermission === "function") { // iPhone用の許可するための関数が存在するか
+				DeviceOrientationEvent.requestPermission().then(response => {
+					if(response === "granted") defineSensors();
+				});
+			} else defineSensors();
+		};
+
+		function defineSensors() {
+			updateID = navigator.geolocation.watchPosition((pos)=>{ // GPSの定義
 				const coords = pos.coords;
 				altitude = coords.altitude;
 				speed = coords.speed;
 				heading = coords.heading;
-				el("altitude").innerHTML = altitude + "m";
-				el("speed").innerHTML = speed + "m/s (" + (speed * 3.6) + "km/h)";
-				el("headingTest").innerHTML = heading + "deg";
-			}, null, {enableHighAccuracy: true});// 高精度な位置情報を取得する
+			}, null, {
+				enableHighAccuracy: true, // 高精度な位置情報を取得する
+				maximumAge: 0,
+				timeout: 100
+			});
+
+			if(updateID == 1) { // 最初だけ定義をする
+				window.addEventListener("deviceorientation",(event)=>{ // 角度の定義
+					alpha = event.alpha;
+					beta = event.beta;
+					gamma = event.gamma;
+				});
+
+				window.addEventListener("devicemotion",(e)=>{ // 加速度の定義　GPSによって速度を取得する間を補完するためのもの
+					const acc = e.accelerationIncludingGravity;
+					if(acc) { // 加速度が取得できたときのみ実行
+						const accX = acc.x;
+						const accY = acc.y;
+						const accZ = acc.z;
+						const accSum = Math.sqrt(accX**2 + accY**2 + accZ**2);
+
+						const now = performance.now();
+						const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
+						if(doUpdateAccError) {
+							accError = accSum;
+							doUpdateAccError = false;
+						};
+						speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
+						lastTime = now;
+					};
+				});
+			};
+			// 表示を更新し続けるトリガー
+			update();
+		};
+
+		function update() {
+			// 何らかのプログラム 後で書く
+			requestAnimationFrame(update);
 		};
 	</script>
 </body>
