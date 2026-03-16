@@ -292,13 +292,6 @@
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
 	<br>
 	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
-	<br><br>Alpha: <span id="alpha"></span>
-	<br>Beta: <span id="beta"></span>
-	<br>Gamma: <span id="gamma"></span>
-	<br>Altitude: <span id="altitude"></span>
-	<br>Speed: <span id="speed"></span>
-	<br>Heading: <span id="headingTest"></span>
-	<br>Error: <span id="error"></span>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -603,7 +596,19 @@
 		};
 
 		function update() {
-			// 何らかのプログラム 後で書く
+			el("headingScale").style.rotate = (-alpha || 0) + "deg"; // 方位を更新
+
+			el("ground").style.rotate = (gamma || 0) + "deg"; //
+			el("highScale").style.rotate = (gamma || 0) + "deg";
+			el("bankPointer").style.rotate = (gamma || 0) + "deg";
+			BANK_POINTER.clearRect(0,0, 400,225);
+			if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
+				BANK_POINTER.strokeStyle = "#fb1";
+				drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, true);
+			} else {
+				BANK_POINTER.strokeStyle = "white";
+				drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
+			};
 			requestAnimationFrame(update);
 		};
 	</script>
