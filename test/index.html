@@ -24,85 +24,89 @@
 <script>
 	function el(id) {return document.getElementById(id)};
 
-	try {
-		let GPSUpdatedTimes = 0; // GPSの更新回数
-		let accUpdatedTimes = 0; // 加速度の更新回数
-		let alpha, beta, gamma; // 角度
-		let altitude, speed, heading; // GPS
-		let lastTime = performance.now(); // 加速度の更新時間
-		let accError = 0; // 加速度の誤差
-		let updateID; // 更新のID
-		let updateAccError = false; // 加速度の誤差を更新するかどうか
+	let GPSUpdatedTimes = 0; // GPSの更新回数
+	let accUpdatedTimes = 0; // 加速度の更新回数
+	let alpha, beta, gamma; // 角度
+	let altitude, speed, heading; // GPS
+	let lastTime = performance.now(); // 加速度の更新時間
+	let accError = 0; // 加速度の誤差
+	let updateID; // 更新のID
+	let updateAccError = false; // 加速度の誤差を更新するかどうか
 
-		function start() {
-			if(updateID) navigator.geolocation.clearWatch(updateID);
-			// iPhone用許可
-			if (typeof DeviceOrientationEvent.requestPermission === "function") {
-				DeviceOrientationEvent.requestPermission().then(response => {
-					if (response === "granted") startSensors();
-				});
-			}else{
-				startSensors();
-			};
-		};
-
-		function startSensors(){
-			// 角度
-			window.addEventListener("deviceorientation",(event)=>{
-				alpha = event.alpha;
-				beta = event.beta;
-				gamma = event.gamma;
-				el("alpha").innerHTML = alpha.toFixed(2) + "deg";
-				el("beta").innerHTML = beta.toFixed(2) + "deg";
-				el("gamma").innerHTML = gamma.toFixed(2) + "deg";
+	function start() {
+		if(updateID) navigator.geolocation.clearWatch(updateID);
+		// iPhone用許可
+		if (typeof DeviceOrientationEvent.requestPermission === "function") {
+			DeviceOrientationEvent.requestPermission().then(response => {
+				if (response === "granted") startSensors();
 			});
+		}else{
+			startSensors();
+		};
+	};
 
-			// GPS
-			updateID = navigator.geolocation.watchPosition((pos)=>{
-				GPSUpdatedTimes++;
-				el("GPSUpdatedTimes").innerHTML = GPSUpdatedTimes;
-				const coords = pos.coords;
-				altitude = coords.altitude;
-				speed = coords.speed;
-				heading = coords.heading;
-				el("altitude").innerHTML = altitude.toFixed(2) + "m";
-				el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
-				el("heading").innerHTML = heading.toFixed(2) + "deg";
-			}, null, {
-				enableHighAccuracy: true,
-				maximumAge: 0,
-				timeout: 100
-			});// 高精度な位置情報を取得する
+	function startSensors(){
+		// 角度
+		window.addEventListener("deviceorientation",(event)=>{
+		try {
+			alpha = event.alpha;
+			beta = event.beta;
+			gamma = event.gamma;
+			el("alpha").innerHTML = alpha.toFixed(2) + "deg";
+			el("beta").innerHTML = beta.toFixed(2) + "deg";
+			el("gamma").innerHTML = gamma.toFixed(2) + "deg";
+		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
+		});
 
-			// 加速度
-			window.addEventListener("devicemotion",(e)=>{
-				accUpdatedTimes++;
-				el("accUpdatedTimes").innerHTML = accUpdatedTimes;
-				const acc = e.accelerationIncludingGravity;
-				if(acc && acc.y) {
-					const now = performance.now();
-					const dt = (now-lastTime)/1000;
-					if(updateAccError) {
-						accError = acc.y * dt;
-						updateAccError = false;
-					};
-					speed += acc.y * dt - accError;
-					lastTime = now;
-					el("dt").innerHTML = dt.toFixed(3) + "s";
-					el("accYdt").innerHTML = (acc.y * dt).toFixed(2) + "m/s";
-					el("accError").innerHTML = accError.toFixed(2) + "m/s";
-					el("speed2").innerHTML = (acc.y * dt - accError).toFixed(2) + "m/s^2";
+		// GPS
+		updateID = navigator.geolocation.watchPosition((pos)=>{
+		try {
+			GPSUpdatedTimes++;
+			el("GPSUpdatedTimes").innerHTML = GPSUpdatedTimes;
+			const coords = pos.coords;
+			altitude = coords.altitude;
+			speed = coords.speed;
+			heading = coords.heading;
+			el("altitude").innerHTML = altitude.toFixed(2) + "m";
+			el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
+			el("heading").innerHTML = heading.toFixed(2) + "deg";
+		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
+		}, null, {
+			enableHighAccuracy: true,
+			maximumAge: 0,
+			timeout: 100
+		});// 高精度な位置情報を取得する
+
+		// 加速度
+		window.addEventListener("devicemotion",(e)=>{
+		try {
+			accUpdatedTimes++;
+			el("accUpdatedTimes").innerHTML = accUpdatedTimes;
+			const acc = e.accelerationIncludingGravity;
+			if(acc && acc.y) {
+				const now = performance.now();
+				const dt = (now-lastTime)/1000;
+				if(updateAccError) {
+					accError = acc.y * dt;
+					updateAccError = false;
 				};
-			});
-			// 表示更新
-			update();
-		};
+				speed += acc.y * dt - accError;
+				lastTime = now;
+				el("dt").innerHTML = dt.toFixed(3) + "s";
+				el("accYdt").innerHTML = (acc.y * dt).toFixed(2) + "m/s";
+				el("accError").innerHTML = accError.toFixed(2) + "m/s";
+				el("speed2").innerHTML = (acc.y * dt - accError).toFixed(2) + "m/s^2";
+			};
+		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
+		});
+		// 表示更新
+		update();
+	};
 
-		function update() {
-			if(speed) el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed * 3.6).toFixed(2) + "km/h" + ")";
-			requestAnimationFrame(update);
-		};
-	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
+	function update() {
+		if(speed) el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed * 3.6).toFixed(2) + "km/h" + ")";
+		requestAnimationFrame(update);
+	};
 </script>
 </body>
 </html>
