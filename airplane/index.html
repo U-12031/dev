@@ -30,6 +30,7 @@
 
 		#instruments {
 			padding-bottom: 100px; /* position:absoluteの要素も囲みきるため */
+			white-space: nowrap; /* 要素を横並びにするため */
 		}
 
 		#speedMeter, #altitudeMeter {
@@ -171,7 +172,7 @@
 			transform-origin: top center;
 			background-color: #840;
 			width: 1400px;
-			height: 50%;
+			height: 100%;
 		}
 
 		#high {
@@ -291,14 +292,13 @@
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
 	<br>
 	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
-	<br><br><!-- 本当はやっちゃいけないけど -->Alpha: <span id="alpha"></span>
+	<br><br>Alpha: <span id="alpha"></span>
 	<br>Beta: <span id="beta"></span>
 	<br>Gamma: <span id="gamma"></span>
 	<br>Altitude: <span id="altitude"></span>
 	<br>Speed: <span id="speed"></span>
 	<br>Heading: <span id="headingTest"></span>
 	<br>Error: <span id="error"></span>
-	<br><button onclick="start()" style="color: black;">start</button>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
