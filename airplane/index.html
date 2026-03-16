@@ -25,7 +25,7 @@
 		body {
 			text-align: center;
 			margin: 0;
-			background-color: #010;
+			background-color: #110;
 		}
 
 		#instruments {
@@ -266,6 +266,7 @@
 				<canvas id="bankScale" width="400" height="250"></canvas>
 				<canvas id="bankPointer" width="400" height="225"></canvas>
 			</div>
+			<canvas id="symbol" width="400" height="430"></canvas>
 		</div>
 		<div id="altitudeMeter">
 			<canvas id="altitudeScale" width="90" height="600"></canvas>
@@ -334,6 +335,7 @@
 		const HIGH_SCALE = el("highScale").getContext("2d");
 		const BANK_SCALE = el("bankScale").getContext("2d");
 		const BANK_POINTER = el("bankPointer").getContext("2d");
+		const SYMBOL = el("symbol").getContext("2d");
 		const SPEED_SCALE = el("speedScale").getContext("2d");
 		const ALTITUDE_SCALE = el("altitudeScale").getContext("2d");
 		const HEADING_SCALE = el("headingScale").getContext("2d");
@@ -494,6 +496,14 @@
 
 		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
 
+		// 中心の飛行機のシンボルを描画する
+		SYMBOL.fillStyle = "black";
+		SYMBOL.lineWidth = LINE_WIDTH + 2; // 塗りつぶしの色が違うので太さが小さくなる
+		SYMBOL.strokeStyle = "white";
+		drawLine(SYMBOL, [[194,209], [206,209], [206,221], [194,221]], true, true);
+		drawLine(SYMBOL, [[33,210], [133,210], [133,250], [123,250], [123,220], [33,220]], true, true);
+		drawLine(SYMBOL, [[367,210], [267,210], [267,250], [277,250], [277,220], [367,220]], true, true);
+
 		SPEED_SCALE.fillStyle = "white";
 		SPEED_SCALE.lineWidth = LINE_WIDTH;
 		SPEED_SCALE.strokeStyle = "white";
@@ -597,8 +607,7 @@
 					};
 				});
 			};
-			// 表示を更新し続けるトリガー
-			update();
+			update(); // 表示を更新し続けるトリガー
 		};
 
 		function update() {
