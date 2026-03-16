@@ -26,9 +26,11 @@
 		let altitude, speed, heading; // GPS
 		let lastTime = performance.now(); // 加速度の更新時間
 		let accError = 0; // 加速度の誤差
+		let updateID; // 更新のID
 		let updateAccError = false; // 加速度の誤差を更新するかどうか
 
 		function start() {
+			if(updateID) navigator.geolocation.clearWatch(updateID);
 			// iPhone用許可
 			if (typeof DeviceOrientationEvent.requestPermission === "function") {
 				DeviceOrientationEvent.requestPermission().then(response => {
@@ -51,7 +53,7 @@
 			});
 
 			// GPS
-			navigator.geolocation.watchPosition((pos)=>{
+			updateID = navigator.geolocation.watchPosition((pos)=>{
 				whatTimesUpdated++;
 				el("updateTimes").innerHTML = whatTimesUpdated;
 				const coords = pos.coords;
@@ -88,7 +90,7 @@
 
 		function update() {
 			if(speed) el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed * 3.6).toFixed(2) + "km/h" + ")";
-			// requestAnimationFrame(update);
+			requestAnimationFrame(update);
 		};
 	} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 </script>
