@@ -67,9 +67,9 @@
 			altitude = coords.altitude;
 			speed = coords.speed;
 			heading = coords.heading;
-			el("altitude").innerHTML = altitude.toFixed(2) + "m";
-			el("speed").innerHTML = speed.toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
-			el("heading").innerHTML = heading.toFixed(2) + "deg";
+			el("altitude").innerHTML = Number(altitude).toFixed(2) + "m";
+			el("speed").innerHTML = Number(speed).toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
+			el("heading").innerHTML = Number(heading).toFixed(2) + "deg";
 		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 		}, null, {
 			enableHighAccuracy: true,
