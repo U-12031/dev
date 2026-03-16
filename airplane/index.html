@@ -292,6 +292,12 @@
 	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
 	<br>
 	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
+	<br>Alpha: <span id="outputAlpha">0</span>
+	<br>Beta: <span id="outputBeta">0</span>
+	<br>Gamma: <span id="outputGamma">0</span>
+	<br>Altitude: <span id="outputAltitude">0</span>
+	<br>Speed: <span id="outputSpeed">0</span>
+	<br>Heading: <span id="outputHeading">0</span>
 
 	<script>
 		// ここにテスト用のメーターの処理部分があります
@@ -596,11 +602,18 @@
 		};
 
 		function update() {
-			el("headingScale").style.rotate = (-alpha || 0) + "deg"; // 方位を更新
+			el("outputAlpha").innerHTML = alpha ? alpha.toFixed(2) : 0;
+			el("outputBeta").innerHTML = beta ? beta.toFixed(2) : 0;
+			el("outputGamma").innerHTML = gamma ? gamma.toFixed(2) : 0;
+			el("outputAltitude").innerHTML = altitude ? altitude.toFixed(2) : 0;
+			el("outputSpeed").innerHTML = speed ? speed.toFixed(2) : 0;
+			el("outputHeading").innerHTML = heading ? heading.toFixed(2) : 0;
 
-			el("ground").style.rotate = (gamma || 0) + "deg"; //
-			el("highScale").style.rotate = (gamma || 0) + "deg";
-			el("bankPointer").style.rotate = (gamma || 0) + "deg";
+			el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
+
+			el("ground").style.rotate = (-gamma || 0) + "deg"; //
+			el("highScale").style.rotate = (-gamma || 0) + "deg";
+			el("bankPointer").style.rotate = (-gamma || 0) + "deg";
 			BANK_POINTER.clearRect(0,0, 400,225);
 			if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
 				BANK_POINTER.strokeStyle = "#fb1";
