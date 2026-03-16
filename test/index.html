@@ -47,6 +47,26 @@
 	};
 
 	function startSensors(){
+		// GPS
+		updateID = navigator.geolocation.watchPosition((pos)=>{
+			try {
+				GPSUpdatedTimes++;
+				el("GPSUpdatedTimes").innerHTML = GPSUpdatedTimes;
+				const coords = pos.coords;
+				altitude = coords.altitude;
+				speed = coords.speed;
+				heading = coords.heading;
+				el("altitude").innerHTML = Number(altitude).toFixed(2) + "m";
+				el("speed").innerHTML = Number(speed).toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
+				el("heading").innerHTML = Number(heading).toFixed(2) + "deg";
+			} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
+		}, null, {
+			enableHighAccuracy: true,
+			maximumAge: 0,
+			timeout: 100
+		});// 高精度な位置情報を取得する
+
+		if(updateID == 1) {
 		// 角度
 		window.addEventListener("deviceorientation",(event)=>{
 		try {
@@ -58,25 +78,6 @@
 			el("gamma").innerHTML = gamma.toFixed(2) + "deg";
 		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 		});
-
-		// GPS
-		updateID = navigator.geolocation.watchPosition((pos)=>{
-		try {
-			GPSUpdatedTimes++;
-			el("GPSUpdatedTimes").innerHTML = GPSUpdatedTimes;
-			const coords = pos.coords;
-			altitude = coords.altitude;
-			speed = coords.speed;
-			heading = coords.heading;
-			el("altitude").innerHTML = Number(altitude).toFixed(2) + "m";
-			el("speed").innerHTML = Number(speed).toFixed(2) + "m/s (" + (speed ? (speed * 3.6).toFixed(2) + "km/h" : "N/A km/h") + ")";
-			el("heading").innerHTML = Number(heading).toFixed(2) + "deg";
-		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
-		}, null, {
-			enableHighAccuracy: true,
-			maximumAge: 0,
-			timeout: 100
-		});// 高精度な位置情報を取得する
 
 		// 加速度
 		window.addEventListener("devicemotion",(e)=>{
@@ -101,6 +102,7 @@
 			};
 		} catch(error) { el("error").innerHTML = `${error.name}\n${error.stack}`;}
 		});
+	};
 		// 表示更新
 		update();
 	};
