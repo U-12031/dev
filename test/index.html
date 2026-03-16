@@ -17,6 +17,9 @@
 	<br>Speed^2: <span id="speed2"></span>
 	<br>Heading: <span id="heading"></span>
 	<br>Error: <span id="error"></span>
+	<br>accError: <span id="accError"></span>
+	<br>dt: <span id="dt"></span>
+	<br>acc.y*dt: <span id="accYdt"></span>
 <script>
 	function el(id) {return document.getElementById(id)};
 
@@ -81,6 +84,9 @@
 					};
 					speed += acc.y * dt - accError;
 					lastTime = now;
+					el("dt").innerHTML = dt.toFixed(3) + "s";
+					el("accYdt").innerHTML = (acc.y * dt).toFixed(2) + "m/s";
+					el("accError").innerHTML = accError.toFixed(2) + "m/s";
 					el("speed2").innerHTML = (acc.y * dt - accError).toFixed(2) + "m/s^2";
 				};
 			});
