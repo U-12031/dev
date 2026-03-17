@@ -646,7 +646,8 @@
 			el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
 
 			const absBeta = Math.abs(beta) || 0;
-			el("highScale").style.translate = "0 " + (absBeta > 90 ? 0 : (absBeta - 90) * 80) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
+			// el("ground").style.translate = "0 " + 
+			el("highScale").style.translate = "0 " + (absBeta > 90 ? 0 : (absBeta - 90) * 8) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
 
 			el("ground").style.rotate = (-gamma || 0) + "deg"; //
 			el("highScale").style.rotate = (-gamma || 0) + "deg";
