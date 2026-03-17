@@ -659,21 +659,25 @@
 			el("highScale").style.rotate = (-gamma || 0) + "deg";
 			el("bankPointer").style.rotate = (-gamma || 0) + "deg";
 
+			const speedDecimal = speed ? speed%1 : "0"; // 小数点だけ抜き出す
+			speed = Math.trunc(speed); // speedを整数にする
 			el("speedOtherPlaces").innerHTML = speed ? String(speed).slice(0, -1) : "";
 			const speedLastDigit = speed ? Number(String(speed).slice(-1)) : 0;
 			document.querySelector("#speedOncePlace .oncePlaceMiddle").innerHTML = speedLastDigit;
 			document.querySelector("#speedOncePlace .oncePlaceTop").innerHTML = speedLastDigit === 9 ? 0 : speedLastDigit + 1;
 			document.querySelector("#speedOncePlace .oncePlaceBottom").innerHTML = speedLastDigit === 0 ? 9 : speedLastDigit - 1;
-			el("speedOncePlace").style.translate = "0 " + speed%1 * -100 + "%"; // 速度の小数点以下をアニメーションで表す
+			el("speedOncePlace").style.translate = "0 " + speedDecimal * -100 + "%"; // 速度の小数点以下をアニメーションで表す
 
-			el("altitudeOtherPlaces").innerHTML = altitude ? String(altitude).slice(0, -3) : "";
+			const altitudeDecimal = altitude ? (altitude/20)%1 : "0"; // 小数点だけ抜き出す
+			altitude = Math.trunc(altitude); // altitudeを整数にする
+			el("altitudeOtherPlaces").innerHTML = (altitude && String(altitude).length > 3) ? String(altitude).slice(0, -3) : "";
 			const altitudeTwoDigits = String(Math.floor(altitude)).slice(-2);
 			const altitudeLastTwoDigits = altitude ? String(altitudeTwoDigits - altitudeTwoDigits%20).padStart(2, "0") : "00";
 			const altitudeThirdDigit = altitude ? String(Math.floor(altitude)).slice(-3, -2) : "0";
 			document.querySelector("#altitudeOncePlace .oncePlaceMiddle").innerHTML = altitudeLastTwoDigits;
 			document.querySelector("#altitudeOncePlace .oncePlaceTop").innerHTML = altitudeLastTwoDigits === "80" ? "00" : String(Number(altitudeLastTwoDigits) + 20).padStart(2, "0");
 			document.querySelector("#altitudeOncePlace .oncePlaceBottom").innerHTML = altitudeLastTwoDigits === "00" ? "80" : String(Number(altitudeLastTwoDigits) - 20).padStart(2, "0");
-			el("altitudeOncePlace").style.translate = "0 " + (altitude%20) / 20 * -100 + "%"; // 高度の小数点以下をアニメーションで表す
+			el("altitudeOncePlace").style.translate = "0 " + (altitudeDecimal * 20) / 20 * -100 + "%"; // 高度の小数点以下をアニメーションで表す
 
 			BANK_POINTER.clearRect(0,0, 400,225);
 			if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
