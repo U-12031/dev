@@ -647,9 +647,9 @@
 
 			const absBeta = Math.abs(beta) || 0;
 			if(Math.sign(beta) === -1) {
-				el("ground").style.translate = "50% " + (absBeta > 65 ? 180 : (absBeta - 90) * 8) + "px";
+				el("ground").style.translate = "-50% " + (absBeta > 65 ? 180 : (absBeta - 90) * 8) + "px";
 			} else {
-				el("ground").style.translate = "50% " + (absBeta > 115 ? -180 : (absBeta - 90) * 8) + "px";
+				el("ground").style.translate = "-50% " + (absBeta > 115 ? -180 : (absBeta - 90) * 8) + "px";
 			}
 			el("highScale").style.translate = "0 " + (absBeta > 180 ? 0 : (absBeta - 90) * 8) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
 
