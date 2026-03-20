@@ -243,10 +243,16 @@ body {
 }
 
 .settings {
-	display: none; /* 初期値として */
+	/* display: none; 初期値として */
 	position: absolute;
 	padding: 10px;
 	background-color: #3f393699;
+	z-index: 100000000;
+}
+
+.settingsLine {
+	position: absolute;
+	border: 0 solid white; /* 色と形だけ指定 */
 	z-index: 100000000;
 }
 

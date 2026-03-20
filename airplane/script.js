@@ -263,7 +263,7 @@ allSettings.forEach(element => {
 			{direction: null, value: null},
 			{direction: null, value: null}
 		], // 要素が設定元の要素からどれだけ離れているか
-		isProtrude: null // 要素が設定元の要素から完全にはみ出しているか
+		isProtrude: null, // 要素が設定元の要素から完全にはみ出しているか
 	}
 
 	// data-*の値から設定元の要素からの位置を指定する
@@ -286,10 +286,23 @@ allSettings.forEach(element => {
 		data.pos[1].value = bottom;
 	}
 
-	if(data.pos.some(el => el.value < 0)) { // 位置の指定にマイナスが使われているなら、その要素は設定元の要素から完全にはみ出している
+	if(data.pos[0].value < -element.offsetWidth || data.pos[1].value < -element.offsetHeight) { // 位置の指定にマイナスが使われており、その値が設定元の要素の幅や高さより大きいときは、その要素は設定元の要素から完全にはみ出している
 		data.isProtrude = true;
-	} else if(parent.offsetWidth <= data.pos[0].value || parent.offsetHeight <= data.pos[1].value) { // 位置の指定が設定元の要素の幅や高さ以上なら、その要素は設定元の要素から完全にはみ出している
+	} else if(data.pos[0].value > parent.offsetWidth || data.pos[1].value > parent.offsetHeight) { // 位置の指定が設定元の要素の幅や高さより大きいなら、その要素は設定元の要素から完全にはみ出している
 		data.isProtrude = true;
+		// 値が大きすぎててはみ出しているのをマイナスに指定したせいではみ出していることに変換する 図で考えてみると分かりやすいかも
+		if(data.pos[0].value > parent.offsetWidth) {
+			data.pos[0].direction = data.pos[0].direction === "left" ? "right" : "left"; // 方向を逆にする
+			data.pos[0].value -= parent.offsetWidth; // これは正の値になる
+			data.pos[0].value += element.offsetWidth;
+			data.pos[0].value *= -1; // マイナスにする
+		}
+		if(data.pos[1].value > parent.offsetHeight) { // 上のプログラムのy軸版
+			data.pos[1].direction = data.pos[1].direction === "top" ? "bottom" : "top";
+			data.pos[1].value -= parent.offsetHeight;
+			data.pos[1].value += element.offsetHeight;
+			data.pos[1].value *= -1;
+		}
 	} else {
 		data.isProtrude = false;
 	};
@@ -297,6 +310,19 @@ allSettings.forEach(element => {
 	if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
 		const line = document.createElement("div");
 		line.classList.add("settingsLine");
+		if(data.pos[0].value < 0) {
+			line.style.width = (-data.pos[0].value - element.offsetWidth) + "px";
+			line.style.height = "0";
+			line.style.top = "15px";
+			line.style[data.pos[0].direction] = "100%";
+			line.style.borderTopWidth = "2px";
+		} else {
+			line.style.height = (-data.pos[1].value - element.offsetHeight) + "px";
+			line.style.width = "0";
+			line.style.left = "15px";
+			line.style[data.pos[1].direction] = "100%";
+			line.style.borderLeftWidth = "2px";
+		}
 		element.appendChild(line);
 	}
 });
