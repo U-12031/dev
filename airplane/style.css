@@ -1,0 +1,262 @@
+@font-face {
+	font-family: "originalFont";
+	src: url(/0_data/fonts/B612Mono-Regular.ttf) format("truetype");
+	src: url(https://u-12031.github.io/0_data/fonts/B612Mono-Regular.ttf) format("truetype");
+	/* CodeSwing用。あとで消す */
+}
+
+@font-face {
+	font-family: "numFont";
+	src: url(/0_data/fonts/Lekton-Regular.ttf) format("truetype");
+	src: url(https://u-12031.github.io/0_data/fonts/Lekton-Regular.ttf) format("truetype");
+	/* CodeSwing用。あとで消す */
+}
+
+* {
+	color: white;
+	font-family: "originalFont";
+}
+
+body {
+	text-align: center;
+	margin: 0;
+	background-color: #110;
+}
+
+#instruments {
+	padding-bottom: 50px; /* position:absoluteの要素も囲みきるため */
+	white-space: nowrap; /* 要素を横並びにするため */
+}
+
+#speedMeter, #altitudeMeter {
+	position: relative;
+	display: inline-block;
+	width: 90px;
+	height: 600px;
+	margin: 25px 0;
+	background-color: #444;
+}
+
+#speedNumParent, #altitudeNumParent {
+	position: absolute;
+	top: 50%;
+	translate: 0 -50%;
+	display: flex;
+	height: 100px;
+	background-color: black;
+	border: 3px solid white;
+	border-radius: 2px;
+	font-size: 2.4rem;
+	font-family: "numFont";
+	font-weight: bold;
+	justify-content: center;
+
+	* {
+		display: flex;
+		margin: 0;
+		padding: 0;
+		font-family: "numFont";
+		font-weight: bold;
+	}
+
+	&>span {
+		display: flex;
+		align-items: center;
+		translate: 0 2px;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	&::before, &::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		translate: 0 -50%;
+	}
+
+	&::before {
+		width: 14px;
+		height: 15px;
+		background-color: white;
+	}
+
+	&::after {
+		width: 12px;
+		height: 13px;
+		background-color: inherit;
+	}
+}
+
+#speedOncePlace, #altitudeTwoPlaces {
+	position: relative;
+	height: 1em;
+
+	&>span {
+		position: absolute;
+		left: 0;
+	}
+}
+
+.oncePlaceTop {top: calc(-1em + 20%);}
+.oncePlaceMiddle {top: 0em;}
+.oncePlaceBottom {top: calc(1em - 20%);}
+
+#speedNumParent {
+	left: -5px;
+	width: 67.5px;
+	height: 4rem;
+
+	&::before, &::after {
+		clip-path: polygon(0 0, 0% 100%, 100% 50%);
+	}
+
+	&::after {right: -11px;}
+
+	&::before {right: -16px;}
+}
+
+#speedOncePlace {width: 20px;}
+
+#altitudeNumParent {
+	right: -25px;
+	width: 85px;
+	height: 3rem;
+
+	&::before, &::after {
+		clip-path: polygon(100% 0, 100% 100%, 0 50%);
+	}
+
+	&::after {left: -11px;}
+
+	&::before {left: -16px;}
+
+}
+
+#altitudeTensPlace {
+	display: flex;
+	font-size: .8em;
+	margin: 2px;
+}
+
+#altitudeTwoPlaces {
+	width: 23px;
+	font-size: 0.6em;
+}
+
+#center {
+	margin: 85px 30px;
+	position: relative;
+	display: inline-block;
+	background-color: #09e;
+	width: 400px;
+	height: 430px;
+	border: none;
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+#center * {
+	display: block;
+	position: absolute;
+}
+
+#ground {
+	top: 50%;
+	left: 50%;
+	translate: -50% 0;
+	transform-origin: top center;
+	background-color: #840;
+	width: 1400px;
+	height: 100%;
+}
+
+#high {
+	width: 400px;
+	height: 500px;
+	clip-path: path("M 0 130 L 25 130 A 200 200 0 0 1 375 130 L 400 130, 400 500, 0 500");
+	overflow: hidden;
+}
+
+#high #highScale {
+	top: -485px;
+	left: -500px;
+	transform-origin: center;
+}
+
+#bank {
+	height: 50%;
+	width: 400px;
+	top: 0;
+	left: 0;
+}
+
+#bankScale {
+	top: 0;
+	left: 0;
+}
+
+#bankPointer {
+	top: 25px;
+	transform-origin: center 200px;
+}
+
+#heading {
+	position: absolute;
+	top: 625px;
+	left: 50%;
+	translate: -50% 0;
+	background-color: #444;
+	width: 600px;
+	height: 600px;
+	border-radius: 100%;
+	clip-path: polygon(0 -50px, 100% -50px, 100% 110px, 0 110px);
+}
+
+#headingPointer {
+	position:absolute;
+	top: -50px;
+	left:0;
+}
+
+@keyframes startSensorsAni {
+	0% {background-color: #09e;}
+	50% {background-color: #5ef;}
+	100% {background-color: #09e;}
+}
+
+#startSensors {
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	translate: -50% 0;
+	display: flex;
+	animation: startSensorsAni 1s ease-in-out infinite;
+	/* margin: auto; */
+	padding: 10px 20px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 5px;
+	background-color: #09e; /* 初期値として */
+	color: white;
+	cursor: pointer;
+}
+
+.settings {
+	display: none; /* 初期値として */
+	position: absolute;
+	padding: 10px;
+	background-color: #3f393699;
+	z-index: 100000000;
+}
+
+#settingsImg {
+	position: absolute;
+	top: 650px;
+	left: 50%;
+	translate: calc(-50% + -285px) 0;
+	background-color: #3f3936;
+	padding: 7px;
+	border-radius: 100px;
+	cursor: pointer;
+}
