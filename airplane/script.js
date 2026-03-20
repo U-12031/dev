@@ -252,22 +252,53 @@ let isSettingsOpen = false; // 設定が開いているかどうか
 const allSettings = document.querySelectorAll(".settings");
 
 allSettings.forEach(element => {
-	const dataset = element.dataset; // data-*の値から設定元の要素からの位置を指定する
+	const parent = element.parentElement;
+	const dataset = element.dataset;
 	const top = dataset.top;
 	const bottom = dataset.bottom;
 	const left = dataset.left;
 	const right = dataset.right;
-	if(top) {
-		element.style.top = top + "px";
-	} else {
-		element.style.bottom = bottom + "px";
+	const data = {
+		pos: [
+			{direction: null, value: null},
+			{direction: null, value: null}
+		], // 要素が設定元の要素からどれだけ離れているか
+		isProtrude: null // 要素が設定元の要素から完全にはみ出しているか
 	};
+
+	// data-*の値から設定元の要素からの位置を指定する
 	if(left) {
 		element.style.left = left + "px";
+		data.pos[0].direction = "left";
+		data.pos[0].value = left;
 	} else {
 		element.style.right = right + "px";
+		data.pos[0].direction = "right";
+		data.pos[0].value = right;
 	};
-	// if(dataset.withLine || dataset)
+	if(top) {
+		element.style.top = top + "px";
+		data.pos[1].direction = "top";
+		data.pos[1].value = top;
+	} else {
+		element.style.bottom = bottom + "px";
+		data.pos[1].direction = "bottom";
+		data.pos[1].value = bottom;
+	};
+
+	if(data.pos.some(el => el.value < 0)) { // 位置の指定にマイナスが使われているなら、その要素は設定元の要素から完全にはみ出している
+		data.isProtrude = true;
+	} else if(parent.offsetWidth <= data.pos[0].value || parent.offsetHeight <= data.pos[1].value) { // 位置の指定が設定元の要素の幅や高さ以上なら、その要素は設定元の要素から完全にはみ出している
+		data.isProtrude = true;
+	} else {
+		data.isProtrude = false;
+	};
+
+	if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
+		const line = document.createElement("div");
+		line.classList.add("settingsLine");
+		element.appendChild(line);
+	};
 });
 
 function settings() {
