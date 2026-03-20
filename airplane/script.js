@@ -310,13 +310,21 @@ allSettings.forEach(element => {
 	if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
 		const line = document.createElement("div");
 		line.classList.add("settingsLine");
-		if(data.pos[0].value < 0) {
+		if(data.pos[0].value < 0 && data.pos[1].value < 0) { // 要素が設定元の要素から左右にも上下にもはみ出しているときは、要素の左右から出て設定元の上下に付くような線を引く
+			line.style.width = (-data.pos[0].value - element.offsetWidth + 15) + "px"; // 線が設定元に付くときの余白を15pxにするために15を足す
+			line.style.height = (-data.pos[1].value - element.offsetHeight + (data.pos[1].direction === "top" ? element.clientHeight-15 : 15)) + "px"; // 線が要素に付くときの余白を作るために、上側にマイナスなら要素から線の上側の余白である15pxを引いた分を、下側にマイナスなら15pxを足す
+			line.style.top = "15px";
+			line.style[data.pos[0].direction] = "100%";
+			line.style[data.pos[1].direction === "top" ? "bottom" : "top"] = "calc(-100% - 15px)";
+			line.style[data.pos[0].direction === "left" ? "borderRightWidth" : "borderLeftWidth"] = "2px"; // どちら側にマイナスになっているかによって線を引くこの要素のどちら側に線を作るかが変わるため、それを処理するプログラム
+			line.style[data.pos[1].direction === "top" ? "borderTopWidth" : "borderBottomWidth"] = "2px";
+		} else if(data.pos[0].value < 0) { // 要素が設定元の要素から左か右にはみ出しているときは、線を水平にする
 			line.style.width = (-data.pos[0].value - element.offsetWidth) + "px";
 			line.style.height = "0";
 			line.style.top = "15px";
 			line.style[data.pos[0].direction] = "100%";
 			line.style.borderTopWidth = "2px";
-		} else {
+		} else { // 要素が設定元の要素から上か下にはみ出しているときは、線を垂直にする
 			line.style.height = (-data.pos[1].value - element.offsetHeight) + "px";
 			line.style.width = "0";
 			line.style.left = "15px";
