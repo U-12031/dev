@@ -251,17 +251,23 @@ drawLine(HEADING_POINTER, [[285,25], [315,25], [300,47]], true, false);
 let isSettingsOpen = false; // 設定が開いているかどうか
 const allSettings = document.querySelectorAll(".settings");
 
-allSettings.forEach(element => { // data-*の値から設定元の要素からの位置を指定する
-	if(element.dataset.top) {
-		element.style.top = element.dataset.top + "px";
+allSettings.forEach(element => {
+	const dataset = element.dataset; // data-*の値から設定元の要素からの位置を指定する
+	const top = dataset.top;
+	const bottom = dataset.bottom;
+	const left = dataset.left;
+	const right = dataset.right;
+	if(top) {
+		element.style.top = top + "px";
 	} else {
-		element.style.bottom = element.dataset.bottom + "px";
+		element.style.bottom = bottom + "px";
 	};
-	if(element.dataset.left) {
-		element.style.left = element.dataset.left + "px";
+	if(left) {
+		element.style.left = left + "px";
 	} else {
-		element.style.right = element.dataset.right + "px";
+		element.style.right = right + "px";
 	};
+	// if(dataset.withLine || dataset)
 });
 
 function settings() {
