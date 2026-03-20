@@ -92,7 +92,7 @@
 			}
 		}
 
-		#speedOncePlace, #altitudeOncePlace {
+		#speedOncePlace, #altitudeTwoPlaces {
 			position: relative;
 			height: 1em;
 
@@ -143,7 +143,7 @@
 			margin: 2px;
 		}
 
-		#altitudeOncePlace {
+		#altitudeTwoPlaces {
 			width: 23px;
 			font-size: 0.6em;
 		}
@@ -230,14 +230,19 @@
 		}
 
 		#startSensors {
+			position: absolute;
+			top: 40px;
+			left: 50%;
+			translate: -50% 0;
+			display: flex;
 			animation: startSensorsAni 1s ease-in-out infinite;
-			margin: auto;
+			/* margin: auto; */
 			padding: 10px 20px;
 			font-size: 1.2rem;
 			font-weight: bold;
 			border: none;
 			border-radius: 5px;
-			background-color: #09e;
+			background-color: #09e; /* 初期値として */
 			color: white;
 			cursor: pointer;
 		}
@@ -246,13 +251,13 @@
 			position: absolute;
 			top: 100%;
 			width: 100%;
-			height: 100px;
+			/* height: 100px; */
 			background-color: #3f3936;
 		}
 
 		#settingsImg {
 			position: absolute;
-			top: -60px;
+			top: 100%;
 			left: 0;
 			background-color: #3f3936;
 			padding: 5px 15px;
@@ -293,7 +298,7 @@
 				<span>
 					<span id="altitudeOtherPlaces">12</span>
 					<span id="altitudeThirdPlace">8</span>
-					<span id="altitudeOncePlace">
+					<span id="altitudeTwoPlaces">
 						<span class="oncePlaceTop">20</span>
 						<span class="oncePlaceMiddle">00</span>
 						<span class="oncePlaceBottom">80</span>
@@ -305,10 +310,10 @@
 			<canvas id="headingScale" width="600" height="600"></canvas>
 			<canvas id="headingPointer" width="600" height="50"></canvas>
 		</div>
-	</div>
-	<button id="startSensors" onclick="startSensors()">Start using Sensors</button>
-	<div id="settings">
+		<button id="startSensors" onclick="startSensors()">Start using Sensors</button>
 		<img id="settingsImg" src="data/settingsImg.svg" width="50">
+		<div id="settings">
+		</div>
 	</div>
 	<br><br><br><br>TEST<br>
 	ROTATE<input type="range" id="input1" min="-50" value="0" max="50" style="width: 300px;"><span id="output1">0 deg</span>
@@ -652,7 +657,7 @@
 				el("ground").style.translate = "-50% " + (absBeta < 67 ? -180 : (absBeta - 90) * 8) + "px";
 			} else {
 				el("ground").style.translate = "-50% " + (absBeta > 113 ? 180 : (absBeta - 90) * 8) + "px";
-			}; // 地面の角度を更新　90°からの差が23°以上のときは一を固定
+			}; // 地面の角度を更新　90°からの差が23°以上のときは位置を固定
 			el("highScale").style.translate = "0 " + (absBeta > 180 ? 0 : (absBeta - 90) * 8) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
 
 			// 傾きの角度を更新　常に真上を向くようにしたいので、傾ける角度は-gamma
