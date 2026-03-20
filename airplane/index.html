@@ -247,12 +247,12 @@
 			cursor: pointer;
 		}
 
-		#settings {
+		.settings {
+			display: none; /* 初期値として */
 			position: absolute;
-			top: 100%;
-			width: 100%;
-			/* height: 100px; */
-			background-color: #3f3936;
+			padding: 10px;
+			background-color: #3f393699;
+			z-index: 100000000;
 		}
 
 		#settingsImg {
@@ -270,6 +270,9 @@
 <body>
 	<div id="instruments">
 		<div id="speedMeter">
+			<div class="settings" data-top="100" data-left="100">
+				TEST
+			</div>
 			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
 				<span>
@@ -312,9 +315,7 @@
 			<canvas id="headingPointer" width="600" height="50"></canvas>
 		</div>
 		<button id="startSensors" onclick="startSensors()">Start using Sensors</button>
-		<img id="settingsImg" src="data/settingsImg.svg" width="50">
-		<div id="settings">
-		</div>
+		<img id="settingsImg" src="data/settingsImg.svg" width="50" onclick="settings()">
 	</div>
 	<br><br><br><br>TEST<br>
 	ROTATE<input type="range" id="input1" min="-50" value="0" max="50" style="width: 300px;"><span id="output1">0 deg</span>
@@ -578,6 +579,34 @@
 		HEADING_POINTER.lineWidth = LINE_WIDTH;
 		HEADING_POINTER.strokeStyle = "white";
 		drawLine(HEADING_POINTER, [[285,25], [315,25], [300,47]], true, false);
+
+		// ここから設定に関するプログラム
+		let isSettingsOpen = false; // 設定が開いているかどうか
+		const allSettings = document.querySelectorAll(".settings");
+
+		allSettings.forEach(element => {
+			if(element.dataset.top) {
+				element.style.top = element.dataset.top + "px";
+			} else {
+				element.style.bottom = element.dataset.bottom + "px";
+			};
+			if(element.dataset.left) {
+				element.style.left = element.dataset.left + "px";
+			} else {
+				element.style.right = element.dataset.right + "px";
+			};
+		});
+
+		function settings() {
+			allSettings.forEach(element => {
+				if(isSettingsOpen) {
+					element.style.display = "none";
+				} else {
+					element.style.display = "block";
+				};
+				isSettingsOpen = !isSettingsOpen;
+			})
+		};
 
 		// ここからセンサーの値を取得するプログラム
 		let altitude, speed, heading; // GPS
