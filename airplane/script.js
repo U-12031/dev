@@ -4,13 +4,13 @@ el("input1").oninput = function() {
 	el("ground").style.rotate = this.value + "deg";
 	el("highScale").style.rotate = this.value + "deg";
 	el("bankPointer").style.rotate = this.value + "deg";
-	BANK_POINTER.clearRect(0,0, 400,225);
+	bankPointer.clearRect(0,0, 400,225);
 	if(Math.abs(this.value) >= 35) {
-		BANK_POINTER.strokeStyle = "#fb1";
-		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, true);
+		bankPointer.strokeStyle = "#fb1";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, true);
 	} else {
-		BANK_POINTER.strokeStyle = "white";
-		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
+		bankPointer.strokeStyle = "white";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 	}
 }
 el("input2").oninput = function() {
@@ -29,14 +29,14 @@ el("input3").oninput = function() {
  * @returns {ElementObject} そのidを持つ要素です。
 */
 function el(id) {return document.getElementById(id)};
-const HIGH_SCALE = el("highScale").getContext("2d");
-const BANK_SCALE = el("bankScale").getContext("2d");
-const BANK_POINTER = el("bankPointer").getContext("2d");
-const SYMBOL = el("symbol").getContext("2d");
-const SPEED_SCALE = el("speedScale").getContext("2d");
-const ALTITUDE_SCALE = el("altitudeScale").getContext("2d");
-const HEADING_SCALE = el("headingScale").getContext("2d");
-const HEADING_POINTER = el("headingPointer").getContext("2d");
+const highScale = el("highScale").getContext("2d");
+const bankScale = el("bankScale").getContext("2d");
+const bankPointer = el("bankPointer").getContext("2d");
+const symbol = el("symbol").getContext("2d");
+const speedScale = el("speedScale").getContext("2d");
+const altitudeScale = el("altitudeScale").getContext("2d");
+const headingScale = el("headingScale").getContext("2d");
+const headingPointer = el("headingPointer").getContext("2d");
 const LINE_WIDTH = 3; // 目盛りの線の太さ
 
 // canvasタグの画質を良くする
@@ -98,12 +98,12 @@ function onCircle(circleCenter, radius, deg) {
 	return result;
 }
 
-HIGH_SCALE.fillStyle = "white";
-HIGH_SCALE.font = "bold 25px \"numFont\"";
-HIGH_SCALE.lineWidth = LINE_WIDTH;
-HIGH_SCALE.strokeStyle = "white";
+highScale.fillStyle = "white";
+highScale.font = "bold 25px \"numFont\"";
+highScale.lineWidth = LINE_WIDTH;
+highScale.strokeStyle = "white";
 
-drawLineOnCenter(HIGH_SCALE, 697.5, 1400);
+drawLineOnCenter(highScale, 697.5, 1400);
 
 /** この関数は、addScaleOnCenter関数で描画したような目盛りの左右にラベルを付けます。上下の角度を表す目盛りのみに使われます。
  * @param {string} [text=""] - 描画するテキストです(英数半角2文字指定)。
@@ -119,31 +119,31 @@ for(let i=0;i<9;i++) { // 上方向
 	for(let j=0;j<4;j++) {
 		linePositionY[j] = (-80*i) + (677.5 - 20*j)
 	}
-	drawLineOnCenter(HIGH_SCALE, linePositionY[0], 50);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
+	drawLineOnCenter(highScale, linePositionY[0], 50);
+	drawLineOnCenter(highScale, linePositionY[1], 100);
+	drawLineOnCenter(highScale, linePositionY[2], 50);
+	drawLineOnCenter(highScale, linePositionY[3], 200);
 }
 for(let i=0;i<9;i++) { // 下方向
 	let linePositionY = [];
 	for(let j=0;j<4;j++) {
 		linePositionY[j] = (80*i) + (717.5 + 20*j);
 	}
-	drawLineOnCenter(HIGH_SCALE, linePositionY[0], 50);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[1], 100);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[2], 50);
-	drawLineOnCenter(HIGH_SCALE, linePositionY[3], 200);
+	drawLineOnCenter(highScale, linePositionY[0], 50);
+	drawLineOnCenter(highScale, linePositionY[1], 100);
+	drawLineOnCenter(highScale, linePositionY[2], 50);
+	drawLineOnCenter(highScale, linePositionY[3], 200);
 }
 document.fonts.ready.then(() => { // フォントを読み込めたら目盛りの数字を描画する
 	for(let i=0;i<9;i++) {
-		addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, -80*i + 627.5); // 上方向
-		addScaleLabel(HIGH_SCALE, `${(i+1)*10}`, 80*i + 787.5); // 下方向
+		addScaleLabel(highScale, `${(i+1)*10}`, -80*i + 627.5); // 上方向
+		addScaleLabel(highScale, `${(i+1)*10}`, 80*i + 787.5); // 下方向
 	}
 });
 
-BANK_SCALE.fillStyle = "white";
-BANK_SCALE.lineWidth = LINE_WIDTH;
-BANK_SCALE.strokeStyle = "white";
+bankScale.fillStyle = "white";
+bankScale.lineWidth = LINE_WIDTH;
+bankScale.strokeStyle = "white";
 
 // 上のバンク角の目盛りを描く
 const CIRCLES_CENTER = [200, 220]; // 基準となる3つの円の中心の座標(x,y)
@@ -174,78 +174,78 @@ function onLongCircle(deg) {
 	return onCircle(CIRCLES_CENTER, CIRCLE_RADIUS.long, deg);
 }
 // 上のバンク角の中央の三角形
-drawLine(BANK_SCALE, [[185,0], [215,0], onBasicCircle(90)], true, true);
-drawLine(BANK_SCALE, [onBasicCircle(100), onShortCircle(100)]);
-drawLine(BANK_SCALE, [onBasicCircle(110), onShortCircle(110)]);
-drawLine(BANK_SCALE, [onBasicCircle(120), onLongCircle(120)]);
-drawLine(BANK_SCALE, [onBasicCircle(135), onShortCircle(135)]);
-drawLine(BANK_SCALE, [onBasicCircle(150), onShortCircle(150)]);
+drawLine(bankScale, [[185,0], [215,0], onBasicCircle(90)], true, true);
+drawLine(bankScale, [onBasicCircle(100), onShortCircle(100)]);
+drawLine(bankScale, [onBasicCircle(110), onShortCircle(110)]);
+drawLine(bankScale, [onBasicCircle(120), onLongCircle(120)]);
+drawLine(bankScale, [onBasicCircle(135), onShortCircle(135)]);
+drawLine(bankScale, [onBasicCircle(150), onShortCircle(150)]);
 
-drawLine(BANK_SCALE, [onBasicCircle(80), onShortCircle(80)]);
-drawLine(BANK_SCALE, [onBasicCircle(70), onShortCircle(70)]);
-drawLine(BANK_SCALE, [onBasicCircle(60), onLongCircle(60)]);
-drawLine(BANK_SCALE, [onBasicCircle(45), onShortCircle(45)]);
-drawLine(BANK_SCALE, [onBasicCircle(30), onShortCircle(30)]);
+drawLine(bankScale, [onBasicCircle(80), onShortCircle(80)]);
+drawLine(bankScale, [onBasicCircle(70), onShortCircle(70)]);
+drawLine(bankScale, [onBasicCircle(60), onLongCircle(60)]);
+drawLine(bankScale, [onBasicCircle(45), onShortCircle(45)]);
+drawLine(bankScale, [onBasicCircle(30), onShortCircle(30)]);
 
-BANK_POINTER.fillStyle = "#fb1"
-BANK_POINTER.lineWidth = LINE_WIDTH;
-BANK_POINTER.strokeStyle = "white";
+bankPointer.fillStyle = "#fb1"
+bankPointer.lineWidth = LINE_WIDTH;
+bankPointer.strokeStyle = "white";
 
-drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
+drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 
 // 中心の飛行機のシンボルを描画する
-SYMBOL.fillStyle = "black";
-SYMBOL.lineWidth = LINE_WIDTH + 2; // 塗りつぶしの色が違うので太さが小さくなる
-SYMBOL.strokeStyle = "white";
-drawLine(SYMBOL, [[194,209], [206,209], [206,221], [194,221]], true, true);
-drawLine(SYMBOL, [[33,210], [133,210], [133,250], [123,250], [123,220], [33,220]], true, true);
-drawLine(SYMBOL, [[367,210], [267,210], [267,250], [277,250], [277,220], [367,220]], true, true);
+symbol.fillStyle = "black";
+symbol.lineWidth = LINE_WIDTH + 2; // 塗りつぶしの色が違うので太さが小さくなる
+symbol.strokeStyle = "white";
+drawLine(symbol, [[194,209], [206,209], [206,221], [194,221]], true, true);
+drawLine(symbol, [[33,210], [133,210], [133,250], [123,250], [123,220], [33,220]], true, true);
+drawLine(symbol, [[367,210], [267,210], [267,250], [277,250], [277,220], [367,220]], true, true);
 
-SPEED_SCALE.fillStyle = "white";
-SPEED_SCALE.lineWidth = LINE_WIDTH;
-SPEED_SCALE.strokeStyle = "white";
+speedScale.fillStyle = "white";
+speedScale.lineWidth = LINE_WIDTH;
+speedScale.strokeStyle = "white";
 for(let i=0;i<13;i++) {
 	const linePositionY = 600 - (600/12*i);
-	drawLine(SPEED_SCALE, [[72, linePositionY], [90, linePositionY]]);
+	drawLine(speedScale, [[72, linePositionY], [90, linePositionY]]);
 }
 
-ALTITUDE_SCALE.fillStyle = "white";
-ALTITUDE_SCALE.lineWidth = LINE_WIDTH;
-ALTITUDE_SCALE.strokeStyle = "white";
+altitudeScale.fillStyle = "white";
+altitudeScale.lineWidth = LINE_WIDTH;
+altitudeScale.strokeStyle = "white";
 for(let i=0;i<9;i++) {
 	const linePositionY = 600 * (i/8);
-	drawLine(ALTITUDE_SCALE, [[0, linePositionY], [18, linePositionY]]);
+	drawLine(altitudeScale, [[0, linePositionY], [18, linePositionY]]);
 }
 
-HEADING_SCALE.fillStyle = "white";
-HEADING_SCALE.lineWidth = LINE_WIDTH;
-HEADING_SCALE.strokeStyle = "white";
+headingScale.fillStyle = "white";
+headingScale.lineWidth = LINE_WIDTH;
+headingScale.strokeStyle = "white";
 
 for(let i=0;i<72;i++) { // 目盛りを描く
 	const lineStartPosition = onCircle([300,300], 300, i*5);
 	const lineEndPosition = onCircle([300,300], i%2===0 ? 280 : 290, i*5);
-	drawLine(HEADING_SCALE, [lineStartPosition, lineEndPosition]);
+	drawLine(headingScale, [lineStartPosition, lineEndPosition]);
 }
 
 document.fonts.ready.then(() => {// 目盛りの数字を描く 書く場所のサイズを半分にし、位置を右下に置き、そこから回転しながら描画することで、回転しても数字が回転せずに描画する
-	HEADING_SCALE.translate(300, 300);
-	HEADING_SCALE.scale(.5, .5);
+	headingScale.translate(300, 300);
+	headingScale.scale(.5, .5);
 	for(let i=0;i<36;i++) {
 		if(i % 3 === 0) { // 3の倍数のときは数字を大きくする
-			HEADING_SCALE.font = "bold 50px \"numFont\""; // サイズを半分にしているので、実際のフォントサイズは25pxになる
-			HEADING_SCALE.fillText(i, i<10 ? -12 : -25, -510); // i<10 ?...ってやつは2桁だと中心の位置がずれるから場合分けしてる
+			headingScale.font = "bold 50px \"numFont\""; // サイズを半分にしているので、実際のフォントサイズは25pxになる
+			headingScale.fillText(i, i<10 ? -12 : -25, -510); // i<10 ?...ってやつは2桁だと中心の位置がずれるから場合分けしてる
 		} else {
-			HEADING_SCALE.font = "bold 35px \"numFont\""; // サイズを半分にしているので、実際のフォントサイズは17.5pxになる
-			HEADING_SCALE.fillText(i, i<10 ? -8 : -17, -520);
+			headingScale.font = "bold 35px \"numFont\""; // サイズを半分にしているので、実際のフォントサイズは17.5pxになる
+			headingScale.fillText(i, i<10 ? -8 : -17, -520);
 		}
-		HEADING_SCALE.rotate(Math.PI/18); // 30°回転する
+		headingScale.rotate(Math.PI/18); // 30°回転する
 	}
 });
 
 // 方位のやつの三角形
-HEADING_POINTER.lineWidth = LINE_WIDTH;
-HEADING_POINTER.strokeStyle = "white";
-drawLine(HEADING_POINTER, [[285,25], [315,25], [300,47]], true, false);
+headingPointer.lineWidth = LINE_WIDTH;
+headingPointer.strokeStyle = "white";
+drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 
 // ここから設定に関するプログラム
 let isSettingsOpen = false; // 設定が開いているかどうか
@@ -254,11 +254,11 @@ const allSettings = document.querySelectorAll(".settings");
 allSettings.forEach(element => {
 	const parent = element.parentElement;
 	const dataset = element.dataset;
-	const top = dataset.top;
-	const bottom = dataset.bottom;
-	const left = dataset.left;
-	const right = dataset.right;
-	const data = {
+	let top = dataset.top;
+	let bottom = dataset.bottom;
+	let left = dataset.left;
+	let right = dataset.right;
+	let data = {
 		pos: [
 			{direction: null, value: null},
 			{direction: null, value: null}
@@ -268,25 +268,42 @@ allSettings.forEach(element => {
 
 	// data-*の値から設定元の要素からの位置を指定する
 	if(left) {
+		if(left.slice(-1) === "+") { // もし最後に+がついていたら要素の横幅分をプラスかマイナスに追加する
+			const valPart = Number(left.slice(0, -1));
+			left = valPart + (element.offsetWidth * Math.sign(valPart));
+		}
+		if(left.slice(-1) === "+") {left += element.offsetWidth * Math.sign(left)};
 		element.style.left = left + "px";
 		data.pos[0].direction = "left";
 		data.pos[0].value = left;
 	} else {
+		if(right.slice(-1) === "+") { // 同上
+			const valPart = Number(right.slice(0, -1));
+			right = valPart + (element.offsetWidth * Math.sign(valPart));
+		}
 		element.style.right = right + "px";
 		data.pos[0].direction = "right";
 		data.pos[0].value = right;
 	}
 	if(top) {
+		if(top.slice(-1) === "+") { // 上のやつの縦バージョン
+			const valPart = Number(top.slice(0, -1));
+			top = valPart + (element.offsetWidth * Math.sign(valPart));
+		}
 		element.style.top = top + "px";
 		data.pos[1].direction = "top";
 		data.pos[1].value = top;
 	} else {
+		if(bottom.slice(-1) === "+") { // 同上
+			const valPart = Number(bottom.slice(0, -1));
+			bottom = valPart + (element.offsetHeight * Math.sign(valPart));
+		}
 		element.style.bottom = bottom + "px";
 		data.pos[1].direction = "bottom";
 		data.pos[1].value = bottom;
 	}
 
-	if(data.pos[0].value < -element.offsetWidth || data.pos[1].value < -element.offsetHeight) { // 位置の指定にマイナスが使われており、その値が設定元の要素の幅や高さより大きいときは、その要素は設定元の要素から完全にはみ出している
+	if(data.pos[0].value < -element.offsetWidth || data.pos[1].value < -element.offsetHeight) { // 位置の指定にマイナスが使われており、その絶対値がこの要素の幅や高さより大きいときは、その要素は設定元の要素から完全にはみ出している
 		data.isProtrude = true;
 	} else if(data.pos[0].value > parent.offsetWidth || data.pos[1].value > parent.offsetHeight) { // 位置の指定が設定元の要素の幅や高さより大きいなら、その要素は設定元の要素から完全にはみ出している
 		data.isProtrude = true;
@@ -431,13 +448,13 @@ function update() {
 	el("ground").style.rotate = (-gamma || 0) + "deg";
 	el("highScale").style.rotate = (-gamma || 0) + "deg";
 	el("bankPointer").style.rotate = (-gamma || 0) + "deg";
-	BANK_POINTER.clearRect(0,0, 400,225);
+	bankPointer.clearRect(0,0, 400,225);
 	if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
-		BANK_POINTER.strokeStyle = "#fb1";
-		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, true);
+		bankPointer.strokeStyle = "#fb1";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, true);
 	} else {
-		BANK_POINTER.strokeStyle = "white";
-		drawLine(BANK_POINTER, [[200,3], [185,23], [215,23]], true, false);
+		bankPointer.strokeStyle = "white";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 	}
 
 	requestAnimationFrame(update);
