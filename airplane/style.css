@@ -17,10 +17,59 @@
 	font-family: "originalFont";
 }
 
+:root {--dark: #110;}
+
 body {
 	text-align: center;
 	margin: 0;
-	background-color: #110;
+	background-color: var(--dark);
+}
+
+.dial {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	border-radius: 1000px;
+	background-color: #f2f0eb;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 50%;
+		translate: -50% 0;
+		display: inline-block;
+		width: 4px;
+		height: 13px;
+		background-color: #5c5a57;
+	}
+}
+
+.settings {
+	/* display: none; 初期値として */
+	position: absolute;
+	padding: 10px;
+	background-color: #3f393699;
+	z-index: 100000000;
+	font-size: .75em;
+}
+
+.settingsLine {
+	position: absolute;
+	border: 0 solid white; /* 色と形だけ指定 */
+	z-index: 100000000;
+}
+
+#settingsImg {
+	position: absolute;
+	top: 650px;
+	left: 50%;
+	translate: calc(-50% + -285px) 0;
+	background-color: #3f3936;
+	padding: 7px;
+	border-radius: 100px;
+	cursor: pointer;
 }
 
 #instruments {
@@ -239,30 +288,5 @@ body {
 	border-radius: 5px;
 	background-color: #09e; /* 初期値として */
 	color: white;
-	cursor: pointer;
-}
-
-.settings {
-	/* display: none; 初期値として */
-	position: absolute;
-	padding: 10px;
-	background-color: #3f393699;
-	z-index: 100000000;
-}
-
-.settingsLine {
-	position: absolute;
-	border: 0 solid white; /* 色と形だけ指定 */
-	z-index: 100000000;
-}
-
-#settingsImg {
-	position: absolute;
-	top: 650px;
-	left: 50%;
-	translate: calc(-50% + -285px) 0;
-	background-color: #3f3936;
-	padding: 7px;
-	border-radius: 100px;
 	cursor: pointer;
 }
