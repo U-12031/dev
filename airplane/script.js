@@ -194,7 +194,7 @@ bankPointer.strokeStyle = "white";
 drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 
 // 中心の飛行機のシンボルを描画する
-symbol.fillStyle = "black";
+symbol.fillStyle = "#110";
 symbol.lineWidth = LINE_WIDTH + 2; // 塗りつぶしの色が違うので太さが小さくなる
 symbol.strokeStyle = "white";
 drawLine(symbol, [[194,209], [206,209], [206,221], [194,221]], true, true);
