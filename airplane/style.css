@@ -12,6 +12,13 @@
 	/* CodeSwing用。あとで消す */
 }
 
+@font-face {
+	font-family: "7segFont";
+	src: url(/0_data/fonts/fonts-DSEG_v046/DSEG7ClassicMini-Bold.ttf) format("truetype");
+	src: url(https://u-12031.github.io/0_data/fonts/fonts-DSEG_v046/DSEG7ClassicMini-Bold.ttf ) format("truetype");
+	/* CodeSwing用、あとで消す */
+}
+
 * {
 	color: white;
 	font-family: "originalFont";
@@ -25,24 +32,50 @@ body {
 	background-color: var(--dark);
 }
 
-.dial {
-	position: relative;
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	border-radius: 1000px;
-	background-color: #f2f0eb;
+.valueWithSpinBt {margin-top: 5px;}
 
-	&::before {
-		content: "";
+.valueWithSpinBt>* {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.valueWithSpinBt .display {
+	display: inline-block;
+	font-family: "7segFont";
+	font-size: 2.5em;
+	padding: 10px;
+	margin: 0 5px;
+	background-color: #221;
+	color: #eee;
+	cursor: default;
+}
+
+.valueWithSpinBt .plusBt, .valueWithSpinBt .minusBt {
+	position: relative;
+	line-height: 50%;
+	font-size: 3em;
+	height: 50px;
+	width: 50px;
+	margin-bottom: 1rem;
+	background-color: #003;
+	border: 0;
+	cursor: pointer;
+	--label: "100";
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	&::after {
+		content: var(--label);
 		position: absolute;
-		top: 0;
-		left: 50%;
-		translate: -50% 0;
-		display: inline-block;
-		width: 4px;
-		height: 13px;
-		background-color: #5c5a57;
+		left: 0;
+		bottom: 0;
+		translate: 0 100%;
+		font-size: 1rem;
+		width: 100%;
+		background-color: black;
 	}
 }
 

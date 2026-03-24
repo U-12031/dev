@@ -251,6 +251,65 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 let isSettingsOpen = false; // 設定が開いているかどうか
 const allSettings = document.querySelectorAll(".settings");
 
+// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
+let spinBt = {};
+document.querySelectorAll(".valueWithSpinBt").forEach(element => {
+	const dataset = element.dataset;
+	let data = spinBt[element.id] = {};
+	data.possibleValues = dataset.possibleValues.split(",").map(Number);
+	data.value = Number(dataset.value);
+	const max = data.possibleValues[data.possibleValues.length - 1];
+	// まずは要素を作る
+	const display = document.createElement("span");
+	const minusBt = document.createElement("button");
+	const plusBt = document.createElement("button");
+	// 要素を設定する
+	display.textContent = data.value.toString().padStart(max.toString().length, "!");
+	display.classList.add("display");
+	plusBt.textContent = "+";
+	plusBt.classList.add("plusBt");
+	minusBt.textContent = "−";
+	minusBt.classList.add("minusBt");
+	// 要素を配置する
+	element.appendChild(minusBt);
+	element.appendChild(display);
+	element.appendChild(plusBt);
+
+	// クリック時の処理を定義
+	plusBt.addEventListener("click", () => {
+		const beforeValue = data.value;
+		const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+		data.value = newValue;
+		display.textContent = data.value.toString().padStart(max.toString().length, "!");
+		const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+		if(data.value === max) {
+			plusBt.disabled = true;
+			plusBt.style.setProperty("--label", '\"MAX\"');
+		} else {
+			plusBt.disabled = false;
+			plusBt.style.setProperty("--label", `\"${nextValue}\"`);
+		}
+		minusBt.disabled = false;
+		minusBt.style.setProperty("--label", `\"${beforeValue}\"`);
+	});
+	minusBt.addEventListener("click", () => {
+		const beforeValue = data.value;
+		const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+		data.value = newValue;
+		display.textContent = data.value.toString().padStart(max.toString().length, "!");
+		const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+		if(data.value === data.possibleValues[0]) {
+			minusBt.disabled = true;
+			minusBt.style.setProperty("--label", '\"MIN\"');
+		} else {
+			minusBt.disabled = false;
+			minusBt.style.setProperty("--label", `\"${nextValue}\"`);
+		}
+		plusBt.disabled = false;
+		plusBt.style.setProperty("--label", `\"${beforeValue}\"`);
+	});
+});
+
 allSettings.forEach(element => {
 	const parent = element.parentElement;
 	const dataset = element.dataset;
