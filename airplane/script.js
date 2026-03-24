@@ -249,6 +249,7 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 
 // ここから設定に関するプログラム
 let isSettingsOpen = false; // 設定が開いているかどうか
+let settings = {};
 const allSettings = document.querySelectorAll(".settings");
 window.onload = setSettings;
 
@@ -259,12 +260,11 @@ window.onload = setSettings;
  * @memberof module:aircraft
 */
 function setSettings() {
-	try {
 		// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
-		let spinBt = {};
 		document.querySelectorAll(".valueWithSpinBt").forEach(element => {
+	try {
 		const dataset = element.dataset;
-		let data = spinBt[element.id] = {};
+		let data = settings[element.id] = {};
 		data.possibleValues = dataset.possibleValues.split(",").map(Number);
 		data.value = Number(dataset.value);
 		const max = data.possibleValues[data.possibleValues.length - 1];
@@ -317,6 +317,7 @@ function setSettings() {
 			plusBt.disabled = false;
 			plusBt.style.setProperty("--label", `\"${beforeValue}\"`);
 		});
+	}catch(error) {console.log(`${error.name}\n${error.stack}`)}
 	});
 
 	allSettings.forEach(element => {
@@ -418,10 +419,9 @@ function setSettings() {
 			element.appendChild(line);
 		}
 	});
-}catch(error) {console.log(`${error.name}\n${error.stack}`)}
 };
 
-function settings() {
+function settingsDisplay() {
 	allSettings.forEach(element => {
 		if(isSettingsOpen) {
 			element.style.display = "none";

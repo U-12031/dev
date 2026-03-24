@@ -84,14 +84,14 @@ body {
 	position: absolute;
 	padding: 10px;
 	background-color: #3f393699;
-	z-index: 100000000;
-	font-size: .75em;
+	z-index: 1;
+	font-size: .75rem;
 }
 
 .settingsLine {
 	position: absolute;
 	border: 0 solid white; /* 色と形だけ指定 */
-	z-index: 100000000;
+	z-index: 1;
 }
 
 #settingsImg {
@@ -235,6 +235,7 @@ body {
 	border: none;
 	border-radius: 50px;
 	overflow: hidden;
+	z-index: -1;
 }
 
 #center * {
