@@ -255,7 +255,7 @@ window.onload = setSettings;
 /**
  * 設定の各要素の位置を指定します。
  * 設定の要素の位置の指定には、data-{top|bottom|left|right}属性(以下、data-*と呼びます)を使用します。
- * data-*属性の値には、要素の横幅や高さに対する距離を指定します(position;absolute時の値と同じです)。ただし、末尾に"+"がついていたら、要素の横幅や高さをプラスかマイナスに追加します。
+ * data-*属性の値には、要素の横幅や高さに対する距離を指定します(position;absolute時の値と同じです)。ただし、末尾に"+"か"-"がついていたら、要素の横幅や高さをそれぞれプラスとマイナスに追加します。
  * @memberof module:aircraft
 */
 function setSettings() {
@@ -336,34 +336,34 @@ function setSettings() {
 
 		// data-*の値から設定元の要素からの位置を指定する
 		if(left) {
-			if(left.slice(-1) === "+") { // もし最後に+がついていたら要素の横幅分をプラスかマイナスに追加する
+			if(left.slice(-1) === "+" || left.slice(-1) === "-") { // もし最後に+か-がついていたら要素の横幅分をプラスかマイナスに追加する
 				const valPart = Number(left.slice(0, -1));
-				left = valPart + (element.offsetWidth * Math.sign(valPart));
+				left = valPart + element.offsetWidth * (left.slice(-1) === "+" ? 1 : -1);
 			}
 			element.style.left = left + "px";
 			data.pos[0].direction = "left";
 			data.pos[0].value = left;
 		} else {
-			if(right.slice(-1) === "+") { // 同上
+			if(right.slice(-1) === "+" || right.slice(-1) === "-") { // 同上
 				const valPart = Number(right.slice(0, -1));
-				right = valPart + (element.offsetWidth * Math.sign(valPart));
+				right = valPart + element.offsetWidth * (right.slice(-1) === "+" ? 1 : -1);
 			}
 			element.style.right = right + "px";
 			data.pos[0].direction = "right";
 			data.pos[0].value = right;
 		}
 		if(top) {
-			if(top.slice(-1) === "+") { // 上のやつの縦バージョン
+			if(top.slice(-1) === "+" || top.slice(-1) === "-") { // 上のやつの縦バージョン
 				const valPart = Number(top.slice(0, -1));
-				top = valPart + (element.offsetWidth * Math.sign(valPart));
+				top = valPart + element.offsetHeight * (top.slice(-1) === "+" ? 1 : -1);
 			}
 			element.style.top = top + "px";
 			data.pos[1].direction = "top";
 			data.pos[1].value = top;
 		} else {
-			if(bottom.slice(-1) === "+") { // 同上
+			if(bottom.slice(-1) === "+" || bottom.slice(-1) === "-") { // 同上
 				const valPart = Number(bottom.slice(0, -1));
-				bottom = valPart + (element.offsetHeight * Math.sign(valPart));
+				bottom = valPart + element.offsetHeight * (bottom.slice(-1) === "+" ? 1 : -1);
 			}
 			element.style.bottom = bottom + "px";
 			data.pos[1].direction = "bottom";
