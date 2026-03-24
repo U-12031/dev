@@ -32,16 +32,8 @@ body {
 	background-color: var(--dark);
 }
 
-.valueWithSpinBt {margin-top: 5px;}
-
-.valueWithSpinBt>* {
+.display {
 	display: inline-block;
-	vertical-align: top;
-}
-
-.valueWithSpinBt .display {
-	display: inline-block;
-	font-family: "7segFont";
 	font-size: 2.5em;
 	padding: 10px;
 	margin: 0 5px;
@@ -50,7 +42,16 @@ body {
 	cursor: default;
 }
 
-.valueWithSpinBt .plusBt, .valueWithSpinBt .minusBt {
+.valueWithSpinBt {margin-top: 5px;}
+
+.valueWithSpinBt>* {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.valueWithSpinBt .display {font-family: "7segFont";}
+
+.plusBt, .minusBt, .leftBt, .rightBt {
 	position: relative;
 	line-height: 50%;
 	font-size: 3em;
@@ -60,7 +61,7 @@ body {
 	background-color: #003;
 	border: 0;
 	cursor: pointer;
-	--label: "100";
+	--label: "";
 
 	&:disabled {
 		opacity: 0.5;
@@ -77,6 +78,10 @@ body {
 		width: 100%;
 		background-color: black;
 	}
+}
+
+.valueWithLRBt .display {
+
 }
 
 .settings {

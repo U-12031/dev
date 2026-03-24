@@ -261,8 +261,7 @@ window.onload = setSettings;
 */
 function setSettings() {
 		// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
-		document.querySelectorAll(".valueWithSpinBt").forEach(element => {
-	try {
+	document.querySelectorAll(".valueWithSpinBt").forEach(element => {
 		const dataset = element.dataset;
 		let data = settings[element.id] = {};
 		data.possibleValues = dataset.possibleValues.split(",").map(Number);
@@ -277,8 +276,22 @@ function setSettings() {
 		display.classList.add("display");
 		plusBt.textContent = "+";
 		plusBt.classList.add("plusBt");
+		if(data.value === max) {
+			plusBt.disabled = true;
+			plusBt.style.setProperty("--label", '\"MAX\"');
+		} else {
+			plusBt.disabled = false;
+			plusBt.style.setProperty("--label", `\"${data.possibleValues[data.possibleValues.indexOf(data.value) + 1]}\"`);
+		}
 		minusBt.textContent = "−";
 		minusBt.classList.add("minusBt");
+		if(data.value === data.possibleValues[0]) {
+			minusBt.disabled = true;
+			minusBt.style.setProperty("--label", '\"MIN\"');
+		} else {
+			minusBt.disabled = false;
+			minusBt.style.setProperty("--label", `\"${data.possibleValues[data.possibleValues.indexOf(data.value) - 1]}\"`);
+		}
 		// 要素を配置する
 		element.appendChild(minusBt);
 		element.appendChild(display);
@@ -317,7 +330,79 @@ function setSettings() {
 			plusBt.disabled = false;
 			plusBt.style.setProperty("--label", `\"${beforeValue}\"`);
 		});
-	}catch(error) {console.log(`${error.name}\n${error.stack}`)}
+	});
+
+	document.querySelectorAll(".valueWithLRBt").forEach(element => {
+		const dataset = element.dataset;
+		let data = settings[element.id] = {};
+		data.possibleValues = dataset.possibleValues.split(",");
+		data.value = dataset.value;
+		const longestLength = data.possibleValues.reduce((a, b) => a.length > b.length ? a : b).length;
+		const lastValue = data.possibleValues[data.possibleValues.length - 1];
+		// まずは要素を作る
+		const display = document.createElement("span");
+		const leftBt = document.createElement("button");
+		const rightBt = document.createElement("button");
+		// 要素を設定する
+		display.textContent = data.value.toString().padStart(longestLength, " ");
+		display.classList.add("display");
+		leftBt.textContent = "←";
+		leftBt.classList.add("leftBt");
+		if(data.value === data.possibleValues[0]) {
+			leftBt.disabled = true;
+			leftBt.style.setProperty("--label", '\"1ST\"');
+		} else {
+			leftBt.disabled = false;
+			leftBt.style.setProperty("--label", `\"${data.possibleValues[data.possibleValues.indexOf(data.value) - 1]}\"`);
+		}
+		rightBt.textContent = "→";
+		rightBt.classList.add("rightBt");
+		if(data.value === lastValue) {
+			rightBt.disabled = true;
+			rightBt.style.setProperty("--label", '\"LAST\"');
+		} else {
+			rightBt.disabled = false;
+			rightBt.style.setProperty("--label", `\"${data.possibleValues[data.possibleValues.indexOf(data.value) + 1]}\"`);
+		}
+		// 要素を配置する
+		element.appendChild(leftBt);
+		element.appendChild(display);
+		element.appendChild(rightBt);
+
+		// クリック時の処理を定義
+		leftBt.addEventListener("click", () => {
+			const beforeValue = data.value;
+			const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+			data.value = newValue;
+			display.textContent = data.value.toString().padStart(longestLength, " ");
+			const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+			if(data.value === data.possibleValues[0]) {
+				leftBt.disabled = true;
+				leftBt.style.setProperty("--label", '\"1ST\"');
+			} else {
+				leftBt.disabled = false;
+				leftBt.style.setProperty("--label", `\"${nextValue}\"`);
+			}
+			rightBt.disabled = false;
+			rightBt.style.setProperty("--label", `\"${beforeValue}\"`);
+		});
+		rightBt.addEventListener("click", () => {
+			const beforeValue = data.value;
+			const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+			data.value = newValue;
+			display.textContent = data.value.toString().padStart(longestLength, " ");
+			const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+			if(data.value === lastValue) {
+				rightBt.disabled = true;
+				rightBt.style.setProperty("--label", '\"LST\"');
+			} else {
+				rightBt.disabled = false;
+				rightBt.style.setProperty("--label", `\"${nextValue}\"`);
+			}
+			leftBt.disabled = false;
+			leftBt.style.setProperty("--label", `\"${beforeValue}\"`);
+		});
+
 	});
 
 	allSettings.forEach(element => {
