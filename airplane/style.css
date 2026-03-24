@@ -133,7 +133,7 @@ body {
 	font-weight: bold;
 	justify-content: center;
 
-	* {
+	*:not(.settings, .settings *) {
 		display: flex;
 		margin: 0;
 		padding: 0;
