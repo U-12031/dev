@@ -250,165 +250,176 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 // ここから設定に関するプログラム
 let isSettingsOpen = false; // 設定が開いているかどうか
 const allSettings = document.querySelectorAll(".settings");
+window.onload = setSettings;
 
-// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
-let spinBt = {};
-document.querySelectorAll(".valueWithSpinBt").forEach(element => {
-	const dataset = element.dataset;
-	let data = spinBt[element.id] = {};
-	data.possibleValues = dataset.possibleValues.split(",").map(Number);
-	data.value = Number(dataset.value);
-	const max = data.possibleValues[data.possibleValues.length - 1];
-	// まずは要素を作る
-	const display = document.createElement("span");
-	const minusBt = document.createElement("button");
-	const plusBt = document.createElement("button");
-	// 要素を設定する
-	display.textContent = data.value.toString().padStart(max.toString().length, "!");
-	display.classList.add("display");
-	plusBt.textContent = "+";
-	plusBt.classList.add("plusBt");
-	minusBt.textContent = "−";
-	minusBt.classList.add("minusBt");
-	// 要素を配置する
-	element.appendChild(minusBt);
-	element.appendChild(display);
-	element.appendChild(plusBt);
+/**
+ * 設定の各要素の位置を指定します。
+ * 設定の要素の位置の指定には、data-{top|bottom|left|right}属性(以下、data-*と呼びます)を使用します。
+ * data-*属性の値には、要素の横幅や高さに対する距離を指定します(position;absolute時の値と同じです)。ただし、末尾に"+"がついていたら、要素の横幅や高さをプラスかマイナスに追加します。
+ * @memberof module:aircraft
+*/
+function setSettings() {
+	try {
+		// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
+		let spinBt = {};
+		document.querySelectorAll(".valueWithSpinBt").forEach(element => {
+		const dataset = element.dataset;
+		let data = spinBt[element.id] = {};
+		data.possibleValues = dataset.possibleValues.split(",").map(Number);
+		data.value = Number(dataset.value);
+		const max = data.possibleValues[data.possibleValues.length - 1];
+		// まずは要素を作る
+		const display = document.createElement("span");
+		const minusBt = document.createElement("button");
+		const plusBt = document.createElement("button");
+		// 要素を設定する
+		display.textContent = data.value.toString().padStart(max.toString().length, "!");
+		display.classList.add("display");
+		plusBt.textContent = "+";
+		plusBt.classList.add("plusBt");
+		minusBt.textContent = "−";
+		minusBt.classList.add("minusBt");
+		// 要素を配置する
+		element.appendChild(minusBt);
+		element.appendChild(display);
+		element.appendChild(plusBt);
 
-	// クリック時の処理を定義
-	plusBt.addEventListener("click", () => {
-		const beforeValue = data.value;
-		const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
-		data.value = newValue;
-		display.textContent = data.value.toString().padStart(max.toString().length, "!");
-		const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
-		if(data.value === max) {
-			plusBt.disabled = true;
-			plusBt.style.setProperty("--label", '\"MAX\"');
-		} else {
-			plusBt.disabled = false;
-			plusBt.style.setProperty("--label", `\"${nextValue}\"`);
-		}
-		minusBt.disabled = false;
-		minusBt.style.setProperty("--label", `\"${beforeValue}\"`);
-	});
-	minusBt.addEventListener("click", () => {
-		const beforeValue = data.value;
-		const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
-		data.value = newValue;
-		display.textContent = data.value.toString().padStart(max.toString().length, "!");
-		const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
-		if(data.value === data.possibleValues[0]) {
-			minusBt.disabled = true;
-			minusBt.style.setProperty("--label", '\"MIN\"');
-		} else {
+		// クリック時の処理を定義
+		plusBt.addEventListener("click", () => {
+			const beforeValue = data.value;
+			const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+			data.value = newValue;
+			display.textContent = data.value.toString().padStart(max.toString().length, "!");
+			const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) + 1];
+			if(data.value === max) {
+				plusBt.disabled = true;
+				plusBt.style.setProperty("--label", '\"MAX\"');
+			} else {
+				plusBt.disabled = false;
+				plusBt.style.setProperty("--label", `\"${nextValue}\"`);
+			}
 			minusBt.disabled = false;
-			minusBt.style.setProperty("--label", `\"${nextValue}\"`);
-		}
-		plusBt.disabled = false;
-		plusBt.style.setProperty("--label", `\"${beforeValue}\"`);
+			minusBt.style.setProperty("--label", `\"${beforeValue}\"`);
+		});
+		minusBt.addEventListener("click", () => {
+			const beforeValue = data.value;
+			const newValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+			data.value = newValue;
+			display.textContent = data.value.toString().padStart(max.toString().length, "!");
+			const nextValue = data.possibleValues[data.possibleValues.indexOf(data.value) - 1]
+			if(data.value === data.possibleValues[0]) {
+				minusBt.disabled = true;
+				minusBt.style.setProperty("--label", '\"MIN\"');
+			} else {
+				minusBt.disabled = false;
+				minusBt.style.setProperty("--label", `\"${nextValue}\"`);
+			}
+			plusBt.disabled = false;
+			plusBt.style.setProperty("--label", `\"${beforeValue}\"`);
+		});
 	});
-});
 
-allSettings.forEach(element => {
-	const parent = element.parentElement;
-	const dataset = element.dataset;
-	let top = dataset.top;
-	let bottom = dataset.bottom;
-	let left = dataset.left;
-	let right = dataset.right;
-	let data = {
-		pos: [
-			{direction: null, value: null},
-			{direction: null, value: null}
-		], // 要素が設定元の要素からどれだけ離れているか
-		isProtrude: null, // 要素が設定元の要素から完全にはみ出しているか
-	}
+	allSettings.forEach(element => {
+		const parent = element.parentElement;
+		const dataset = element.dataset;
+		let top = dataset.top;
+		let bottom = dataset.bottom;
+		let left = dataset.left;
+		let right = dataset.right;
+		let data = {
+			pos: [
+				{direction: null, value: null},
+				{direction: null, value: null}
+			], // 要素が設定元の要素からどれだけ離れているか
+			isProtrude: null, // 要素が設定元の要素から完全にはみ出しているか
+		}
 
-	// data-*の値から設定元の要素からの位置を指定する
-	if(left) {
-		if(left.slice(-1) === "+") { // もし最後に+がついていたら要素の横幅分をプラスかマイナスに追加する
-			const valPart = Number(left.slice(0, -1));
-			left = valPart + (element.offsetWidth * Math.sign(valPart));
+		// data-*の値から設定元の要素からの位置を指定する
+		if(left) {
+			if(left.slice(-1) === "+") { // もし最後に+がついていたら要素の横幅分をプラスかマイナスに追加する
+				const valPart = Number(left.slice(0, -1));
+				left = valPart + (element.offsetWidth * Math.sign(valPart));
+			}
+			element.style.left = left + "px";
+			data.pos[0].direction = "left";
+			data.pos[0].value = left;
+		} else {
+			if(right.slice(-1) === "+") { // 同上
+				const valPart = Number(right.slice(0, -1));
+				right = valPart + (element.offsetWidth * Math.sign(valPart));
+			}
+			element.style.right = right + "px";
+			data.pos[0].direction = "right";
+			data.pos[0].value = right;
 		}
-		if(left.slice(-1) === "+") {left += element.offsetWidth * Math.sign(left)};
-		element.style.left = left + "px";
-		data.pos[0].direction = "left";
-		data.pos[0].value = left;
-	} else {
-		if(right.slice(-1) === "+") { // 同上
-			const valPart = Number(right.slice(0, -1));
-			right = valPart + (element.offsetWidth * Math.sign(valPart));
+		if(top) {
+			if(top.slice(-1) === "+") { // 上のやつの縦バージョン
+				const valPart = Number(top.slice(0, -1));
+				top = valPart + (element.offsetWidth * Math.sign(valPart));
+			}
+			element.style.top = top + "px";
+			data.pos[1].direction = "top";
+			data.pos[1].value = top;
+		} else {
+			if(bottom.slice(-1) === "+") { // 同上
+				const valPart = Number(bottom.slice(0, -1));
+				bottom = valPart + (element.offsetHeight * Math.sign(valPart));
+			}
+			element.style.bottom = bottom + "px";
+			data.pos[1].direction = "bottom";
+			data.pos[1].value = bottom;
 		}
-		element.style.right = right + "px";
-		data.pos[0].direction = "right";
-		data.pos[0].value = right;
-	}
-	if(top) {
-		if(top.slice(-1) === "+") { // 上のやつの縦バージョン
-			const valPart = Number(top.slice(0, -1));
-			top = valPart + (element.offsetWidth * Math.sign(valPart));
-		}
-		element.style.top = top + "px";
-		data.pos[1].direction = "top";
-		data.pos[1].value = top;
-	} else {
-		if(bottom.slice(-1) === "+") { // 同上
-			const valPart = Number(bottom.slice(0, -1));
-			bottom = valPart + (element.offsetHeight * Math.sign(valPart));
-		}
-		element.style.bottom = bottom + "px";
-		data.pos[1].direction = "bottom";
-		data.pos[1].value = bottom;
-	}
 
-	if(data.pos[0].value < -element.offsetWidth || data.pos[1].value < -element.offsetHeight) { // 位置の指定にマイナスが使われており、その絶対値がこの要素の幅や高さより大きいときは、その要素は設定元の要素から完全にはみ出している
-		data.isProtrude = true;
-	} else if(data.pos[0].value > parent.offsetWidth || data.pos[1].value > parent.offsetHeight) { // 位置の指定が設定元の要素の幅や高さより大きいなら、その要素は設定元の要素から完全にはみ出している
-		data.isProtrude = true;
-		// 値が大きすぎててはみ出しているのをマイナスに指定したせいではみ出していることに変換する 図で考えてみると分かりやすいかも
-		if(data.pos[0].value > parent.offsetWidth) {
-			data.pos[0].direction = data.pos[0].direction === "left" ? "right" : "left"; // 方向を逆にする
-			data.pos[0].value -= parent.offsetWidth; // これは正の値になる
-			data.pos[0].value += element.offsetWidth;
-			data.pos[0].value *= -1; // マイナスにする
-		}
-		if(data.pos[1].value > parent.offsetHeight) { // 上のプログラムのy軸版
-			data.pos[1].direction = data.pos[1].direction === "top" ? "bottom" : "top";
-			data.pos[1].value -= parent.offsetHeight;
-			data.pos[1].value += element.offsetHeight;
-			data.pos[1].value *= -1;
-		}
-	} else {
-		data.isProtrude = false;
-	};
+		if(data.pos[0].value < -element.offsetWidth || data.pos[1].value < -element.offsetHeight) { // 位置の指定にマイナスが使われており、その絶対値がこの要素の幅や高さより大きいときは、その要素は設定元の要素から完全にはみ出している
+			data.isProtrude = true;
+		} else if(data.pos[0].value > parent.offsetWidth || data.pos[1].value > parent.offsetHeight) { // 位置の指定が設定元の要素の幅や高さより大きいなら、その要素は設定元の要素から完全にはみ出している
+			data.isProtrude = true;
+			console.log(data.pos[0].value)
+			// 値が大きすぎててはみ出しているのをマイナスに指定したせいではみ出していることに変換する 図で考えてみると分かりやすいかも
+			if(data.pos[0].value > parent.offsetWidth) {
+				data.pos[0].direction = data.pos[0].direction === "left" ? "right" : "left"; // 方向を逆にする
+				data.pos[0].value -= parent.offsetWidth; // これは正の値になる
+				data.pos[0].value += element.offsetWidth;
+				data.pos[0].value *= -1; // マイナスにする
+			}
+			if(data.pos[1].value > parent.offsetHeight) { // 上のプログラムのy軸版
+				data.pos[1].direction = data.pos[1].direction === "top" ? "bottom" : "top";
+				data.pos[1].value -= parent.offsetHeight;
+				data.pos[1].value += element.offsetHeight;
+				data.pos[1].value *= -1;
+			}
+		} else {
+			data.isProtrude = false;
+		};
 
-	if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
-		const line = document.createElement("div");
-		line.classList.add("settingsLine");
-		if(data.pos[0].value < -element.offsetWidth && data.pos[1].value < -element.offsetHeight) { // 要素が設定元の要素から左右にも上下にもはみ出しているときは、要素の左右から出て設定元の上下に付くような線を引く
-			line.style.width = (-data.pos[0].value - element.offsetWidth + 15) + "px"; // 線が設定元に付くときの余白を15pxにするために15を足す
-			line.style.height = (-data.pos[1].value - element.offsetHeight + (data.pos[1].direction === "top" ? element.clientHeight-15 : 15)) + "px"; // 線が要素に付くときの余白を作るために、上側にマイナスなら要素から線の上側の余白である15pxを引いた分を、下側にマイナスなら15pxを足す
-			line.style[data.pos[0].direction] = "100%";
-			line.style[data.pos[1].direction] = "calc(100% - 15px)";
-			line.style[data.pos[0].direction === "left" ? "borderRightWidth" : "borderLeftWidth"] = "2px"; // どちら側にマイナスになっているかによって線を引くこの要素のどちら側に線を作るかが変わるため、それを処理するプログラム
-			line.style[data.pos[1].direction === "top" ? "borderTopWidth" : "borderBottomWidth"] = "2px";
-		} else if(data.pos[0].value < -element.offsetWidth) { // 要素が設定元の要素から左か右にはみ出しているときは、線を水平にする
-			line.style.width = (-data.pos[0].value - element.offsetWidth) + "px";
-			line.style.height = "0";
-			line.style.top = "15px";
-			line.style[data.pos[0].direction] = "100%";
-			line.style.borderTopWidth = "2px";
-		} else { // 要素が設定元の要素から上か下にはみ出しているときは、線を垂直にする
-			line.style.height = (-data.pos[1].value - element.offsetHeight) + "px";
-			line.style.width = "0";
-			line.style.left = "15px";
-			line.style[data.pos[1].direction] = "100%";
-			line.style.borderLeftWidth = "2px";
+		if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
+			const line = document.createElement("div");
+			line.classList.add("settingsLine");
+			if(data.pos[0].value < -element.offsetWidth && data.pos[1].value < -element.offsetHeight) { // 要素が設定元の要素から左右にも上下にもはみ出しているときは、要素の左右から出て設定元の上下に付くような線を引く
+				line.style.width = (-data.pos[0].value - element.offsetWidth + 15) + "px"; // 線が設定元に付くときの余白を15pxにするために15を足す
+				line.style.height = (-data.pos[1].value - element.offsetHeight + (data.pos[1].direction === "top" ? element.clientHeight-15 : 15)) + "px"; // 線が要素に付くときの余白を作るために、上側にマイナスなら要素から線の上側の余白である15pxを引いた分を、下側にマイナスなら15pxを足す
+				line.style[data.pos[0].direction] = "100%";
+				line.style[data.pos[1].direction] = "calc(100% - 15px)";
+				line.style[data.pos[0].direction === "left" ? "borderRightWidth" : "borderLeftWidth"] = "2px"; // どちら側にマイナスになっているかによって線を引くこの要素のどちら側に線を作るかが変わるため、それを処理するプログラム
+				line.style[data.pos[1].direction === "top" ? "borderTopWidth" : "borderBottomWidth"] = "2px";
+			} else if(data.pos[0].value < -element.offsetWidth) { // 要素が設定元の要素から左か右にはみ出しているときは、線を水平にする
+				line.style.width = (-data.pos[0].value - element.offsetWidth) + "px";
+				line.style.height = "0";
+				line.style.top = "15px";
+				line.style[data.pos[0].direction] = "100%";
+				line.style.borderTopWidth = "2px";
+			} else { // 要素が設定元の要素から上か下にはみ出しているときは、線を垂直にする
+				line.style.height = (-data.pos[1].value - element.offsetHeight) + "px";
+				line.style.width = "0";
+				line.style.left = "15px";
+				line.style[data.pos[1].direction] = "100%";
+				line.style.borderLeftWidth = "2px";
+			}
+			element.appendChild(line);
 		}
-		element.appendChild(line);
-	}
-});
+	});
+}catch(error) {console.log(`${error.name}\n${error.stack}`)}
+};
 
 function settings() {
 	allSettings.forEach(element => {
