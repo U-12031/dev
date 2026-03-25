@@ -402,7 +402,12 @@ function setSettings() {
 			leftBt.disabled = false;
 			leftBt.style.setProperty("--label", `\"${beforeValue}\"`);
 		});
+	});
 
+	document.querySelectorAll(".toggleBt").forEach(element => {
+		const dataset = element.dataset;
+		let data = settings[element.id] = {};
+		data.value = dataset.value;
 	});
 
 	allSettings.forEach(element => {

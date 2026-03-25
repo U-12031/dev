@@ -80,6 +80,36 @@ body {
 	}
 }
 
+.toggleBt {
+	display: flex;
+	position: relative;
+	appearance: none;
+	-webkit-appearance: none;
+	width: 40px;
+	height: 40px;
+	margin: 5px auto;
+	border-radius: 2px;
+	border: 2px solid #333;
+	background-color: #222;
+
+	&::after {
+		content: "";
+		position: absolute;
+		bottom: 5px;
+		left: 50%;
+		translate: -50% 0;
+		width: 30px;
+		height: 10px;
+		background-color: #333;
+	}
+}
+
+.toggleBt:checked {
+	background-color: #321;
+
+	&::after {background-color: #e80;}
+}
+
 .settings {
 	/* display: none; 初期値として */
 	position: absolute;
