@@ -666,7 +666,7 @@ function settingsDisplay() {
 		if(isSettingsOpen) {
 			element.style.display = "none";
 		} else {
-			element.style.display = "block";
+			element.style.display = "grid";
 		};
 	});
 	isSettingsOpen = !isSettingsOpen;

@@ -16,15 +16,14 @@
 			</div>
 			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
-				<div class="settings" data-left="20" data-top="-20-" style="width: 400px;">
-					<span>UNIT TYPE
+				<div class="settings" data-left="20" data-top="-20-" style="grid-template-columns: 1fr 1fr;gap: 10px;">
+					<span style="grid-column: 1 / 3;">UNIT TYPE
 						<div class="valueWithLRBt" id="speedUnitType" data-possible-values='kn,km/s,m/s,MPH' data-value="kn"></div>
 					</span>
-					<br>
-					<span>USE DEVICE-MOTION
+					<span>DEVICE-MOTION
 						<input type="checkbox" class="toggleBt" id="speedUseDeviceMotion" checked></input>
 					</span>
-					<span>DEVICE-MOTION OFFSET
+					<span>OFFSET
 						<div class="rewritableVal" id="speedDeviceMotionOffset" data-step="0.001" data-value="9.8"></div>
 					</span>
 				</div>

@@ -116,6 +116,7 @@ body {
 	position: relative;
 	left: 50%;
 	translate: -60px 0;
+	margin-top: 5px;
 	display: grid;
 	grid-template-columns: 40px 80px;
 }
@@ -147,13 +148,12 @@ body {
 
 .settings {
 	/* display: none; 初期値として */
+	display: grid;
 	position: absolute;
 	padding: 10px;
 	background-color: #3f393699;
 	z-index: 1;
 	font-size: .75rem;
-
-	&>span {width: fit-content;}
 }
 
 .settingsLine {
