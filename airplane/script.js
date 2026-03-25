@@ -491,13 +491,13 @@ function setSettings() {
 			} else if(data.pos[0].value < -element.offsetWidth) { // 要素が設定元の要素から左か右にはみ出しているときは、線を水平にする
 				line.style.width = (-data.pos[0].value - element.offsetWidth) + "px";
 				line.style.height = "0";
-				line.style.top = "15px";
+				line.style[data.pos[1].direction] = "15px";
 				line.style[data.pos[0].direction] = "100%";
 				line.style.borderTopWidth = "2px";
 			} else { // 要素が設定元の要素から上か下にはみ出しているときは、線を垂直にする
 				line.style.height = (-data.pos[1].value - element.offsetHeight) + "px";
 				line.style.width = "0";
-				line.style.left = "15px";
+				line.style[data.pos[0].direction] = "15px";
 				line.style[data.pos[1].direction] = "100%";
 				line.style.borderLeftWidth = "2px";
 			}
