@@ -247,6 +247,104 @@ headingPointer.lineWidth = LINE_WIDTH;
 headingPointer.strokeStyle = "white";
 drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 
+// ここからセンサーの値を取得するプログラム
+let altitude, speed, heading; // GPS
+let alpha, beta, gamma; // 角度
+let updateID; // 更新のID
+let accError = 9.8; // 加速度の誤差 初期値は重力加速度(の近似値)
+let doUpdateAccError = false; // 加速度の誤差を更新するかどうか
+let lastTime = performance.now(); // 加速度の更新時間
+
+function startSensors() {
+	el("startSensors").style.display = "none"; // ボタンを消す
+	if(updateID) navigator.geolocation.clearWatch(updateID); // すでに位置情報の更新を取得しているときはそれを止める
+	// iPhoneの位置情報の許可を取る
+	if(typeof DeviceOrientationEvent.requestPermission === "function") { // iPhone用の許可するための関数が存在するか
+		DeviceOrientationEvent.requestPermission().then(response => {
+			if(response === "granted") defineSensors();
+		});
+	} else defineSensors();
+}
+
+function defineSensors() {
+	updateID = navigator.geolocation.watchPosition((pos)=>{ // GPSの定義
+		const coords = pos.coords;
+		altitude = coords.altitude;
+		speed = coords.speed;
+		heading = coords.heading;
+	}, null, {
+		enableHighAccuracy: true, // 高精度な位置情報を取得する
+		maximumAge: 0,
+		timeout: 100
+	});
+
+	if(updateID == 1) { // 最初だけ定義をする
+		window.addEventListener("deviceorientation",(event)=>{ // 角度の定義
+			if(event.webkitCompassHeading) { // iPhoneの方位角はalphaではなくwebkitCompassHeadingに入っているので、そっちがあるときはそっちをheadingに入れる
+				alpha = event.webkitCompassHeading;
+			} else {
+				alpha = event.alpha;
+			}
+			beta = event.beta;
+			gamma = event.gamma;
+		});
+
+		window.addEventListener("devicemotion",(e)=>{ // 加速度の定義　GPSによって速度を取得する間を補完するためのもの
+			const acc = e.accelerationIncludingGravity;
+			if(acc) { // 加速度が取得できたときのみ実行
+				const accX = acc.x;
+				const accY = acc.y;
+				const accZ = acc.z;
+				const accSum = Math.sqrt(accX**2 + accY**2 + accZ**2);
+
+				const now = performance.now();
+				const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
+				if(doUpdateAccError) {
+					accError = accSum;
+					doUpdateAccError = false;
+				}
+				speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
+				lastTime = now;
+			}
+		});
+	};
+	update(); // 表示を更新し続けるトリガー
+};
+
+function update() {
+	el("outputAlpha").innerHTML = alpha ? alpha.toFixed(2) : 0;
+	el("outputBeta").innerHTML = beta ? beta.toFixed(2) : 0;
+	el("outputGamma").innerHTML = gamma ? gamma.toFixed(2) : 0;
+	el("outputAltitude").innerHTML = altitude ? altitude.toFixed(2) : 0;
+	el("outputSpeed").innerHTML = speed ? speed.toFixed(2) : 0;
+	el("outputHeading").innerHTML = heading ? heading.toFixed(2) : 0;
+
+	el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
+
+	const absBeta = Math.abs(beta) || 0;
+	if(Math.sign(beta-90) === -1) {
+		el("ground").style.translate = "-50% " + (absBeta < 67 ? -180 : (absBeta - 90) * 8) + "px";
+	} else {
+		el("ground").style.translate = "-50% " + (absBeta > 113 ? 180 : (absBeta - 90) * 8) + "px";
+	} // 地面の角度を更新　90°からの差が23°以上のときは位置を固定
+	el("highScale").style.translate = "0 " + (absBeta > 180 ? 0 : (absBeta - 90) * 8) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
+
+	// 傾きの角度を更新　常に真上を向くようにしたいので、傾ける角度は-gamma
+	el("ground").style.rotate = (-gamma || 0) + "deg";
+	el("highScale").style.rotate = (-gamma || 0) + "deg";
+	el("bankPointer").style.rotate = (-gamma || 0) + "deg";
+	bankPointer.clearRect(0,0, 400,225);
+	if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
+		bankPointer.strokeStyle = "#fb1";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, true);
+	} else {
+		bankPointer.strokeStyle = "white";
+		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
+	}
+
+	requestAnimationFrame(update);
+}
+
 // ここから設定に関するプログラム
 let isSettingsOpen = false; // 設定が開いているかどうか
 let settings = {};
@@ -523,102 +621,4 @@ function settingsDisplay() {
 		};
 	});
 	isSettingsOpen = !isSettingsOpen;
-}
-
-// ここからセンサーの値を取得するプログラム
-let altitude, speed, heading; // GPS
-let alpha, beta, gamma; // 角度
-let updateID; // 更新のID
-let accError = 9.8; // 加速度の誤差 初期値は重力加速度(の近似値)
-let doUpdateAccError = false; // 加速度の誤差を更新するかどうか
-let lastTime = performance.now(); // 加速度の更新時間
-
-function startSensors() {
-	el("startSensors").style.display = "none"; // ボタンを消す
-	if(updateID) navigator.geolocation.clearWatch(updateID); // すでに位置情報の更新を取得しているときはそれを止める
-	// iPhoneの位置情報の許可を取る
-	if(typeof DeviceOrientationEvent.requestPermission === "function") { // iPhone用の許可するための関数が存在するか
-		DeviceOrientationEvent.requestPermission().then(response => {
-			if(response === "granted") defineSensors();
-		});
-	} else defineSensors();
-}
-
-function defineSensors() {
-	updateID = navigator.geolocation.watchPosition((pos)=>{ // GPSの定義
-		const coords = pos.coords;
-		altitude = coords.altitude;
-		speed = coords.speed;
-		heading = coords.heading;
-	}, null, {
-		enableHighAccuracy: true, // 高精度な位置情報を取得する
-		maximumAge: 0,
-		timeout: 100
-	});
-
-	if(updateID == 1) { // 最初だけ定義をする
-		window.addEventListener("deviceorientation",(event)=>{ // 角度の定義
-			if(event.webkitCompassHeading) { // iPhoneの方位角はalphaではなくwebkitCompassHeadingに入っているので、そっちがあるときはそっちをheadingに入れる
-				alpha = event.webkitCompassHeading;
-			} else {
-				alpha = event.alpha;
-			}
-			beta = event.beta;
-			gamma = event.gamma;
-		});
-
-		window.addEventListener("devicemotion",(e)=>{ // 加速度の定義　GPSによって速度を取得する間を補完するためのもの
-			const acc = e.accelerationIncludingGravity;
-			if(acc) { // 加速度が取得できたときのみ実行
-				const accX = acc.x;
-				const accY = acc.y;
-				const accZ = acc.z;
-				const accSum = Math.sqrt(accX**2 + accY**2 + accZ**2);
-
-				const now = performance.now();
-				const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
-				if(doUpdateAccError) {
-					accError = accSum;
-					doUpdateAccError = false;
-				}
-				speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
-				lastTime = now;
-			}
-		});
-	};
-	update(); // 表示を更新し続けるトリガー
-};
-
-function update() {
-	el("outputAlpha").innerHTML = alpha ? alpha.toFixed(2) : 0;
-	el("outputBeta").innerHTML = beta ? beta.toFixed(2) : 0;
-	el("outputGamma").innerHTML = gamma ? gamma.toFixed(2) : 0;
-	el("outputAltitude").innerHTML = altitude ? altitude.toFixed(2) : 0;
-	el("outputSpeed").innerHTML = speed ? speed.toFixed(2) : 0;
-	el("outputHeading").innerHTML = heading ? heading.toFixed(2) : 0;
-
-	el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
-
-	const absBeta = Math.abs(beta) || 0;
-	if(Math.sign(beta-90) === -1) {
-		el("ground").style.translate = "-50% " + (absBeta < 67 ? -180 : (absBeta - 90) * 8) + "px";
-	} else {
-		el("ground").style.translate = "-50% " + (absBeta > 113 ? 180 : (absBeta - 90) * 8) + "px";
-	} // 地面の角度を更新　90°からの差が23°以上のときは位置を固定
-	el("highScale").style.translate = "0 " + (absBeta > 180 ? 0 : (absBeta - 90) * 8) + "px"; // 上下の角度を更新　90°以上のときは動かないようにしている
-
-	// 傾きの角度を更新　常に真上を向くようにしたいので、傾ける角度は-gamma
-	el("ground").style.rotate = (-gamma || 0) + "deg";
-	el("highScale").style.rotate = (-gamma || 0) + "deg";
-	el("bankPointer").style.rotate = (-gamma || 0) + "deg";
-	bankPointer.clearRect(0,0, 400,225);
-	if(Math.abs(gamma) >= 35) { // 角度にって色が変わるので、その処理
-		bankPointer.strokeStyle = "#fb1";
-		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, true);
-	} else {
-		bankPointer.strokeStyle = "white";
-		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
-	}
-
-	requestAnimationFrame(update);
 }
