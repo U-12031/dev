@@ -16,15 +16,16 @@
 			</div>
 			<canvas id="speedScale" width="90" height="600"></canvas>
 			<div id="speedNumParent">
-				<div class="settings" data-left="20" data-top="-20-">
-					<span>
-						UNIT TYPE
+				<div class="settings" data-left="20" data-top="-20-" style="width: 400px;">
+					<span>UNIT TYPE
 						<div class="valueWithLRBt" id="speedUnitType" data-possible-values='kn,km/s,m/s,MPH' data-value="kn"></div>
 					</span>
 					<br>
-					<span>
-						USE DEVICE-MOTION
+					<span>USE DEVICE-MOTION
 						<input type="checkbox" class="toggleBt" id="speedUseDeviceMotion" checked></input>
+					</span>
+					<span>DEVICE-MOTION OFFSET
+						<div class="rewritableVal" id="speedDeviceMotionOffset" data-step="0.001" data-value="9.8"></div>
 					</span>
 				</div>
 				<span>
@@ -50,16 +51,14 @@
 		</div>
 		<div id="altitudeMeter">
 			<div class="settings" data-bottom="20" data-right="40-">
-				<span>
-					DIVISION SIZE
-					<div class="valueWithSpinBt" id="altitudeDivisionSize" data-possible-values="1,2,5,10,20,50,100" data-value="10"></div>
+				<span>DIVISION SIZE
+					<div class="valueWithSpinBt" id="altitudeDivisionSize" data-possible-values="1,2,5,10,20,50,100" data-value="20"></div>
 				</span>
 			</div>
 			<canvas id="altitudeScale" width="90" height="600"></canvas>
 			<div id="altitudeNumParent">
 				<div class="settings" data-right="20" data-top="-20-">
-					<span>
-						UNIT TYPE
+					<span>UNIT TYPE
 						<div class="valueWithLRBt" id="altitudeUnitType" data-possible-values='ft,m,km' data-value="ft"></div>
 					</span>
 				</div>

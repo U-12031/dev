@@ -302,6 +302,7 @@ function defineSensors() {
 				if(doUpdateAccError) {
 					accError = accSum;
 					doUpdateAccError = false;
+					el("speedDeviceMotionOffset").value = accError.toFixed(3);
 				}
 				speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
 				lastTime = now;
@@ -355,7 +356,6 @@ window.onload = setSettings;
  * 設定の各要素の位置を指定します。
  * 設定の要素の位置の指定には、data-{top|bottom|left|right}属性(以下、data-*と呼びます)を使用します。
  * data-*属性の値には、要素の横幅や高さに対する距離を指定します(position;absolute時の値と同じです)。ただし、末尾に"+"か"-"がついていたら、要素の横幅や高さをそれぞれプラスとマイナスに追加します。
- * @memberof module:aircraft
 */
 function setSettings() {
 		// スピンボタン(数字を表示する場所と、数値を変更するプラス、マイナスのボタン)
@@ -510,6 +510,55 @@ function setSettings() {
 		element.addEventListener("click", () => {
 			data.value = !data.value;
 		});
+	});
+
+	document.querySelectorAll(".rewritableVal").forEach(element => {
+		const dataset = element.dataset;
+		let data = settings[element.id] = {};
+		data.initialVal = dataset.value;
+		const decimalPart = data.initialVal.split(".")[1];
+		const display = document.createElement("input");
+		const resetBt = document.createElement("button");
+		const setNowBt = document.createElement("button");
+
+		// 要素を設定する
+		display.value = data.initialVal;
+		display.type = "number";
+		display.step = dataset.step;
+		updateWritableVal();
+		display.classList.add("rewritableDisplay");
+		resetBt.textContent = "RESET";
+		resetBt.classList.add("resetBt");
+		setNowBt.textContent = "SET TO NOW";
+		setNowBt.classList.add("setNowBt");
+
+		// 要素を配置する
+		element.appendChild(display);
+		element.appendChild(resetBt);
+		element.appendChild(setNowBt);
+
+		// クリック時の処理を定義
+		resetBt.addEventListener("click", () => {
+			display.value = data.initialVal;
+			updateWritableVal();
+		});
+		setNowBt.addEventListener("click", () => {
+			doUpdateAccError = true;
+		});
+		display.addEventListener("change", () => {
+			updateWritableVal();
+		});
+		function updateWritableVal() {
+			accError = display.value;
+			const stepLog10 = Math.log10(dataset.step);
+			let [integerPart, decimalPart] = display.value.split(".");
+			if(decimalPart && decimalPart.length !== -stepLog10) {
+				decimalPart = decimalPart.padEnd(-stepLog10, "0");
+				decimalPart = decimalPart.slice(0, (-stepLog10));
+			}
+			const result = (integerPart + "." + decimalPart);
+			display.value = result;
+		}
 	});
 
 	allSettings.forEach(element => {
