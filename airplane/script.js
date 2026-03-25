@@ -513,8 +513,8 @@ function settingsDisplay() {
 		} else {
 			element.style.display = "block";
 		};
-		isSettingsOpen = !isSettingsOpen;
 	});
+	isSettingsOpen = !isSettingsOpen;
 }
 
 // ここからセンサーの値を取得するプログラム
