@@ -460,30 +460,30 @@ function setSettings() {
 			data.isProtrude = true;
 		} else if(data.pos[0].value > parent.offsetWidth || data.pos[1].value > parent.offsetHeight) { // 位置の指定が設定元の要素の幅や高さより大きいなら、その要素は設定元の要素から完全にはみ出している
 			data.isProtrude = true;
-			console.log(data.pos[0].value)
-			// 値が大きすぎててはみ出しているのをマイナスに指定したせいではみ出していることに変換する 図で考えてみると分かりやすいかも
-			if(data.pos[0].value > parent.offsetWidth) {
-				data.pos[0].direction = data.pos[0].direction === "left" ? "right" : "left"; // 方向を逆にする
-				data.pos[0].value -= parent.offsetWidth; // これは正の値になる
-				data.pos[0].value += element.offsetWidth;
-				data.pos[0].value *= -1; // マイナスにする
-			}
-			if(data.pos[1].value > parent.offsetHeight) { // 上のプログラムのy軸版
-				data.pos[1].direction = data.pos[1].direction === "top" ? "bottom" : "top";
-				data.pos[1].value -= parent.offsetHeight;
-				data.pos[1].value += element.offsetHeight;
-				data.pos[1].value *= -1;
-			}
 		} else {
 			data.isProtrude = false;
 		};
+		// 値が大きすぎててはみ出しているのをマイナスに指定したせいではみ出していることに変換する 図で考えてみると分かりやすいかも
+		if(data.pos[0].value > parent.offsetWidth) {
+			data.pos[0].direction = data.pos[0].direction === "left" ? "right" : "left"; // 方向を逆にする
+			data.pos[0].value -= parent.offsetWidth; // これは正の値になる
+			data.pos[0].value += element.offsetWidth;
+			data.pos[0].value *= -1; // マイナスにする
+		}
+		if(data.pos[1].value > parent.offsetHeight) { // 上のプログラムのy軸版
+			data.pos[1].direction = data.pos[1].direction === "top" ? "bottom" : "top";
+			data.pos[1].value -= parent.offsetHeight;
+			data.pos[1].value += element.offsetHeight;
+			data.pos[1].value *= -1;
+		}
+		console.log(parent.id, data.pos[0].direction, data.pos[0].value, data.pos[1].direction, data.pos[1].value, data.isProtrude, element.offsetWidth, element.offsetHeight, parent.offsetWidth, parent.offsetHeight);
 
 		if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
 			const line = document.createElement("div");
 			line.classList.add("settingsLine");
 			if(data.pos[0].value < -element.offsetWidth && data.pos[1].value < -element.offsetHeight) { // 要素が設定元の要素から左右にも上下にもはみ出しているときは、要素の左右から出て設定元の上下に付くような線を引く
 				line.style.width = (-data.pos[0].value - element.offsetWidth + 15) + "px"; // 線が設定元に付くときの余白を15pxにするために15を足す
-				line.style.height = (-data.pos[1].value - element.offsetHeight + (data.pos[1].direction === "top" ? element.clientHeight-15 : 15)) + "px"; // 線が要素に付くときの余白を作るために、上側にマイナスなら要素から線の上側の余白である15pxを引いた分を、下側にマイナスなら15pxを足す
+				line.style.height = (-data.pos[1].value - element.offsetHeight + 15) + "px"; // 線が要素に付くときの余白を作るために、上側にマイナスなら要素から線の上側の余白である15pxを引いた分を、下側にマイナスなら15pxを足す
 				line.style[data.pos[0].direction] = "100%";
 				line.style[data.pos[1].direction] = "calc(100% - 15px)";
 				line.style[data.pos[0].direction === "left" ? "borderRightWidth" : "borderLeftWidth"] = "2px"; // どちら側にマイナスになっているかによって線を引くこの要素のどちら側に線を作るかが変わるため、それを処理するプログラム

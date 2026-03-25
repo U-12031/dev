@@ -107,7 +107,7 @@ body {
 }
 
 #instruments {
-	padding-bottom: 50px; /* position:absoluteの要素も囲みきるため */
+	height: 100vh;
 	white-space: nowrap; /* 要素を横並びにするため */
 }
 
