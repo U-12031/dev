@@ -405,9 +405,13 @@ function setSettings() {
 	});
 
 	document.querySelectorAll(".toggleBt").forEach(element => {
-		const dataset = element.dataset;
 		let data = settings[element.id] = {};
-		data.value = dataset.value;
+		data.value = element.checked;
+
+		// クリック時の処理を定義
+		element.addEventListener("click", () => {
+			data.value = !data.value;
+		});
 	});
 
 	allSettings.forEach(element => {
@@ -481,7 +485,6 @@ function setSettings() {
 			data.pos[1].value += element.offsetHeight;
 			data.pos[1].value *= -1;
 		}
-		console.log(parent.id, data.pos[0].direction, data.pos[0].value, data.pos[1].direction, data.pos[1].value, data.isProtrude, element.offsetWidth, element.offsetHeight, parent.offsetWidth, parent.offsetHeight);
 
 		if(data.isProtrude) { // 要素が設定元の要素からはみ出しているときに線を引く
 			const line = document.createElement("div");

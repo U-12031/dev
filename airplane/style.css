@@ -106,6 +106,7 @@ body {
 
 .toggleBt:checked {
 	background-color: #321;
+	border-color: #430;
 
 	&::after {background-color: #e80;}
 }
