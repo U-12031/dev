@@ -44,8 +44,20 @@
 			<canvas id="symbol" width="400" height="430"></canvas>
 		</div>
 		<div id="altitudeMeter">
+			<div class="settings" data-bottom="20" data-right="40-">
+				<span>
+					DIVISION SIZE
+					<div class="valueWithSpinBt" id="altitudeDivisionSize" data-possible-values="1,2,5,10,20,50,100" data-value="10"></div>
+				</span>
+			</div>
 			<canvas id="altitudeScale" width="90" height="600"></canvas>
 			<div id="altitudeNumParent">
+				<div class="settings" data-left="-40-" data-bottom="-10-">
+					<span>
+						UNIT TYPE
+						<div class="valueWithLRBt" id="altitudeUnitType" data-possible-values='ft,m,km' data-value="ft"></div>
+					</span>
+				</div>
 				<span>
 					<span id="altitudeOtherPlaces">12</span>
 					<span id="altitudeThirdPlace">8</span>
