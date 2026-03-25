@@ -302,7 +302,7 @@ function defineSensors() {
 				if(doUpdateAccError) {
 					accError = accSum;
 					doUpdateAccError = false;
-					document.querySelectorAll("#speedDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
+					document.querySelectorAll("#speedDeviceMotionOffset > .rewritableDisplay")[0].value = accError.toFixed(3);
 					console.log(accError);
 				}
 				speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
