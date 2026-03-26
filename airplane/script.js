@@ -544,7 +544,6 @@ function setSettings() {
 		display.value = data.initialVal;
 		display.type = "number";
 		display.step = dataset.step;
-		updateWritableVal(element.id);
 		display.classList.add("rewritableDisplay");
 		resetBt.textContent = "RESET";
 		resetBt.classList.add("resetBt");
@@ -555,6 +554,8 @@ function setSettings() {
 		element.appendChild(display);
 		element.appendChild(resetBt);
 		element.appendChild(setNowBt);
+
+		updateWritableVal(element.id);
 
 		// クリック時の処理を定義
 		resetBt.addEventListener("click", () => {
