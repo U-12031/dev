@@ -318,7 +318,7 @@ function defineSensors() {
 				error.gamma = gamma;
 				gamma = 0;
 				doUpdateError.gamma = false;
-				document.querySelector("#betaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
+				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
 			}
 
 			radian.alpha = alpha * Math.PI / 180;
