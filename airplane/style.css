@@ -187,6 +187,7 @@ body {
 	height: 600px;
 	margin: 25px 0;
 	background-color: #444;
+	z-index: 1; /* これをしないと設定が#centerの背面になってしまう */
 }
 
 #speedNumParent, #altitudeNumParent {
