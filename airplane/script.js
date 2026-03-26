@@ -303,19 +303,19 @@ function defineSensors() {
 			gamma = e.gamma - error.gamma;
 
 			if(doUpdateError.alpha) { // 誤差の更新を申請されたときの処理
-				error.alpha = alpha;
+				error.alpha = alpha + error.alpha;
 				alpha = 0;
 				doUpdateError.alpha = false;
 				document.querySelector("#headingOffset > .rewritableDisplay").value = error.alpha.toFixed(3);
 			}
 			if(doUpdateError.beta) { // 同上
-				error.beta = beta;
+				error.beta = beta + error.beta;
 				beta = 0;
 				doUpdateError.beta = false;
 				document.querySelector("#betaOffset > .rewritableDisplay").value = error.beta.toFixed(3);
 			}
 			if(doUpdateError.gamma) { // 同上
-				error.gamma = gamma;
+				error.gamma = gamma + error.gamma;
 				gamma = 0;
 				doUpdateError.gamma = false;
 				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
