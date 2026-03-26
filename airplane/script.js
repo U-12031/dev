@@ -340,6 +340,7 @@ function defineSensors() {
 					beta = 90 - beta;
 				} else {
 					beta += 90;
+					beta *= -1;
 				};
 				gamma = (gamma - 180) % 360;
 			}
