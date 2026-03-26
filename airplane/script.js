@@ -518,6 +518,19 @@ function setSettings() {
 		});
 	});
 
+	function updateWritableVal(id) {
+		const display = document.querySelector(`#${id} .rewritableDisplay`);
+		accError = display.value;
+		const stepLog10 = Math.log10(el(id).dataset.step);
+		let [integerPart, decimalPart] = display.value.split(".");
+		if(decimalPart && decimalPart.length !== -stepLog10) {
+			decimalPart = decimalPart.padEnd(-stepLog10, "0");
+			decimalPart = decimalPart.slice(0, (-stepLog10));
+		}
+		const result = (integerPart + "." + decimalPart);
+		display.value = result;
+	}
+
 	document.querySelectorAll(".rewritableVal").forEach(element => {
 		const dataset = element.dataset;
 		let data = settings[element.id] = {};
@@ -531,7 +544,7 @@ function setSettings() {
 		display.value = data.initialVal;
 		display.type = "number";
 		display.step = dataset.step;
-		updateWritableVal();
+		updateWritableVal(element.id);
 		display.classList.add("rewritableDisplay");
 		resetBt.textContent = "RESET";
 		resetBt.classList.add("resetBt");
@@ -546,25 +559,14 @@ function setSettings() {
 		// クリック時の処理を定義
 		resetBt.addEventListener("click", () => {
 			display.value = data.initialVal;
-			updateWritableVal();
+			updateWritableVal(element.id);
 		});
 		setNowBt.addEventListener("click", () => {
 			doUpdateAccOffset = true;
 		});
 		display.addEventListener("change", () => {
-			updateWritableVal();
+			updateWritableVal(element.id);
 		});
-		function updateWritableVal() {
-			accError = display.value;
-			const stepLog10 = Math.log10(dataset.step);
-			let [integerPart, decimalPart] = display.value.split(".");
-			if(decimalPart && decimalPart.length !== -stepLog10) {
-				decimalPart = decimalPart.padEnd(-stepLog10, "0");
-				decimalPart = decimalPart.slice(0, (-stepLog10));
-			}
-			const result = (integerPart + "." + decimalPart);
-			display.value = result;
-		}
 	});
 
 	allSettings.forEach(element => {
