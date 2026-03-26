@@ -580,19 +580,19 @@ function setSettings() {
 		const display = document.querySelector(`#${id} .rewritableDisplay`);
 		switch(id) {
 			case "speedDeviceMotionOffset":
-				error.accSum = display.value;
+				error.accSum = Number(display.value);
 				break;
 			case "betaOffset":
-				error.beta = display.value;
+				error.beta = Number(display.value);
 				break;
 			case "gammaOffset":
-				error.gamma = display.value;
+				error.gamma = Number(display.value);
 				break;
 			case "altitudeDeviceMotionOffset":
-				error.accY = display.value;
+				error.accY = Number(display.value);
 				break;
 			case "headingOffset":
-				error.alpha = display.value;
+				error.alpha = Number(display.value);
 				break;
 			default:
 				console("updateWritableVal error"); // 一応のエラー出力
