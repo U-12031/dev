@@ -249,11 +249,24 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 
 // ここからセンサーの値を取得するプログラム
 let altitude, speed, heading; // GPS
+let accY; // headingの補完用の加速度
 let alpha, beta, gamma; // 角度
 let radian = {alpha, beta, gamma};
 let updateID; // 更新のID
-let accError = 9.8; // 加速度の誤差 初期値は重力加速度(の近似値)
-let doUpdateAccOffset = false; // 加速度の誤差を更新するかどうか
+let error = { // デバイスから取得したデータの誤差
+	accSum: 0,
+	accY: 0,
+	alpha: 0,
+	beta: 0,
+	gamma: 0
+};
+let doUpdateError = { // 誤差を更新するかどうか
+	accSum: false,
+	accY: false,
+	alpha: false,
+	beta: false,
+	gamma: false
+};
 let lastTime = performance.now(); // 加速度の更新時間
 
 function startSensors() {
@@ -289,6 +302,25 @@ function defineSensors() {
 			beta = event.beta;
 			gamma = event.gamma;
 
+			if(doUpdateError.alpha) { // 誤差の更新を申請されたときの処理
+				error.alpha = alpha;
+				alpha = 0;
+				doUpdateError.alpha = false;
+				document.querySelector("#headingOffset > .rewritableDisplay").value = error.alpha.toFixed(3);
+			}
+			if(doUpdateError.beta) { // 同上
+				error.beta = beta;
+				beta = 0;
+				doUpdateError.beta = false;
+				document.querySelector("#betaOffset > .rewritableDisplay").value = error.beta.toFixed(3);
+			}
+			if(doUpdateError.gamma) { // 同上
+				error.gamma = gamma;
+				gamma = 0;
+				doUpdateError.gamma = false;
+				document.querySelector("#betaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
+			}
+
 			radian.alpha = alpha * Math.PI / 180;
 			radian.beta = beta * Math.PI / 180;
 			radian.gamma = gamma * Math.PI / 180;
@@ -298,19 +330,28 @@ function defineSensors() {
 			const acc = e.acceleration;
 			if(acc) { // 加速度が取得できたときのみ実行
 				const accX = acc.x;
-				const accY = acc.y;
+				let accY = acc.y; // 一応変更される可能性がある
 				const accZ = acc.z;
-				const accSum = Math.sqrt(accX**2 + accY**2 + accZ**2);
+				let accSum = Math.sqrt(accX**2 + accY**2 + accZ**2); // accYと同じように変更される可能性がある
 
 				const now = performance.now();
 				const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
-				if(doUpdateAccOffset) {
-					accError = accSum;
-					doUpdateAccOffset = false;
+
+				if(doUpdateError.accSum) { // 角度のやつと同じ
+					error.accSum = accSum;
+					accSum = 0;
+					doUpdateError.accSum = false;
 					document.querySelector("#speedDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
-					console.log(accError);
 				}
-				speed += (accSum - accError) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
+				if(doUpdateError.accY) { // 同上
+					accError = accY;
+					accY = 0;
+					doUpdateError.accY = false;
+					document.querySelector("#headingDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
+				}
+
+				speed += (accSum - error.accSum) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
+				accY += (accY - error.accY) * dt; // 加速度から速度を求める 誤差を引いてdtをかけることで、前回の更新からの速度の変化量を求めて、それを今の速度に足す
 				lastTime = now;
 			}
 		});
@@ -520,7 +561,26 @@ function setSettings() {
 
 	function updateWritableVal(id) {
 		const display = document.querySelector(`#${id} .rewritableDisplay`);
-		accError = display.value;
+		switch(id) {
+			case "speedDeviceMotionOffset":
+				error.accSum = display.value;
+				break;
+			case "betaOffset":
+				error.beta = display.value;
+				break;
+			case "gammaOffset":
+				error.gamma = display.value;
+				break;
+			case "altitudeDeviceMotionOffset":
+				error.accY = display.value;
+				break;
+			case "headingOffset":
+				error.alpha = display.value;
+				break;
+			default:
+				console("updateWritableVal error"); // 一応のエラー出力
+				break;
+		}
 		const stepLog10 = Math.log10(el(id).dataset.step);
 		let [integerPart, decimalPart] = display.value.split(".");
 		if(decimalPart && decimalPart.length !== -stepLog10) {
@@ -565,7 +625,26 @@ function setSettings() {
 			updateWritableVal(element.id);
 		});
 		setNowBt.addEventListener("click", () => {
-			doUpdateAccOffset = true;
+			switch(element.id) {
+				case "speedDeviceMotionOffset":
+					doUpdateError.accSum = true;
+					break;
+				case "betaOffset":
+					doUpdateError.beta = true;
+					break;
+				case "gammaOffset":
+					doUpdateError.gamma = true;
+					break;
+				case "altitudeDeviceMotionOffset":
+					doUpdateError.accY = true;
+					break;
+				case "headingOffset":
+					doUpdateError.alpha = true;
+					break;
+				default:
+					console("setNowBt error"); // 一応のエラー出力
+					break;
+			}
 		});
 		display.addEventListener("change", () => {
 			updateWritableVal(element.id);
