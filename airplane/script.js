@@ -293,14 +293,14 @@ function defineSensors() {
 	});
 
 	if(updateID == 1) { // 最初だけ定義をする
-		window.addEventListener("deviceorientation",(event)=>{ // 角度の定義
-			if(event.webkitCompassHeading) { // iPhoneの方位角はalphaではなくwebkitCompassHeadingに入っているので、そっちがあるときはそっちをheadingに入れる
-				alpha = event.webkitCompassHeading;
+		window.addEventListener("deviceorientation",(e)=>{ // 角度の定義
+			if(e.webkitCompassHeading) { // iPhoneの方位角はalphaではなくwebkitCompassHeadingに入っているので、そっちがあるときはそっちをheadingに入れる
+				alpha = e.webkitCompassHeading - error.alpha;
 			} else {
-				alpha = event.alpha;
+				alpha = e.alpha - error.alpha;
 			}
-			beta = event.beta;
-			gamma = event.gamma;
+			beta = e.beta - error.beta;
+			gamma = e.gamma - error.gamma;
 
 			if(doUpdateError.alpha) { // 誤差の更新を申請されたときの処理
 				error.alpha = alpha;
@@ -344,7 +344,7 @@ function defineSensors() {
 					document.querySelector("#speedDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
 				}
 				if(doUpdateError.accY) { // 同上
-					accError = accY;
+					error.accY = accY;
 					accY = 0;
 					doUpdateError.accY = false;
 					document.querySelector("#headingDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
