@@ -306,7 +306,7 @@ function defineSensors() {
 				error.alpha = (alpha + error.alpha) % 360;
 				alpha = 0;
 				doUpdateError.alpha = false;
-				document.querySelector("#headingOffset > .rewritableDisplay").value = error.alpha.toFixed(3);
+				document.querySelector("#headingOffset > .rewritableDisplay").value = error.alpha.toString().toFixed(3);
 			}
 			if(doUpdateError.beta) { // 同上
 				if(beta + error.beta > 180 || beta + error.beta < -180) {
@@ -316,7 +316,7 @@ function defineSensors() {
 				};
 				beta = 0;
 				doUpdateError.beta = false;
-				document.querySelector("#betaOffset > .rewritableDisplay").value = error.beta.toFixed(3);
+				document.querySelector("#betaOffset > .rewritableDisplay").value = error.beta.toString().toFixed(3);
 			}
 			if(doUpdateError.gamma) { // 同上
 				if(gamma + error.gamma > 90 || gamma + error.gamma < -90) {
@@ -326,7 +326,7 @@ function defineSensors() {
 				}
 				gamma = 0;
 				doUpdateError.gamma = false;
-				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
+				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toString().toFixed(3);
 			}
 
 			if(settings.reverseBetaGamma.value) {
