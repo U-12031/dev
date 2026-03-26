@@ -321,6 +321,15 @@ function defineSensors() {
 				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
 			}
 
+			if(settings.reverseBetaGamma.value) {
+				const beforeBeta = beta;
+				beta = gamma;
+				gamma = beforeBeta;
+				const beforeBetaError = error.beta;
+				error.beta = error.gamma;
+				error.gamma = beforeBetaError;
+			}
+
 			radian.alpha = alpha * Math.PI / 180;
 			radian.beta = beta * Math.PI / 180;
 			radian.gamma = gamma * Math.PI / 180;
