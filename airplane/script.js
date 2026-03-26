@@ -526,7 +526,9 @@ function setSettings() {
 		if(decimalPart && decimalPart.length !== -stepLog10) {
 			decimalPart = decimalPart.padEnd(-stepLog10, "0");
 			decimalPart = decimalPart.slice(0, (-stepLog10));
-		}
+		} else if(!decimalPart && stepLog10 < 0) {
+			decimalPart = "0".repeat(-stepLog10);
+		};
 		const result = (integerPart + "." + decimalPart);
 		display.value = result;
 	}
