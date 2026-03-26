@@ -344,6 +344,7 @@ function defineSensors() {
 					beta += 90;
 					beta *= -1;
 				};
+				beta += 90;
 			}
 
 			radian.alpha = alpha * Math.PI / 180;
