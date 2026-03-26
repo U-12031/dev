@@ -306,7 +306,7 @@ body {
 	z-index: -1;
 }
 
-#center * {
+#center *:not(.settings, .settings *) {
 	display: block;
 	position: absolute;
 }

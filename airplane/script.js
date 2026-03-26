@@ -250,9 +250,10 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 // ここからセンサーの値を取得するプログラム
 let altitude, speed, heading; // GPS
 let alpha, beta, gamma; // 角度
+let radian = {alpha, beta, gamma};
 let updateID; // 更新のID
 let accError = 9.8; // 加速度の誤差 初期値は重力加速度(の近似値)
-let doUpdateAccError = false; // 加速度の誤差を更新するかどうか
+let doUpdateAccOffset = false; // 加速度の誤差を更新するかどうか
 let lastTime = performance.now(); // 加速度の更新時間
 
 function startSensors() {
@@ -273,9 +274,9 @@ function defineSensors() {
 		speed = coords.speed;
 		heading = coords.heading;
 	}, null, {
-		enableHighAccuracy: true, // 高精度な位置情報を取得する
-		maximumAge: 0,
-		timeout: 100
+		enableHighAccuracy: false, // 高精度な位置情報を取得する
+		maximumAge: 1000,
+		timeout: 2000
 	});
 
 	if(updateID == 1) { // 最初だけ定義をする
@@ -287,10 +288,14 @@ function defineSensors() {
 			}
 			beta = event.beta;
 			gamma = event.gamma;
+
+			radian.alpha = alpha * Math.PI / 180;
+			radian.beta = beta * Math.PI / 180;
+			radian.gamma = gamma * Math.PI / 180;
 		});
 
 		window.addEventListener("devicemotion",(e)=>{ // 加速度の定義　GPSによって速度を取得する間を補完するためのもの
-			const acc = e.accelerationIncludingGravity;
+			const acc = e.acceleration;
 			if(acc) { // 加速度が取得できたときのみ実行
 				const accX = acc.x;
 				const accY = acc.y;
@@ -299,9 +304,9 @@ function defineSensors() {
 
 				const now = performance.now();
 				const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
-				if(doUpdateAccError) {
+				if(doUpdateAccOffset) {
 					accError = accSum;
-					doUpdateAccError = false;
+					doUpdateAccOffset = false;
 					document.querySelector("#speedDeviceMotionOffset > .rewritableDisplay").value = accError.toFixed(3);
 					console.log(accError);
 				}
@@ -544,7 +549,7 @@ function setSettings() {
 			updateWritableVal();
 		});
 		setNowBt.addEventListener("click", () => {
-			doUpdateAccError = true;
+			doUpdateAccOffset = true;
 		});
 		display.addEventListener("change", () => {
 			updateWritableVal();

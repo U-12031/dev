@@ -24,7 +24,7 @@
 						<input type="checkbox" class="toggleBt" id="speedUseDeviceMotion" checked></input>
 					</span>
 					<span>OFFSET
-						<div class="rewritableVal" id="speedDeviceMotionOffset" data-step="0.001" data-value="9.8"></div>
+						<div class="rewritableVal" id="speedDeviceMotionOffset" data-step="0.001" data-value="0.0"></div>
 					</span>
 				</div>
 				<span>
@@ -38,6 +38,14 @@
 			</div>
 		</div>
 		<div id="center">
+			<div class="settings" data-right="20" data-bottom="20" style="grid-template-columns: 1fr 1fr;gap: 10px;">
+				<span>BETA OFFSET
+					<div class="rewritableVal" id="betaOffset" data-step="0.1" data-value="0.0"></div>
+				</span>
+				<span>GAMMA OFFSET
+					<div class="rewritableVal" id="gammaOffset" data-step="0.1" data-value="0.0"></div>
+				</span>
+			</div>
 			<div id="ground"></div>
 			<div id="high">
 				<canvas id="highScale" width="1400" height="1400"></canvas>
@@ -56,9 +64,15 @@
 			</div>
 			<canvas id="altitudeScale" width="90" height="600"></canvas>
 			<div id="altitudeNumParent">
-				<div class="settings" data-right="20" data-top="-20-">
-					<span>UNIT TYPE
+				<div class="settings" data-right="20" data-top="-20-" style="grid-template-columns: 1fr 1fr;gap: 10px;">
+					<span style="grid-column: 1/3;">UNIT TYPE
 						<div class="valueWithLRBt" id="altitudeUnitType" data-possible-values='ft,m,km' data-value="ft"></div>
+					</span>
+					<span>DEVICE-MOTION
+						<input type="checkbox" class="toggleBt" id="altitudeUseDeviceMotion" checked></input>
+					</span>
+					<span>OFFSET
+						<div class="rewritableVal" id="altitudeDeviceMotionOffset" data-step="0.001" data-value="0.0"></div>
 					</span>
 				</div>
 				<span>
@@ -73,6 +87,11 @@
 			</div>
 		</div>
 		<div id="heading">
+			<div class="settings" data-top="50-" data-right="140">
+				<span>OFFSET
+					<div class="rewritableVal" id="headingOffset" data-step="0.1" data-value="0.0"></div>
+				</span>
+			</div>
 			<canvas id="headingScale" width="600" height="600"></canvas>
 			<canvas id="headingPointer" width="600" height="50"></canvas>
 		</div>
