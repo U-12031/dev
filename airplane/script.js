@@ -338,7 +338,7 @@ function defineSensors() {
 				error.gamma = beforeBetaError;
 				if(beta >= 0) {
 					beta = 90 - beta;
-					gamma = (gamma - 180) % 360;
+					// gamma = (gamma - 180) % 360;
 				} else {
 					beta += 90;
 					beta *= -1;
