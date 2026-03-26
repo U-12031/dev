@@ -338,11 +338,11 @@ function defineSensors() {
 				error.gamma = beforeBetaError;
 				if(beta >= 0) {
 					beta = 90 - beta;
+					gamma = (gamma - 180) % 360;
 				} else {
 					beta += 90;
+					beta *= -1;
 				};
-				beta *= -1;
-				// gamma = (gamma - 180) % 360;
 			}
 
 			radian.alpha = alpha * Math.PI / 180;
