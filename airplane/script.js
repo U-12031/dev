@@ -403,10 +403,12 @@ function update() {
 	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
 	el("speedOncePlaceBottom").innerHTML = speedOncePlaceRounded === 0 ? 9 : speedOncePlaceRounded - 1;
 	if(Math.round(speedDecimal) === 0) {
-		el("speedOncePlace").style.translate = `0 ${speedDecimal}em`;
+		el("speedOncePlace").style.translate = `0 calc(${speedDecimal}em - ${speedDecimal * 20}%)`;
 	} else {
-		el("speedOncePlace").style.translate = `0 ${speedDecimal-1}em`;
+		el("speedOncePlace").style.translate = `0 calc(${speedDecimal-1}em - ${(speedDecimal-1) * 20}%)`;
 	};
+
+	// ここから高度の更新
 
 	requestAnimationFrame(update);
 }
