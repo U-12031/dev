@@ -878,7 +878,10 @@ function settingsDisplay() {
 
 function enableCamera() {
 	settingsDisplay(); // 設定を全て非表示にする
-	navigator.mediaDevices.getUserMedia({ video: true })
+	navigator.mediaDevices.getUserMedia({ video: {
+		aspectRatio: 16 / 9,
+    facingMode: { ideal: "environment" }
+	} })
   .then(stream => {
     el("camera").srcObject = stream;
 		el("camera").style.display = "block";
