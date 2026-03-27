@@ -223,6 +223,7 @@ drawLine(headingPointer, [[285,25], [315,25], [300,47]], true, false);
 
 // ここからセンサーの値を取得するプログラム
 let altitude, speed, heading; // GPS
+let beforeSpeed, beforeAltitude; // 前のティックのを保存する用
 let accY; // headingの補完用の加速度
 let alpha, beta, gamma; // 角度
 let radian = {alpha, beta, gamma};
@@ -395,10 +396,26 @@ function update() {
 	speed = Number(el("testSpeed").value); // テスト用 あとで消す
 	const NUM_SPACE = " "; // 数字と同じ大きさの空白
 	const speedDecimal = speed % 1;
-	speed = Math.floor(speed).toString().padStart(3, NUM_SPACE);
-	const speedOncePlace = Number(speed.slice(-1)); // 1の位
+	const filledSpeed = Math.floor(speed).toString().padStart(3, NUM_SPACE);
+	const speedOncePlace = Number(filledSpeed.slice(-1)); // 1の位
 	const speedOncePlaceRounded = (speedOncePlace + Math.round(speedDecimal)) % 10;
-	el("speedOtherPlaces").innerHTML = speed.slice(0,-1);
+	if(speed > beforeSpeed && speed%10 < beforeSpeed%10) { // スピードの1の位が繰り上がったら
+		el("speedOtherPlaces").style.animation = "none";
+		void el("speedOtherPlaces").offsetWidth; // 一回初期化
+		el("speedOtherPlaces").style.animation = "numCarryUp .1s ease-out forwards";
+		setTimeout(() => {
+			el("speedOtherPlaces").innerHTML = filledSpeed.slice(0,-1);
+		}, 50);
+	} else if(speed < beforeSpeed && speed%10 > beforeSpeed%10) { // スピードの10の位が繰り下がったら
+		el("speedOtherPlaces").style.animation = "none";
+		void el("speedOtherPlaces").offsetWidth; // 一回初期化
+		el("speedOtherPlaces").style.animation = "numCarryDown .1s ease-out forwards";
+		setTimeout(() => {
+			el("speedOtherPlaces").innerHTML = filledSpeed.slice(0,-1);
+		}, 50);
+	} else {
+		el("speedOtherPlaces").innerHTML = filledSpeed.slice(0,-1);
+	}
 	el("speedOncePlaceTop").innerHTML = speedOncePlaceRounded === 9 ? 0 : speedOncePlaceRounded + 1;
 	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
 	el("speedOncePlaceBottom").innerHTML = speedOncePlaceRounded === 0 ? 9 : speedOncePlaceRounded - 1;
@@ -407,8 +424,56 @@ function update() {
 	} else {
 		el("speedOncePlace").style.translate = `0 calc(${speedDecimal-1}em - ${(speedDecimal-1) * 20}%)`;
 	};
+	beforeSpeed = speed;
 
 	// ここから高度の更新
+	try {
+	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
+	const divisionSize = settings.altitudeDivisionSize.value;
+	const altitudeDecimal = altitude % 1;
+	const filledAltitude = Math.floor(altitude).toString().padStart(5, NUM_SPACE);
+	const altitudeUnderOncePlace = Number(filledAltitude.slice(-1)) + altitudeDecimal; // 1以下の位
+	const altitudeTwoPlaces = Number(filledAltitude.slice(-2)); // 1~10の位
+	const altitudeTwoPlacesRounded = Math.trunc((altitudeTwoPlaces + Math.round(divisionSize==1 ? altitudeDecimal : altitudeUnderOncePlace)) % 100 / divisionSize) * divisionSize;
+	if(altitude > beforeAltitude && altitude%100 < beforeAltitude%100) { // スピードの10の位が繰り上がったら
+		el("altitudeOtherPlaces").style.animation = "none";
+		void el("altitudeOtherPlaces").offsetWidth; // 一回初期化
+		el("altitudeOtherPlaces").style.animation = "numCarryUp .1s ease-out forwards";
+		setTimeout(() => {
+			el("altitudeOtherPlaces").innerHTML = filledAltitude.slice(0,-2);
+		}, 50);
+	} else if(altitude < beforeAltitude && altitude%100 > beforeAltitude%100) { // スピードの100の位が繰り下がったら
+		el("altitudeOtherPlaces").style.animation = "none";
+		void el("altitudeOtherPlaces").offsetWidth; // 一回初期化
+		el("altitudeOtherPlaces").style.animation = "numCarryDown .1s ease-out forwards";
+		setTimeout(() => {
+			el("altitudeOtherPlaces").innerHTML = filledAltitude.slice(0,-2);
+		}, 50);
+	} else {
+		el("altitudeOtherPlaces").innerHTML = altitude < 100 ? "0".padStart(3, NUM_SPACE) : filledAltitude.slice(0,-2);
+	}
+	if(divisionSize == 1) {
+	el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 9 ? 0 : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
+	el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 9 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
+	} else {
+	el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 90 ? "00" : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
+	el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 90 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
+	}
+	el("altitudeOncePlaceMiddle").innerHTML = altitudeTwoPlacesRounded.toString().padStart(2, "0");
+	if(divisionSize == 1) {
+		if(Math.round(altitudeDecimal) === 0) {
+			el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeDecimal}em - ${altitudeDecimal * 20}%)`;
+		} else {
+			el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeDecimal-1}em - ${(altitudeDecimal-1) * 20}%)`;
+		}
+	} else if(Math.round(altitudeUnderOncePlace/divisionSize) === 0) {
+		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize}em - ${altitudeUnderOncePlace * 2}%)`;
+	} else {
+		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize-1}em - ${(altitudeUnderOncePlace/divisionSize-1) * 20}%)`;
+	}
+	console.log(altitudeUnderOncePlace)
+	beforeAltitude = altitude;
+}catch(error) {console.log(`${error.name}\n${error.stack}`)}
 
 	requestAnimationFrame(update);
 }

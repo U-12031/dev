@@ -19,6 +19,20 @@
 	/* CodeSwing用、あとで消す */
 }
 
+@keyframes numCarryUp {
+	0% {translate: 0 0;}
+	49.99% {translate: 0 100%;}
+	50% {translate: 0 -100%;}
+	100% {translate: 0 0;}
+}
+
+@keyframes numCarryDown {
+	0% {translate: 0 0;}
+	49.99% {translate: 0 -100%;}
+	50% {translate: 0 100%;}
+	100% {translate: 0 0;}
+}
+
 * {
 	color: white;
 	font-family: "originalFont";
