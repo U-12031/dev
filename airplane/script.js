@@ -361,12 +361,12 @@ function defineSensors() {
 };
 
 function update() {
-	el("outputAlpha").innerHTML = alpha ? alpha.toFixed(2) : 0;
-	el("outputBeta").innerHTML = beta ? beta.toFixed(2) : 0;
-	el("outputGamma").innerHTML = gamma ? gamma.toFixed(2) : 0;
-	el("outputAltitude").innerHTML = altitude ? altitude.toFixed(2) : 0;
-	el("outputSpeed").innerHTML = speed ? speed.toFixed(2) : 0;
-	el("outputHeading").innerHTML = heading ? heading.toFixed(2) : 0;
+	el("outputAlpha").innerHTML = alpha ? alpha : 0;
+	el("outputBeta").innerHTML = beta ? beta : 0;
+	el("outputGamma").innerHTML = gamma ? gamma : 0;
+	el("outputAltitude").innerHTML = altitude ? altitude : 0;
+	el("outputSpeed").innerHTML = speed ? speed : 0;
+	el("outputHeading").innerHTML = heading ? heading : 0;
 
 	el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
 
