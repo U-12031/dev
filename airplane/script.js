@@ -425,6 +425,8 @@ function update() {
 		el("speedOncePlace").style.translate = `0 calc(${speedDecimal-1}em - ${(speedDecimal-1) * 20}%)`;
 	};
 	beforeSpeed = speed;
+	const scaleDivisionSize = settings.speedDivisionSize.value;
+
 
 	// ここから高度の更新
 	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
@@ -452,11 +454,11 @@ function update() {
 		el("altitudeOtherPlaces").innerHTML = altitude < 100 ? "0".padStart(3, NUM_SPACE) : filledAltitude.slice(0,-2);
 	}
 	if(divisionSize == 1) {
-	el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 9 ? 0 : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
-	el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 9 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
+		el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 9 ? "00" : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
+		el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 99 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
 	} else {
-	el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 90 ? "00" : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
-	el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 90 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
+		el("altitudeOncePlaceTop").innerHTML = altitudeTwoPlacesRounded === 90 ? "00" : (altitudeTwoPlacesRounded + divisionSize).toString().padStart(2, "0");
+		el("altitudeOncePlaceBottom").innerHTML = altitudeTwoPlacesRounded === 0 ? 90 : (altitudeTwoPlacesRounded - divisionSize).toString().padStart(2, "0");
 	}
 	el("altitudeOncePlaceMiddle").innerHTML = altitudeTwoPlacesRounded.toString().padStart(2, "0");
 	if(divisionSize == 1) {
