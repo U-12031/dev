@@ -292,7 +292,7 @@ function defineSensors() {
 					beta *= -1;
 				};
 				beta += 90;
-				gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
+				// gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
 				beta = 90 + ((beta-90) * -1);
 			}
 
@@ -505,7 +505,7 @@ function update() {
 }
 
 // ここから設定に関するプログラム
-let isSettingsOpen = false; // 設定が開いているかどうか
+let isSettingsOpen = true; // 設定が開いているかどうか
 let settings = {};
 const allSettings = document.querySelectorAll(".settings");
 window.onload = setSettings;
