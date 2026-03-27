@@ -402,6 +402,11 @@ function update() {
 	el("speedOncePlaceTop").innerHTML = speedOncePlaceRounded === 9 ? 0 : speedOncePlaceRounded + 1;
 	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
 	el("speedOncePlaceBottom").innerHTML = speedOncePlaceRounded === 0 ? 9 : speedOncePlaceRounded - 1;
+	if(Math.round(speedDecimal) === 0) {
+		
+	} else {
+
+	}
 
 	requestAnimationFrame(update);
 }
