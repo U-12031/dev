@@ -393,7 +393,7 @@ function update() {
 	}
 
 	// ここから速度の更新
-	const baceSpeed = speed;
+	const baseSpeed = speed;
 	switch(settings.speedUnitType.value) { // メートル毎秒から他の単位へ変換
 		case "kn":
 			speed *= 1.94384;
@@ -439,11 +439,11 @@ function update() {
 	};
 	const speedDivisionSize = settings.speedDivisionSize.value;
 	el("speedScale").style.translate = `0 ${speed%speedDivisionSize/speedDivisionSize * 50}px`;
-	speed = baceSpeed;
+	speed = baseSpeed;
 	beforeSpeed = speed;
 	
 	// ここから高度の更新
-	const baceAltitude = altitude;
+	const baseAltitude = altitude;
 	switch(settings.altitudeUnitType.value) { // メートルから他の単位へ変換
 		case "ft":
 			altitude *= 3.28084;
@@ -498,7 +498,7 @@ function update() {
 	}
 	const altitudeDivisionSize = settings.altitudeScaleDivisionSize.value;
 	el("altitudeScale").style.translate = `0 ${altitude%altitudeDivisionSize/altitudeDivisionSize * 75}px`;
-	altitude = baceAltitude;
+	altitude = baseAltitude;
 	beforeAltitude = altitude;
 
 	requestAnimationFrame(update);
@@ -879,7 +879,7 @@ function settingsDisplay() {
 }
 
 function enableCamera() {
-	settingsDisplay(); // 設定を全て非表示にする
+	if(isSettingsOpen) settingsDisplay(); // 設定を全て非表示にする
 	navigator.mediaDevices.getUserMedia({ video: {
 		aspectRatio: 4 / 3,
     facingMode: { ideal: "environment" }
