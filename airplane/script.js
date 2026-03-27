@@ -460,14 +460,14 @@ function update() {
 	const altitudeUnderOncePlace = Number(filledAltitude.slice(-1)) + altitudeDecimal; // 1以下の位
 	const altitudeTwoPlaces = Number(filledAltitude.slice(-2)); // 1~10の位
 	const altitudeTwoPlacesRounded = Math.trunc((altitudeTwoPlaces + Math.round(divisionSize==1 ? altitudeDecimal : altitudeUnderOncePlace)) % 100 / divisionSize) * divisionSize;
-	if(altitude > beforeAltitude && altitude%100 < beforeAltitude%100) { // スピードの10の位が繰り上がったら
+	if(altitude > beforeAltitude && altitude%100 < beforeAltitude%100) { // 高度の10の位が繰り上がったら
 		el("altitudeOtherPlaces").style.animation = "none";
 		void el("altitudeOtherPlaces").offsetWidth; // 一回初期化
 		el("altitudeOtherPlaces").style.animation = "numCarryUp .1s ease-out forwards";
 		setTimeout(() => {
 			el("altitudeOtherPlaces").innerHTML = filledAltitude.slice(0,-2);
 		}, 50);
-	} else if(altitude < beforeAltitude && altitude%100 > beforeAltitude%100) { // スピードの100の位が繰り下がったら
+	} else if(altitude < beforeAltitude && altitude%100 > beforeAltitude%100) { // 高度の100の位が繰り下がったら
 		el("altitudeOtherPlaces").style.animation = "none";
 		void el("altitudeOtherPlaces").offsetWidth; // 一回初期化
 		el("altitudeOtherPlaces").style.animation = "numCarryDown .1s ease-out forwards";
@@ -861,6 +861,7 @@ function setSettings() {
 		}
 	});
 };
+settingsDisplay();
 
 function settingsDisplay() {
 	allSettings.forEach(element => {

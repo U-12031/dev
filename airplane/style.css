@@ -162,7 +162,7 @@ body {
 }
 
 .settings {
-	display: none; /* 初期値として */
+	display: grid; /* 初期値として */
 	position: absolute;
 	padding: 10px;
 	background-color: #3f393699;
