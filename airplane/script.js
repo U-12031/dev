@@ -302,6 +302,25 @@ function defineSensors() {
 			beta = e.beta - error.beta;
 			gamma = e.gamma - error.gamma;
 
+			if(settings.reverseBetaGamma.value) {
+				const beforeBeta = beta;
+				beta = gamma;
+				gamma = beforeBeta;
+				const beforeBetaError = error.beta;
+				error.beta = error.gamma;
+				error.gamma = beforeBetaError;
+				if(beta >= 0) {
+					beta = 90 - beta;
+					gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
+				} else {
+					beta += 90;
+					beta *= -1;
+				};
+				beta += 90;
+				gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
+				beta = 90 + ((beta-90) * -1);
+			}
+
 			if(doUpdateError.alpha) { // 誤差の更新を申請されたときの処理
 				error.alpha = (alpha + error.alpha) % 360;
 				alpha = 0;
@@ -327,25 +346,6 @@ function defineSensors() {
 				gamma = 0;
 				doUpdateError.gamma = false;
 				document.querySelector("#gammaOffset > .rewritableDisplay").value = error.gamma.toFixed(3);
-			}
-
-			if(settings.reverseBetaGamma.value) {
-				const beforeBeta = beta;
-				beta = gamma;
-				gamma = beforeBeta;
-				const beforeBetaError = error.beta;
-				error.beta = error.gamma;
-				error.gamma = beforeBetaError;
-				if(beta >= 0) {
-					beta = 90 - beta;
-					gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
-				} else {
-					beta += 90;
-					beta *= -1;
-				};
-				beta += 90;
-				gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
-				beta = 90 + ((beta-90) * -1);
 			}
 
 			radian.alpha = alpha * Math.PI / 180;
