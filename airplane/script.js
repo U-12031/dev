@@ -178,15 +178,15 @@ drawLine(symbol, [[367,210], [267,210], [267,250], [277,250], [277,220], [367,22
 speedScale.fillStyle = "white";
 speedScale.lineWidth = LINE_WIDTH;
 speedScale.strokeStyle = "white";
-for(let i=0;i<13;i++) {
-	const linePositionY = 600 - (600/12*i);
+for(let i=0;i<12;i++) {
+	const linePositionY = 550 - (600/12*i);
 	drawLine(speedScale, [[72, linePositionY], [90, linePositionY]]);
 }
 
 altitudeScale.fillStyle = "white";
 altitudeScale.lineWidth = LINE_WIDTH;
 altitudeScale.strokeStyle = "white";
-for(let i=0;i<9;i++) {
+for(let i=0;i<8;i++) {
 	const linePositionY = 600 * (i/8);
 	drawLine(altitudeScale, [[0, linePositionY], [18, linePositionY]]);
 }
@@ -425,8 +425,8 @@ function update() {
 		el("speedOncePlace").style.translate = `0 calc(${speedDecimal-1}em - ${(speedDecimal-1) * 20}%)`;
 	};
 	beforeSpeed = speed;
-	const scaleDivisionSize = settings.speedDivisionSize.value;
-
+	const speedDivisionSize = settings.speedDivisionSize.value;
+	el("speedScale").style.translate = `0 ${speed%speedDivisionSize/speedDivisionSize * 50}px`;
 
 	// ここから高度の更新
 	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
@@ -473,6 +473,8 @@ function update() {
 		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize-1}em - ${(altitudeUnderOncePlace/divisionSize-1) * 20}%)`;
 	}
 	beforeAltitude = altitude;
+	const altitudeDivisionSize = settings.altitudeDivisionSize.value;
+	el("altitudeScale").style.translate = `0 ${altitude%altitudeDivisionSize/altitudeDivisionSize * 75}px`;
 
 	requestAnimationFrame(update);
 }
