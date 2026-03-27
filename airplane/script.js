@@ -331,7 +331,7 @@ function defineSensors() {
 				if(beta + error.beta > 180 || beta + error.beta < -180) {
 					error.beta = (beta + error.beta + 180) % 360 - 180;
 				} else {
-					error.beta = beta + error.beta;
+					error.beta = (beta + error.beta) - 90;
 				};
 				beta = 0;
 				doUpdateError.beta = false;
@@ -417,7 +417,7 @@ function update() {
 		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 	}
 
-
+	// el("speed")
 
 	requestAnimationFrame(update);
 }
