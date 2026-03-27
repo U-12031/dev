@@ -861,7 +861,6 @@ function setSettings() {
 		}
 	});
 };
-requestAnimationFrame(settingsDisplay);
 
 function settingsDisplay() {
 	allSettings.forEach(element => {
