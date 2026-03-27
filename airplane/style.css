@@ -376,7 +376,7 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	translate: -50% -50%;
+	transform: translateX(25%);
 }
 
 #high #highScale {
