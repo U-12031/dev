@@ -393,6 +393,7 @@ function update() {
 	}
 
 	// ここから速度の更新
+	const baceSpeed = speed;
 	switch(settings.speedUnitType.value) { // メートル毎秒から他の単位へ変換
 		case "kn":
 			speed *= 1.94384;
@@ -436,11 +437,13 @@ function update() {
 	} else {
 		el("speedOncePlace").style.translate = `0 calc(${speedDecimal-1}em - ${(speedDecimal-1) * 20}%)`;
 	};
-	beforeSpeed = speed;
 	const speedDivisionSize = settings.speedDivisionSize.value;
 	el("speedScale").style.translate = `0 ${speed%speedDivisionSize/speedDivisionSize * 50}px`;
-
+	speed = baceSpeed;
+	beforeSpeed = speed;
+	
 	// ここから高度の更新
+	const baceAltitude = altitude;
 	switch(settings.altitudeUnitType.value) { // メートルから他の単位へ変換
 		case "ft":
 			altitude *= 3.28084;
@@ -493,9 +496,10 @@ function update() {
 	} else {
 		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize-1}em - ${(altitudeUnderOncePlace/divisionSize-1) * 20}%)`;
 	}
-	beforeAltitude = altitude;
 	const altitudeDivisionSize = settings.altitudeScaleDivisionSize.value;
 	el("altitudeScale").style.translate = `0 ${altitude%altitudeDivisionSize/altitudeDivisionSize * 75}px`;
+	altitude = baceAltitude;
+	beforeAltitude = altitude;
 
 	requestAnimationFrame(update);
 }
