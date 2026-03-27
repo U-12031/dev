@@ -335,16 +335,12 @@ body {
 	height: 100%;
 }
 
-#highScale {scale: 1 1;}
-
 #center *:not(.settings, .settings *) {
 	display: block;
 	position: absolute;
 }
 
-.camera#ground {
-	background-color: transparent;
-}
+.camera#ground {background-color: transparent;}
 
 #ground {
 	top: 50%;
@@ -356,11 +352,7 @@ body {
 	height: 100%;
 }
 
-.camera#high {
-	width: 100%;
-	height: 100%;
-	clip-path: none;
-}
+.camera#high {clip-path: none;}
 
 #high {
 	position: absolute;
@@ -376,8 +368,6 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	/* translate: -50% -50%; */
-	transform: translate(-50% -50%);
 }
 
 #high #highScale {
@@ -478,7 +468,7 @@ body {
 
 @keyframes fadeIn {
 	from {opacity: 0;}
-	to {opacity: .8;}
+	to {opacity: .7;}
 }
 
 @keyframes speedMeterMove {
