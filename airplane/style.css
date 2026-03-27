@@ -451,6 +451,7 @@ body {
 #startSensors {
 	background-color: #09e; /* 初期値として */
 	animation: startSensorsAni 1s ease-in-out infinite;
+	display: none; /* 初期値として */
 }
 
 #enableCamera {
