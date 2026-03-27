@@ -372,6 +372,12 @@ body {
 	clip-path: path("M 0 130 L 25 130 A 200 200 0 0 1 375 130 L 400 130, 400 500, 0 500");
 }
 
+#high .camera#highScale {
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
 #high #highScale {
 	top: -485px;
 	left: -500px;
@@ -470,7 +476,7 @@ body {
 
 @keyframes fadeIn {
 	from {opacity: 0;}
-	to {opacity: 1;}
+	to {opacity: .8;}
 }
 
 @keyframes speedMeterMove {
