@@ -322,6 +322,17 @@ body {
 	overflow: hidden;
 }
 
+#center {
+	/* position: fixed; */
+	/* top: 0; */
+	/* left: 0; */
+	/* margin: 0; */
+	/* width: 100%; */
+	/* height: 100%; */
+}
+
+#highScale {scale: 1 1;}
+
 #center *:not(.settings, .settings *) {
 	display: block;
 	position: absolute;
@@ -333,15 +344,19 @@ body {
 	translate: -50% 0;
 	transform-origin: top center;
 	background-color: #840;
-	width: 1400px;
+	width: 14000px;
 	height: 100%;
 }
 
 #high {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
 	width: 400px;
-	height: 500px;
+	height: 430px;
 	clip-path: path("M 0 130 L 25 130 A 200 200 0 0 1 375 130 L 400 130, 400 500, 0 500");
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 #high #highScale {
@@ -350,13 +365,12 @@ body {
 	transform-origin: center;
 }
 
-/* #highScale {scale: 1 1;} */
-
 #bank {
 	height: 50%;
 	width: 400px;
 	top: 0;
-	left: 0;
+	left: 50%;
+	translate: -50% 0;
 }
 
 #bankScale {
@@ -367,6 +381,12 @@ body {
 #bankPointer {
 	top: 25px;
 	transform-origin: center 200px;
+}
+
+#symbol {
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
 }
 
 #heading {
@@ -442,10 +462,10 @@ body {
 
 @keyframes speedMeterMove {
 	from {translate: 0 0;}
-	to {translate: -120px 0;}
+	to {translate: -100px 0;}
 }
 
 @keyframes altitudeMeterMove {
 	from {translate: 0 0;}
-	to {translate: 120px 0;}
+	to {translate: 100px 0;}
 }
