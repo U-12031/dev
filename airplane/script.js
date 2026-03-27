@@ -427,7 +427,6 @@ function update() {
 	beforeSpeed = speed;
 
 	// ここから高度の更新
-	try {
 	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
 	const divisionSize = settings.altitudeDivisionSize.value;
 	const altitudeDecimal = altitude % 1;
@@ -471,9 +470,7 @@ function update() {
 	} else {
 		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize-1}em - ${(altitudeUnderOncePlace/divisionSize-1) * 20}%)`;
 	}
-	console.log(altitudeUnderOncePlace)
 	beforeAltitude = altitude;
-}catch(error) {console.log(`${error.name}\n${error.stack}`)}
 
 	requestAnimationFrame(update);
 }
