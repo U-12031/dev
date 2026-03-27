@@ -397,7 +397,7 @@ function update() {
 	const speedDecimal = speed % 1;
 	speed = Math.floor(speed).toString().padStart(3, NUM_SPACE);
 	const speedOncePlace = Number(speed.slice(-1)); // 1の位
-	const speedOncePlaceRounded = speedOncePlace + Math.round(speedDecimal) % 10;
+	const speedOncePlaceRounded = (speedOncePlace + Math.round(speedDecimal)) % 10;
 	el("speedOtherPlaces").innerHTML = speed.slice(0,-1);
 	el("speedOncePlaceTop").innerHTML = speedOncePlaceRounded === 9 ? 0 : speedOncePlaceRounded + 1;
 	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
