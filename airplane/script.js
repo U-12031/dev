@@ -887,12 +887,11 @@ function enableCamera() {
 		el("camera").style.display = "block";
 		el("camera").style.animation = "fadeIn 1s 1s linear forwards";
 		el("enableCamera").style.opacity = 0; // opacityはここ以外で操作しないので永久に表示しない
-		el("speedMeter").style.translate = "-220px 0";
-		el("altitudeMeter").style.translate = "-220px 0";
 		el("speedMeter").style.animation = "speedMeterMove 1s ease-in-out forwards"; // スピードメーターを動かす
 		el("altitudeMeter").style.animation = "altitudeMeterMove 1s ease-in-out forwards"; // アルティメーターを動かす
 		el("center").classList.add("camera");
 		el("ground").classList.add("camera");
+		el("high").classList.add("camera");
   })
   .catch(err => {
     console.error("カメラ取得エラー:", err);
