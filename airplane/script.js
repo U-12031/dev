@@ -1,29 +1,3 @@
-// ここにテスト用のメーターの処理部分があります
-el("input1").oninput = function() {
-	el("output1").innerHTML = this.value + " deg";
-	el("ground").style.rotate = this.value + "deg";
-	el("highScale").style.rotate = this.value + "deg";
-	el("bankPointer").style.rotate = this.value + "deg";
-	bankPointer.clearRect(0,0, 400,225);
-	if(Math.abs(this.value) >= 35) {
-		bankPointer.strokeStyle = "#fb1";
-		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, true);
-	} else {
-		bankPointer.strokeStyle = "white";
-		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
-	}
-}
-el("input2").oninput = function() {
-	el("output2").innerHTML = this.value + " px";
-	el("ground").style.translate = "calc(-50% + " + this.value + "px) " + el("input3").value + "px";
-	el("highScale").style.translate = this.value + "px " + el("input3").value + "px";
-}
-el("input3").oninput = function() {
-	el("output3").innerHTML = this.value + " px";
-	el("ground").style.translate = "calc(-50% + " + el("input2").value + "px) " + this.value + "px";
-	el("highScale").style.translate = el("input2").value + "px " + this.value + "px";
-}
-
 /** この関数は、取得したidを持つ要素を返します。
  * @param {string} id - 取得する要素のidです。
  * @returns {ElementObject} そのidを持つ要素です。
@@ -417,7 +391,17 @@ function update() {
 		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 	}
 
-	// el("speed")
+	// ここから速度の更新
+	speed = el("testSpeed").value; // テスト用 あとで消す
+	const NUM_SPACE = " "; // 数字と同じ大きさの空白
+	const speedDecimal = speed % 1;
+	speed = Math.floor(speed).toString().padStart(3, NUM_SPACE);
+	const speedOncePlace = Number(speed.slice(-1)); // 1の位
+	const speedOncePlaceRounded = speedOncePlace + Math.round(speedDecimal) % 10;
+	el("speedOtherPlaces").innerHTML = speed.slice(0,-1);
+	el("speedOncePlaceTop").innerHTML = speedOncePlaceRounded === 9 ? 0 : speedOncePlaceRounded + 1;
+	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
+	el("speedOncePlaceBottom").innerHTML = speedOncePlaceRounded === 0 ? 9 : speedOncePlaceRounded - 1;
 
 	requestAnimationFrame(update);
 }

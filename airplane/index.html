@@ -30,9 +30,9 @@
 				<span>
 					<span id="speedOtherPlaces">18</span>
 					<span id="speedOncePlace">
-						<span class="oncePlaceTop">1</span>
-						<span class="oncePlaceMiddle">0</span>
-						<span class="oncePlaceBottom">9</span>
+						<span class="oncePlaceTop" id="speedOncePlaceTop">1</span>
+						<span class="oncePlaceMiddle" id="speedOncePlaceMiddle">0</span>
+						<span class="oncePlaceBottom" id="speedOncePlaceBottom">9</span>
 					</span>
 				</span>
 			</div>
@@ -82,9 +82,9 @@
 					<span id="altitudeOtherPlaces">12</span>
 					<span id="altitudeThirdPlace">8</span>
 					<span id="altitudeTwoPlaces">
-						<span class="oncePlaceTop">20</span>
-						<span class="oncePlaceMiddle">00</span>
-						<span class="oncePlaceBottom">80</span>
+						<span class="oncePlaceTop" id="altitudeOncePlaceTop">20</span>
+						<span class="oncePlaceMiddle" id="altitudeOncePlaceMiddle">00</span>
+						<span class="oncePlaceBottom" id="altitudeOncePlaceBottom">80</span>
 					</span>
 				</span>
 			</div>
@@ -102,11 +102,7 @@
 		<img id="settingsImg" src="data/settingsImg.svg" width="50" onclick="settingsDisplay()">
 	</div>
 	<br><br><br><br>TEST<br>
-	ROTATE<input type="range" id="input1" min="-50" value="0" max="50" style="width: 300px;"><span id="output1">0 deg</span>
-	<br>
-	X-TRANSFORM<input type="range" id="input2" min="-500" value="0" max="500" style="width: 300px;"><span id="output2">0 px</span>
-	<br>
-	Y-TRANSFORM<input type="range" id="input3" min="-500" value="0" max="500" style="width: 300px;"><span id="output3">0 px</span>
+	<br>Speed: <input type="range" id="testSpeed" min="0" max="100" value="0">
 	<br>Alpha: <span id="outputAlpha">0</span>
 	<br>Beta: <span id="outputBeta">0</span>
 	<br>Gamma: <span id="outputGamma">0</span>
