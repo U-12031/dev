@@ -193,6 +193,10 @@ body {
 	z-index: -2;
 }
 
+.camera#speedMeter, .camera#altitudeMeter {
+	background-color: #444d;
+}
+
 #speedMeter, #altitudeMeter {
 	position: relative;
 	display: inline-block;
