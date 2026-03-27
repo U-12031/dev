@@ -330,7 +330,7 @@ function defineSensors() {
 
 		window.addEventListener("devicemotion",(e)=>{ // 加速度の定義　GPSによって速度を取得する間を補完するためのもの
 			const acc = e.acceleration;
-			if(acc) { // 加速度が取得できたときのみ実行
+			if(acc && el("speedUseDeviceMotion").checked) { // 加速度が取得できたときのみ実行
 				const accX = acc.x;
 				let accY = acc.y; // 一応変更される可能性がある
 				const accZ = acc.z;
