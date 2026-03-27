@@ -324,34 +324,15 @@ body {
 	left: 0;
 }
 
-@keyframes centerCameraMove {
-	0% {
-		position: relative;
-		background-color: #09e;
-	}
-	50% {
-		position: fixed;
-		background-color: transparent;
-		width: 400px;
-		height: 430px;
-		border-radius: 50px;
-		margin: 85px 30px;
-	}
-	100% {
-		width: 100%;
-		height: 100%;
-		border-radius: 0;
-		margin: 0;
-	}
-}
-
-#center {
-	/* position: fixed; */
-	/* top: 0; */
-	/* left: 0; */
-	/* margin: 0; */
-	/* width: 100%; */
-	/* height: 100%; */
+.camera#center {
+	background-color: transparent;
+	border-radius: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
 }
 
 #highScale {scale: 1 1;}
@@ -359,6 +340,10 @@ body {
 #center *:not(.settings, .settings *) {
 	display: block;
 	position: absolute;
+}
+
+.camera#ground {
+	background-color: transparent;
 }
 
 #ground {
@@ -484,11 +469,11 @@ body {
 }
 
 @keyframes speedMeterMove {
-	from {translate: 0 0;}
-	to {translate: -100px 0;}
+	from {translate: -100px 0;}
+	to {translate: -200px 0;}
 }
 
 @keyframes altitudeMeterMove {
-	from {translate: 0 0;}
-	to {translate: 100px 0;}
+	from {translate: -100px 0;}
+	to {translate: 200px 0;}
 }
