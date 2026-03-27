@@ -393,7 +393,6 @@ function update() {
 	}
 
 	// ここから速度の更新
-	speed = Number(el("testSpeed").value); // テスト用 あとで消す
 	switch(settings.speedUnitType.value) { // メートル毎秒から他の単位へ変換
 		case "kn":
 			speed *= 1.94384;
@@ -442,7 +441,6 @@ function update() {
 	el("speedScale").style.translate = `0 ${speed%speedDivisionSize/speedDivisionSize * 50}px`;
 
 	// ここから高度の更新
-	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
 	switch(settings.altitudeUnitType.value) { // メートルから他の単位へ変換
 		case "ft":
 			altitude *= 3.28084;
