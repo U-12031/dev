@@ -350,6 +350,8 @@ body {
 	transform-origin: center;
 }
 
+/* #highScale {scale: 1 1;} */
+
 #bank {
 	height: 50%;
 	width: 400px;
