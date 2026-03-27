@@ -392,7 +392,7 @@ function update() {
 	}
 
 	// ここから速度の更新
-	speed = el("testSpeed").value; // テスト用 あとで消す
+	speed = Number(el("testSpeed").value); // テスト用 あとで消す
 	const NUM_SPACE = " "; // 数字と同じ大きさの空白
 	const speedDecimal = speed % 1;
 	speed = Math.floor(speed).toString().padStart(3, NUM_SPACE);
@@ -403,10 +403,10 @@ function update() {
 	el("speedOncePlaceMiddle").innerHTML = speedOncePlaceRounded;
 	el("speedOncePlaceBottom").innerHTML = speedOncePlaceRounded === 0 ? 9 : speedOncePlaceRounded - 1;
 	if(Math.round(speedDecimal) === 0) {
-		
+		el("speedOncePlace").style.translate = `0 ${speedDecimal}em`;
 	} else {
-
-	}
+		el("speedOncePlace").style.translate = `0 ${speedDecimal-1}em`;
+	};
 
 	requestAnimationFrame(update);
 }
