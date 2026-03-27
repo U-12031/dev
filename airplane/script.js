@@ -895,6 +895,8 @@ function enableCamera() {
 		el("center").classList.add("camera");
 		el("ground").classList.add("camera");
 		el("high").classList.add("camera");
+		el("speedMeter").classList.add("camera");
+		el("altitudeMeter").classList.add("camera");
   })
   .catch(err => {
     console.error("カメラ取得エラー:", err);
