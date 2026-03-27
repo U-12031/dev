@@ -868,6 +868,11 @@ function settingsDisplay() {
 			element.style.display = "grid";
 		};
 	});
+	if(isSettingsOpen) {
+		el("enableCamera").style.display = "none";
+	} else {
+		el("enableCamera").style.display = "block";
+	}
 	isSettingsOpen = !isSettingsOpen;
 }
 
