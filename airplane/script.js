@@ -345,6 +345,7 @@ function defineSensors() {
 				};
 				beta += 90;
 				gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
+				beta = 90 + ((beta-90) * -1);
 			}
 
 			radian.alpha = alpha * Math.PI / 180;
@@ -415,6 +416,8 @@ function update() {
 		bankPointer.strokeStyle = "white";
 		drawLine(bankPointer, [[200,3], [185,23], [215,23]], true, false);
 	}
+
+
 
 	requestAnimationFrame(update);
 }
