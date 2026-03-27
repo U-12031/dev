@@ -470,10 +470,10 @@ body {
 
 @keyframes speedMeterMove {
 	from {translate: -200px 0;}
-	to {translate: -300px 0;}
+	to {translate: -220px 0;}
 }
 
 @keyframes altitudeMeterMove {
 	from {translate: -200px 0;}
-	to {translate: 300px 0;}
+	to {translate: 220px 0;}
 }
