@@ -889,6 +889,7 @@ function enableCamera() {
 		el("enableCamera").style.opacity = 0; // opacityはここ以外で操作しないので永久に表示しない
 		el("speedMeter").style.animation = "speedMeterMove 1s ease-in-out forwards"; // スピードメーターを動かす
 		el("altitudeMeter").style.animation = "altitudeMeterMove 1s ease-in-out forwards"; // アルティメーターを動かす
+		el("center").style.animation = "centerCameraMove 2s ease-in-out forwards"; // 中心を動かす
   })
   .catch(err => {
     console.error("カメラ取得エラー:", err);
