@@ -443,6 +443,16 @@ function update() {
 
 	// ここから高度の更新
 	altitude = Number(el("testAltitude").value); // テスト用 あとで消す
+	switch(settings.altitudeUnitType.value) { // メートルから他の単位へ変換
+		case "ft":
+			altitude *= 3.28084;
+			break;
+		case "m":
+			break;
+		case "km":
+			altitude /= 1000;
+			break;
+	}
 	const divisionSize = settings.altitudeDivisionSize.value;
 	const altitudeDecimal = altitude % 1;
 	const filledAltitude = Math.floor(altitude).toString().padStart(5, NUM_SPACE);
@@ -486,7 +496,7 @@ function update() {
 		el("altitudeTwoPlaces").style.translate = `0 calc(${altitudeUnderOncePlace/divisionSize-1}em - ${(altitudeUnderOncePlace/divisionSize-1) * 20}%)`;
 	}
 	beforeAltitude = altitude;
-	const altitudeDivisionSize = settings.altitudeDivisionSize.value;
+	const altitudeDivisionSize = settings.altitudeScaleDivisionSize.value;
 	el("altitudeScale").style.translate = `0 ${altitude%altitudeDivisionSize/altitudeDivisionSize * 75}px`;
 
 	requestAnimationFrame(update);
