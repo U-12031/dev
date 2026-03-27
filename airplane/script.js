@@ -879,7 +879,7 @@ function settingsDisplay() {
 function enableCamera() {
 	settingsDisplay(); // 設定を全て非表示にする
 	navigator.mediaDevices.getUserMedia({ video: {
-		aspectRatio: 16 / 9,
+		aspectRatio: 4 / 3,
     facingMode: { ideal: "environment" }
 	} })
   .then(stream => {
