@@ -398,14 +398,17 @@ function update() {
 	switch(settings.speedUnitType.value) { // メートル毎秒から他の単位へ変換
 		case "kn":
 			speed *= 1.94384;
+			beforeSpeed *= 1.94384;
 			break;
 		case "km/h":
 			speed *= 3.6;
+			beforeSpeed *= 3.6;
 			break;
 		case "m/s":
 			break;
 		case "MPH":
 			speed *= 2.23694;
+			beforeSpeed *= 2.23694
 			break;
 	}
 	const NUM_SPACE = " "; // 数字と同じ大きさの空白
@@ -448,11 +451,13 @@ function update() {
 	switch(settings.altitudeUnitType.value) { // メートルから他の単位へ変換
 		case "ft":
 			altitude *= 3.28084;
+			beforeAltitude *= 3.28084;
 			break;
 		case "m":
 			break;
 		case "km":
 			altitude /= 1000;
+			beforeAltitude /= 1000;
 			break;
 	}
 	const divisionSize = settings.altitudeDivisionSize.value;
