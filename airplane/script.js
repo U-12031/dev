@@ -274,8 +274,13 @@ function defineSensors() {
 			} else {
 				alpha = e.alpha - error.alpha;
 			}
-			beta = e.beta - error.beta;
-			gamma = e.gamma - error.gamma;
+			if(el("reverseBetaGamma") == "true") {
+				beta = e.beta - error.gamma;
+				gamma = e.gamma - error.beta;
+			} else {
+				beta = e.beta - error.beta;
+				gamma = e.gamma - error.gamma;
+			}
 
 			if(settings.reverseBetaGamma.value) {
 				const beforeBeta = beta;
@@ -301,35 +306,19 @@ function defineSensors() {
 			}
 			if(doUpdateError.beta) { // 同上
 				if(beta + error.beta > 180 || beta + error.beta < -180) {
-					if(Boolean(el("reverseBetaGamma").checked)) {
-						error.gamma = (beta + error.beta + 180) % 360 - 180;
-						} else {
 							error.beta = (beta + error.beta + 180) % 360 - 180;
-						}
 				} else {
-					if(Boolean(el("reverseBetaGamma").checked)) {
-						error.gamma = (beta + error.beta) - 90;
-					} else{
 						error.beta = (beta + error.beta) - 90;
-					}
-				};
+				}
 				beta = 0;
 				doUpdateError.beta = false;
 				document.querySelector("#betaOffset > .rewritableDisplay").value = error.beta.toFixed(3);
 			}
 			if(doUpdateError.gamma) { // 同上
 				if(gamma + error.gamma > 90 || gamma + error.gamma < -90) {
-					if(Boolean(el("reverseBetaGamma").checked)) {
-						error.beta = (gamma + error.gamma + 90) % 180 - 90;
-					} else {
 						error.gamma = (gamma + error.gamma + 90) % 180 - 90;
-					}
 				} else {
-					if(Boolean(el("reverseBetaGamma").checked)) {
-						error.beta = gamma + error.gamma;
-					} else {
 							error.gamma = gamma + error.gamma;
-					}
 				}
 				gamma = 0;
 				doUpdateError.gamma = false;
