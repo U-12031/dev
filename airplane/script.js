@@ -311,13 +311,13 @@ function defineSensors() {
 			}
 			if(doUpdateError.gamma) { // 同上
 				if(gamma + error.gamma > 90 || gamma + error.gamma < -90) {
-					if(el("reverseBetaGamma").checked) {
+					if(Boolean(el("reverseBetaGamma").checked)) {
 						error.beta = (gamma + error.gamma + 90) % 180 - 90;
 					} else {
 						error.gamma = (gamma + error.gamma + 90) % 180 - 90;
 					}
 				} else {
-					if(el("reverseBetaGamma").checked) {
+					if(Boolean(el("reverseBetaGamma").checked)) {
 						error.beta = gamma + error.gamma;
 					} else {
 							error.gamma = gamma + error.gamma;
