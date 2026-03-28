@@ -293,7 +293,7 @@ function defineSensors() {
 				};
 				beta += 90;
 				// gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
-				beta = 90 + ((beta-90) * -1);
+				// beta = 90 + ((beta-90) * -1);
 			}
 
 			if(doUpdateError.alpha) { // 誤差の更新を申請されたときの処理
