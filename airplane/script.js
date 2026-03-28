@@ -399,7 +399,7 @@ function update() {
 		case "kn":
 			speed *= 1.94384;
 			break;
-		case "km/s":
+		case "km/h":
 			speed *= 3.6;
 			break;
 		case "m/s":
