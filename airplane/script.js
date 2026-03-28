@@ -334,7 +334,8 @@ function defineSensors() {
 				const accX = acc.x;
 				let accY = acc.y; // 一応変更される可能性がある
 				const accZ = acc.z;
-				let accSum = Math.sqrt(accX**2 + accY**2 + accZ**2); // accYと同じように変更される可能性がある
+				const accAdded = (accX**2 * Math.sign(accX)) + (accY**2 * Math.sign(accY)) + (accZ**2 * Math.sign(accZ));
+				let accSum = Math.sqrt(Math.abs(accAdded)) * Math.sign(accAdded); // accYと同じように変更される可能性がある
 
 				const now = performance.now();
 				const dt = (now - lastTime) / 1000; // 前回の更新からの時間(秒)
