@@ -370,7 +370,7 @@ function update() {
 	el("outputSpeed").innerHTML = speed ? speed : 0;
 	el("outputHeading").innerHTML = heading ? heading : 0;
 
-	el("headingScale").style.rotate = (alpha || 0) + "deg"; // 方位を更新
+	el("headingScale").style.rotate = (-alpha || 0) + "deg"; // 方位を更新
 
 	const absBeta = Math.abs(beta) || 0;
 	if(Math.sign(beta-90) === -1) {
