@@ -281,9 +281,6 @@ function defineSensors() {
 				const beforeBeta = beta;
 				beta = gamma;
 				gamma = beforeBeta;
-				const beforeBetaError = error.beta;
-				error.beta = error.gamma;
-				error.gamma = beforeBetaError;
 				if(beta >= 0) {
 					beta = 90 - beta;
 					gamma = (180-Math.abs(gamma)) * Math.sign(gamma);
