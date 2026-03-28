@@ -301,9 +301,17 @@ function defineSensors() {
 			}
 			if(doUpdateError.beta) { // 同上
 				if(beta + error.beta > 180 || beta + error.beta < -180) {
-					error.beta = (beta + error.beta + 180) % 360 - 180;
+					if(Boolean(el("reverseBetaGamma").checked)) {
+						error.gamma = (beta + error.beta + 180) % 360 - 180;
+						} else {
+							error.beta = (beta + error.beta + 180) % 360 - 180;
+						}
 				} else {
-					error.beta = (beta + error.beta) - 90;
+					if(Boolean(el("reverseBetaGamma").checked)) {
+						error.gamma = (beta + error.beta) - 90;
+					} else{
+						error.beta = (beta + error.beta) - 90;
+					}
 				};
 				beta = 0;
 				doUpdateError.beta = false;
