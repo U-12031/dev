@@ -62,10 +62,15 @@ body {overflow: hidden;}
 #timeLeftMin::after {content: "分";}
 #timeLeftSec::after {content: "秒";}
 
-#timeLeftGraph {
+#timeLeftGraphParent {
 	display: block;
 	width: calc(100vw - 140px);
 	height: 50px;
 	margin: 10px auto;
+	background-color: #bfea;
+}
+
+#timeLeftGraph {
+	height: 100%;
 	background-color: #adf;
 }

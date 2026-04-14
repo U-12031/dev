@@ -164,6 +164,9 @@ const SUBJECT_DATA = {
 	LHR: {
 		name: "LHR",
 		color: "#ccc"
+	},
+	afterSchool: {
+		name: "学校外"
 	}
 }
 
@@ -192,6 +195,9 @@ function timeUpdate() {
 	}
 	el("secondTime").innerHTML = "." + addZero(now.s);
 	el("secondTime").style.opacity = 1 - now.ms / 1000;
+
+	updateTimeTable();
+
 	requestAnimationFrame(timeUpdate);
 }
 
@@ -199,12 +205,13 @@ nowUpdate();
 el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
 el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
 timeUpdate();
+updateTimeTable(true);
 
-function updateTimeTable() {
+function updateTimeTable(isFirstTime=false) {
 	nowUpdate();
 	let week = now.d;
 	let time = now.h * 60 + now.mi;
-	let todayDailyRoutine = week == 4 ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
+	let todayDailyRoutine = (week == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 	let nowWorkingOn;
 
 	for(let i = 0; i < todayDailyRoutine.length; i++) {
@@ -213,6 +220,23 @@ function updateTimeTable() {
 			break;
 		}
 	}
-	if(nowWorkingOn) {nowWorkingOn = ["afterSchool",[],[]]};
+	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
 
+	if(now.s == 0 || isFirstTime) {
+		el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
+		// if(nowWorkingOn[0] == "afterSchool") {
+		if(false) {
+			el("timeLeftText").style.display = "none";
+			el("timeLeftGraph").style.display = "none";
+		} else {
+			el("timeLeftText").style.display = "inline";
+			el("timeLeftGraph").style.display = "block";
+		}
+	}
+
+	let timeLeft = (nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (now.h * 3600 + now.mi * 60 + now.s + now.ms / 1000);
+	el("timeLeftMin").innerHTML = addZero(Math.floor(timeLeft / 60));
+	el("timeLeftSec").innerHTML = addZero(Math.floor(timeLeft % 60));
+	let timeLeftPercent = (timeLeft / ((nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (nowWorkingOn[1][0] * 3600 + nowWorkingOn[1][1] * 60))) * 100;
+	el("timeLeftGraph").style.width = timeLeftPercent + "%";
 }
