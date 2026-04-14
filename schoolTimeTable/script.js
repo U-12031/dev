@@ -53,8 +53,9 @@ const DAILY_ROUTINE = { // 日課表
     ["SHR2", [15, 15], [15, 25]],
 	]
 }
-const TIME_TABLE = {
-	monday: [
+const TIME_TABLE = [
+	undefined,
+	[
 		"languageCulture",
 		"health",
 		"mathA",
@@ -63,7 +64,7 @@ const TIME_TABLE = {
 		"globalLife",
 		null
 	],
-	tuesday: [
+	[
 		"mathI",
 		"public",
 		"japanese",
@@ -72,7 +73,7 @@ const TIME_TABLE = {
 		"industry",
 		null
 	],
-	wednesday: [
+	[
 		"englishI",
 		"sport",
 		"information",
@@ -81,7 +82,7 @@ const TIME_TABLE = {
 		"LHR",
 		"indonesiaI"
 	],
-	thursday: [
+	[
 		"englishExpressionI",
 		"englishExpressionI",
 		"science",
@@ -90,7 +91,7 @@ const TIME_TABLE = {
 		"mathA",
 		null
 	],
-	friday: [
+	[
 		"englishExpressionI",
 		"englishExpressionI",
 		"science",
@@ -99,7 +100,7 @@ const TIME_TABLE = {
 		"mathA",
 		null
 	]
-};
+];
 const SUBJECT_DATA = {
 	languageCulture: {
 		name: "言語文化",
@@ -217,6 +218,7 @@ function updateTimeTable(isFirstTime=false) {
 	let time = now.h * 60 + now.mi;
 	let todayDailyRoutine = (week == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 	let nowWorkingOn;
+	let nowSubject;
 
 	for(let i = 0; i < todayDailyRoutine.length; i++) {
 		if(time >= todayDailyRoutine[i][1][0] * 60 + todayDailyRoutine[i][1][1] && time < todayDailyRoutine[i][2][0] * 60 + todayDailyRoutine[i][2][1]) {
@@ -231,8 +233,13 @@ function updateTimeTable(isFirstTime=false) {
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
-			el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
+			if(Number(nowWorkingOn[0][0]) == nowWorkingOn[0][0]) {
+				nowSubject = TIME_TABLE[now.w][Number(nowWorkingOn[0][0])-1]
+			} else if(nowWorkingOn[0] === "lunch") {
+				nowSubject = "lunch";
+			}
+			el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 		}
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftText").style.display = "none";
