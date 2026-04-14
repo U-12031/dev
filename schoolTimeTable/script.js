@@ -165,6 +165,10 @@ const SUBJECT_DATA = {
 		name: "LHR",
 		color: "#ccc"
 	},
+	containsAfter: {
+		name: "休み時間",
+		color: "#fff"
+	},
 	afterSchool: {
 		name: "学校外"
 	}
@@ -223,14 +227,19 @@ function updateTimeTable(isFirstTime=false) {
 	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
 
 	if(now.s == 0 || isFirstTime) {
-		el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
-		// if(nowWorkingOn[0] == "afterSchool") {
-		if(false) {
+		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) {
+			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
+			el("nowSubject").style.setProperty("--afterText", "\" です\"");
+		} else {
+			el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
+			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
+		}
+		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftText").style.display = "none";
-			el("timeLeftGraph").style.display = "none";
+			el("timeLeftGraphParent").style.display = "none";
 		} else {
 			el("timeLeftText").style.display = "inline";
-			el("timeLeftGraph").style.display = "block";
+			el("timeLeftGraphParent").style.display = "block";
 		}
 	}
 
