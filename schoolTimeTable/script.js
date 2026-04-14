@@ -215,5 +215,4 @@ function updateTimeTable() {
 	}
 	if(nowWorkingOn) {nowWorkingOn = ["afterSchool",[],[]]};
 
-	
 }

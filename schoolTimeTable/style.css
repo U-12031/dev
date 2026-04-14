@@ -29,9 +29,7 @@ body {overflow: hidden;}
 	text-align: right;
 }
 
-#date ,#secondTime {
-	font-size: .75em;
-}
+#date, #secondTime {font-size: .75em;}
 
 #main {
 	position: absolute;
@@ -40,6 +38,7 @@ body {overflow: hidden;}
 	transform: translate(-50%, -50%);
 	font-size: 1.5rem;
 	line-height: 2em;
+	text-align: center;
 
 	&>* {
 		font-weight: bolder;
@@ -62,3 +61,11 @@ body {overflow: hidden;}
 #timeLeftText::before {content: "残り";}
 #timeLeftMin::after {content: "分";}
 #timeLeftSec::after {content: "秒";}
+
+#timeLeftGraph {
+	display: block;
+	width: calc(100vw - 140px);
+	height: 50px;
+	margin: 10px auto;
+	background-color: #adf;
+}
