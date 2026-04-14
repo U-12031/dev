@@ -7,19 +7,25 @@
 
 * {font-family: "originalFont";}
 
-#timeParent {
+body {overflow: hidden;}
+
+#titleAndDate {
 	position: absolute;
-	right: 0;
 	top: 0;
-	padding: 5px;
+	left: 0;
+	display: flex;
+	justify-content: space-between;
+	width: 100vw;
+	padding: 2px 5px;
 	font-weight: bolder;
 	font-size: 2.5rem;
 	line-height: 1em;
 	border: 0 solid black;
-	border-left-width: 2px;
 	border-bottom-width: 2px;
 }
 
-#secondTime {
+#dateParent {padding-right: 10px;}
+
+#date ,#secondTime {
 	font-size: .75em;
 }

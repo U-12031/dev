@@ -27,6 +27,8 @@ function nowUpdate() {
 
 function timeUpdate() {
 	nowUpdate();
+
+	el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
 	el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi)
 	el("secondTime").innerHTML = "." + addZero(now.s);
 	el("secondTime").style.opacity = 1 - now.ms / 1000;
