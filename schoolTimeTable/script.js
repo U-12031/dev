@@ -9,6 +9,162 @@ let now = { // nowTimeから分離して使う関数
 	mi: null,
 	s: null,
 	ms: null
+};
+// ここの日課表と時間割は全て例です。
+const DAILY_ROUTINE = { // 日課表
+	regular: [
+		["SHR1", [9, 0], [9, 10]],
+		["after-SHR1", [9, 10], [9, 15]],
+		["1st", [9, 15], [10, 0]],
+		["after-1st", [10, 0], [10, 10]],
+    ["2nd", [10, 10], [10, 55]],
+		["after-2nd", [10, 55], [11, 5]],
+    ["3rd", [11, 5], [11, 50]],
+		["after-3rd", [11, 50], [12, 0]],
+    ["4th", [12, 0], [12, 45]],
+    ["lunch", [12, 45], [13, 25]],
+		["after-lunch", [13, 25], [13, 30]],
+    ["5th", [13, 30], [14, 15]],
+		["after-5th", [14, 15], [14, 25]],
+    ["6th", [14, 25], [15, 10]],
+		["after-6th", [15, 10], [15, 15]],
+    ["cleaning", [15, 15], [15, 25]],
+		["after-cleaning", [15, 25], [15, 30]],
+    ["SHR2", [15, 30], [15, 40]],
+		["after-SHR2", [15, 40], [16, 0]],
+    ["7th", [16, 0], [16, 45]]
+	],
+	thursday: [
+		["SHR1", [9, 0], [9, 10]],
+		["after-SHR1", [9, 10], [9, 15]],
+		["1st", [9, 15], [10, 0]],
+		["after-1st", [10, 0], [10, 10]],
+    ["2nd", [10, 10], [10, 55]],
+		["after-2nd", [10, 55], [11, 5]],
+    ["3rd", [11, 5], [11, 50]],
+		["after-3rd", [11, 50], [12, 0]],
+    ["4th", [12, 0], [12, 45]],
+    ["lunch", [12, 45], [13, 25]],
+		["after-lunch", [13, 25], [13, 30]],
+    ["5th", [13, 30], [14, 15]],
+		["after-5th", [14, 15], [14, 25]],
+    ["6th", [14, 25], [15, 10]],
+		["after-6th", [15, 10], [15, 15]],
+    ["SHR2", [15, 15], [15, 25]],
+	]
+}
+const TIME_TABLE = {
+	monday: [
+		"languageCulture",
+		"health",
+		"mathA",
+		"history",
+		"globalLife",
+		"globalLife",
+		null
+	],
+	tuesday: [
+		"mathI",
+		"public",
+		"japanese",
+		"sport",
+		"industry",
+		"industry",
+		null
+	],
+	wednesday: [
+		"englishI",
+		"sport",
+		"information",
+		"information",
+		"mathI",
+		"LHR",
+		"indonesiaI"
+	],
+	thursday: [
+		"englishExpressionI",
+		"englishExpressionI",
+		"science",
+		"science",
+		"englishI",
+		"mathA",
+		null
+	],
+	friday: [
+		"englishExpressionI",
+		"englishExpressionI",
+		"science",
+		"science",
+		"englishI",
+		"mathA",
+		null
+	]
+};
+const SUBJECT_DATA = {
+	languageCulture: {
+		name: "言語文化",
+		color: "#fcd"
+	},
+	health: {
+		name: "保健",
+		color: "#fec"
+	},
+	mathA: {
+		name: "数学A",
+		color: "#5af"
+	},
+	history: {
+		name: "歴史総合",
+		color: "#ec9"
+	},
+	globalLife: {
+		name: "グローバルライフ",
+		color: "#c8f"
+	},
+	indonesiaI: {
+		name: "(インドネシア語I)",
+		color: "#ede"
+	},
+	mathI: {
+		name: "数学I",
+		color: "#56f"
+	},
+	public: {
+		name: "公共",
+		color: "#f8b"
+	},
+	japanese: {
+		name: "現代国語",
+		color: "#f55"
+	},
+	sport: {
+		name: "体育",
+		color: "#fa5"
+	},
+	industry: {
+		name: "産社",
+		color: "#dae"
+	},
+	information: {
+		name: "情報",
+		color: "#cfe"
+	},
+	english: {
+		name: "英コI",
+		color: "#ef8"
+	},
+	englishExpressionI: {
+		name: "論表I",
+		color: "#fe8"
+	},
+	science: {
+		name: "科学人間",
+		color: "#6f4"
+	},
+	LHR: {
+		name: "LHR",
+		color: "#ccc"
+	}
 }
 
 function addZero(num, length=2) {
@@ -28,14 +184,36 @@ function nowUpdate() {
 function timeUpdate() {
 	nowUpdate();
 
-	el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
-	el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi)
+	if(now.s == 0) {
+		el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi)
+		if(now.h == 0) {
+			el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
+		}
+	}
 	el("secondTime").innerHTML = "." + addZero(now.s);
 	el("secondTime").style.opacity = 1 - now.ms / 1000;
-	// el("secondTime").style.textDecorationColor = `hsl(0, 0%, ${now.ms / 10}%)`;
 	requestAnimationFrame(timeUpdate);
 }
 
-try {
-timeUpdate()
-} catch(error) {console.log(`${error.name}\n${error.stack}`)}
+nowUpdate();
+el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
+el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
+timeUpdate();
+
+function updateTimeTable() {
+	nowUpdate();
+	let week = now.d;
+	let time = now.h * 60 + now.mi;
+	let todayDailyRoutine = week == 4 ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
+	let nowWorkingOn;
+
+	for(let i = 0; i < todayDailyRoutine.length; i++) {
+		if(time >= todayDailyRoutine[i][1][0] * 60 + todayDailyRoutine[i][1][1] && time < todayDailyRoutine[i][2][0] * 60 + todayDailyRoutine[i][2][1]) {
+			nowWorkingOn = todayDailyRoutine[i];
+			break;
+		}
+	}
+	if(nowWorkingOn) {nowWorkingOn = ["afterSchool",[],[]]};
+
+	
+}

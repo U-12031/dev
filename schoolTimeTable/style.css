@@ -24,8 +24,41 @@ body {overflow: hidden;}
 	border-bottom-width: 2px;
 }
 
-#dateParent {padding-right: 10px;}
+#dateParent {
+	padding-right: 10px;
+	text-align: right;
+}
 
 #date ,#secondTime {
 	font-size: .75em;
 }
+
+#main {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.5rem;
+	line-height: 2em;
+
+	&>* {
+		font-weight: bolder;
+		font-size: 1.5em;
+	}
+
+}
+::before, ::after {
+	font-size: 0.67em;
+	font-weight: normal;
+}
+
+#nowSubject {
+	--afterText: " の時間です";
+
+	&::after {content: var(--afterText);}
+	&::before {content: "今は ";}
+}
+
+#timeLeftText::before {content: "残り";}
+#timeLeftMin::after {content: "分";}
+#timeLeftSec::after {content: "秒";}
