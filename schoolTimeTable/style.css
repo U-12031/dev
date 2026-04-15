@@ -82,7 +82,7 @@ body {
 	content: var(--timeLeftText-afterText);
 	margin: 0;
 }
-#timeLEftHour::after {content: "時間";}
+#timeLeftHour::after {content: "時間";}
 #timeLeftMin::after {content: "分";}
 #timeLeftSec::after {content: "秒";}
 

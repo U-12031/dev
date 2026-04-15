@@ -233,6 +233,7 @@ function updateTimeTable(isFirstTime=false) {
 	let todayDailyRoutine = (week == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 	let nowWorkingOn;
 	let nowSubject;
+	let timeLeft;
 
 	for(let i = 0; i < todayDailyRoutine.length; i++) {
 		if(time >= todayDailyRoutine[i][1][0] * 60 + todayDailyRoutine[i][1][1] && time < todayDailyRoutine[i][2][0] * 60 + todayDailyRoutine[i][2][1]) {
@@ -240,7 +241,14 @@ function updateTimeTable(isFirstTime=false) {
 			break;
 		}
 	}
-	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
+	if(nowWorkingOn == undefined) { // 存在しないなら学校外として定義する
+		if(week == 4) { // 木曜日なら
+			nowWorkingOn = ["afterSchool",[15,25],[9,0]];
+		} else {
+		nowWorkingOn = ["afterSchool",[16,45],[9,0]];
+		};
+	};
+	timeLeft = (nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (now.h * 3600 + now.mi * 60 + now.s + now.ms / 1000);
 
 	if(now.s == 0 || isFirstTime) { // できるだけ更新の頻度を低くする
 		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) { // after-1stのような休み時間なら
@@ -256,16 +264,24 @@ function updateTimeTable(isFirstTime=false) {
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			}
 		}
+
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftGraphParent").style.display = "none";
 		} else {
 			el("timeLeftGraphParent").style.display = "block";
 		}
+
+		if(Math.abs(timeLeft) > 3600) { // 1時間以上なら時間を表示する
+			el("timeLeftHour").display = "block";
+			el("timeLeftHour").innerHTML = addZero(Math.floor(timeLeft / 3600 + 24) % 24); // +24して%24することで、もしマイナスになった時に24を足した数になるようにしている 普通にプラスだったら%24で足した分はなくなる
+		} else {
+			el("timeLeftHour").display = "none";
+		}
 	}
 
-	let timeLeft = (nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (now.h * 3600 + now.mi * 60 + now.s + now.ms / 1000);
-	el("timeLeftMin").innerHTML = addZero(Math.floor(timeLeft / 60));
-	el("timeLeftSec").innerHTML = addZero(Math.floor(timeLeft % 60));
+
+	el("timeLeftMin").innerHTML = addZero(Math.floor(timeLeft / 60 % 60 + 60) % 60);
+	el("timeLeftSec").innerHTML = addZero(Math.floor(timeLeft % 60 + 60) % 60);
 	let timeLeftPercent = (timeLeft / ((nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (nowWorkingOn[1][0] * 3600 + nowWorkingOn[1][1] * 60))) * 100;
 	el("timeLeftGraph").style.width = timeLeftPercent + "%";
 }
