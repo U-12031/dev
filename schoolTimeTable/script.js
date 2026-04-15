@@ -276,10 +276,10 @@ function updateTimeTable(isFirstTime=false) {
 		el("timeLeftGraphRight").innerHTML = addZero(nowWorkingOn[1][0]) + ":" + addZero(nowWorkingOn[1][1]);
 
 		if(Math.abs(timeLeft) > 3600) { // 1時間以上なら時間を表示する
-			el("timeLeftHour").display = "block";
+			el("timeLeftHour").style.display = "block";
 			el("timeLeftHour").innerHTML = addZero(Math.floor(timeLeft / 3600 + 24) % 24); // +24して%24することで、もしマイナスになった時に24を足した数になるようにしている 普通にプラスだったら%24で足した分はなくなる
 		} else {
-			el("timeLeftHour").display = "none";
+			el("timeLeftHour").style.display = "none";
 		}
 
 		if(nowWorkingOn[0] == "afterSchool") {
