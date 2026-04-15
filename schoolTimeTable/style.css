@@ -44,13 +44,18 @@ body {
 	top: 50%;
 	left: -40px;
 	translate: 0 -50%;
-	background-color: #fa0;
 	width: 70px;
 	height: min(60vh, calc(100vh - 150px));
 }
 
 #todayTimeTableNowSign {
 	position: absolute;
+	left: 100%;
+	translate: 0 -50%;
+	width: 18px;
+	height: 20px;
+	background-color: #f40;
+	clip-path: polygon(0 50%, 100% 0, 100% 100%);
 }
 
 #now {

@@ -33,7 +33,7 @@ const DAILY_ROUTINE = { // 日課表
 		["after-cleaning", [15, 25], [15, 30]],
     ["SHR", [15, 30], [15, 40]],
 		["after-SHR", [15, 40], [16, 0]],
-    ["7th", [16, 0], [16, 45]],
+    ["7th", [16, 0], [16, 45]]
 	],
 	thursday: [
 		["SHR", [9, 0], [9, 10]],
@@ -257,9 +257,9 @@ function updateTimeTable(isFirstTime=false) {
 	if(now.s == 0 || isFirstTime) { // できるだけ更新の頻度を低くする
 		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) { // after-1stのような休み時間なら
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
-			el("nowSubject").style.setProperty("--afterText", "\" です\"");
+			el("nowSubject").style.setProperty("--afterText", "\"です\"");
 		} else {
-			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
+			el("nowSubject").style.setProperty("--afterText", "\"の時間です\"");
 			if(/^[0-9].*/.test(nowWorkingOn[0][0])) { // もし1stなどの◯時間目なら
 				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowSubject].name;
@@ -282,33 +282,46 @@ function updateTimeTable(isFirstTime=false) {
 			el("timeLeftHour").display = "none";
 		}
 
-		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
-			const timeTable = el("todayTimeTable");
-			let eachLong = [];
-			while(timeTable.firstChild.id === "timeTableNowSign") { // 子要素を全て削除
-				timeTable.removeChild(timeTable.firstChild);
-			}
-			for(let i = 0; i < todayDailyRoutine.length; i++) {
-				const routine = todayDailyRoutine[i];
-				const timeTableLine = document.createElement("div");
-
-				if(/^[0-9].*/.test(routine[0])) { // もし1stなどの◯時間目なら
-					timeTableLine.style.backgroundColor = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].color;
-				} else if(routine[0].includes("after") && !(routine[0] == "afterSchool")) { // after-1stのような休み時間なら
-					timeTableLine.style.backgroundColor = SUBJECT_DATA["containsAfter"].color;
-				} else {
-					timeTableLine.style.backgroundColor = SUBJECT_DATA[routine[0]].color;
-				}
-
-				eachLong.push((routine[2][0]*60+routine[2][1]) - (routine[1][0]*60+routine[1][1]));
-
-				timeTable.appendChild(timeTableLine);
-			}
-
-			eachLong = eachLong.map((v) => {return v + "fr"}); // 全ての要素にfrを付け足す
-			const eachLongJoined = eachLong.join(" ");
-			timeTable.style.gridTemplateRows = eachLongJoined;
+		// if(nowWorkingOn[0] == "afterSchool") {
+		if(false) {
+			// el("todayTimeTableNowSign").style.display = "none";
+		} else {
+			el("todayTimeTableNowSign").style.display = "block";
+			const todayLong = (todayDailyRoutine.at(-1)[2][0]*60 + todayDailyRoutine.at(-1)[2][1]) - (todayDailyRoutine[0][1][0]*60 + todayDailyRoutine[0][1][1])
+			const timeLeft = (todayDailyRoutine.at(-1)[2][0]*60 + todayDailyRoutine.at(-1)[2][1]) - (now.h*60 + now.mi);
+			const timeLeftPercent = (timeLeft / todayLong) * 100;
+			el("todayTimeTableNowSign").style.bottom = `${timeLeftPercent}%`;
 		}
+
+		if((now.m == 0 && now.h == 0) || isFirstTime) updateTodayTimeTable(); // もし日が変わったなら
+	}
+
+	function updateTodayTimeTable() {
+		const timeTable = el("todayTimeTable");
+		let eachLong = [];
+		while(timeTable.firstChild.id === "timeTableNowSign") { // 子要素を全て削除
+			timeTable.removeChild(timeTable.firstChild);
+		}
+		for(let i = 0; i < todayDailyRoutine.length; i++) {
+			const routine = todayDailyRoutine[i];
+			const timeTableLine = document.createElement("div");
+
+			if(/^[0-9].*/.test(routine[0])) { // もし1stなどの◯時間目なら
+				timeTableLine.style.backgroundColor = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].color;
+			} else if(routine[0].includes("after") && !(routine[0] == "afterSchool")) { // after-1stのような休み時間なら
+				timeTableLine.style.backgroundColor = SUBJECT_DATA["containsAfter"].color;
+			} else {
+				timeTableLine.style.backgroundColor = SUBJECT_DATA[routine[0]].color;
+			}
+
+			eachLong.push((routine[2][0]*60+routine[2][1]) - (routine[1][0]*60+routine[1][1]));
+
+			timeTable.appendChild(timeTableLine);
+		}
+
+		eachLong = eachLong.map((v) => {return v + "fr"}); // 全ての要素にfrを付け足す
+		const eachLongJoined = eachLong.join(" ");
+		timeTable.style.gridTemplateRows = eachLongJoined;
 	}
 
 
