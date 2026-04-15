@@ -49,6 +49,10 @@ body {
 	height: min(60vh, calc(100vh - 150px));
 }
 
+#todayTimeTableNowSign {
+	position: absolute;
+}
+
 #now {
 	position: absolute;
 	top: 50%;

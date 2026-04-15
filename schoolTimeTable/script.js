@@ -14,8 +14,8 @@ let now = { // nowTimeから分離して使う関数
 // ここの日課表と時間割は全て例です。
 const DAILY_ROUTINE = { // 日課表
 	regular: [
-		["SHR1", [9, 0], [9, 10]],
-		["after-SHR1", [9, 10], [9, 15]],
+		["SHR", [9, 0], [9, 10]],
+		["after-SHR", [9, 10], [9, 15]],
 		["1st", [9, 15], [10, 0]],
 		["after-1st", [10, 0], [10, 10]],
     ["2nd", [10, 10], [10, 55]],
@@ -31,13 +31,13 @@ const DAILY_ROUTINE = { // 日課表
 		["after-6th", [15, 10], [15, 15]],
     ["cleaning", [15, 15], [15, 25]],
 		["after-cleaning", [15, 25], [15, 30]],
-    ["SHR2", [15, 30], [15, 40]],
-		["after-SHR2", [15, 40], [16, 0]],
+    ["SHR", [15, 30], [15, 40]],
+		["after-SHR", [15, 40], [16, 0]],
     ["7th", [16, 0], [16, 45]],
 	],
 	thursday: [
-		["SHR1", [9, 0], [9, 10]],
-		["after-SHR1", [9, 10], [9, 15]],
+		["SHR", [9, 0], [9, 10]],
+		["after-SHR", [9, 10], [9, 15]],
 		["1st", [9, 15], [10, 0]],
 		["after-1st", [10, 0], [10, 10]],
     ["2nd", [10, 10], [10, 55]],
@@ -51,7 +51,7 @@ const DAILY_ROUTINE = { // 日課表
 		["after-5th", [14, 15], [14, 25]],
     ["6th", [14, 25], [15, 10]],
 		["after-6th", [15, 10], [15, 15]],
-    ["SHR2", [15, 15], [15, 25]],
+    ["SHR", [15, 15], [15, 25]],
 	]
 }
 const TIME_TABLE = [
@@ -103,7 +103,7 @@ const TIME_TABLE = [
 	]
 ];
 const SUBJECT_DATA = {
-	english: {
+	englishI: {
 		name: "英コI",
 		color: "#ef8"
 	},
@@ -173,11 +173,15 @@ const SUBJECT_DATA = {
 	},
 	containsAfter: {
 		name: "休み時間",
-		color: "#000"
+		color: "#333"
 	},
 	lunch: {
 		name: "昼休み",
-		color: "#ff9"
+		color: "#ccc"
+	},
+	cleaning: {
+		name: "清掃",
+		color: "#fff"
 	},
 	afterSchool: {
 		name: "学校外"
@@ -241,7 +245,7 @@ function updateTimeTable(isFirstTime=false) {
 			break;
 		}
 	}
-	if(nowWorkingOn == undefined) { // 存在しないなら学校外として定義する
+	if(nowWorkingOn == undefined) { // 存在しないなら学校外とする
 		if(week == 4) { // 木曜日なら
 			nowWorkingOn = ["afterSchool",[15,25],[9,0]];
 		} else {
@@ -256,7 +260,7 @@ function updateTimeTable(isFirstTime=false) {
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
-			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) { // もし1stなどの◯時間目なら
+			if(/^[0-9].*/.test(nowWorkingOn[0][0])) { // もし1stなどの◯時間目なら
 				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowSubject].name;
 			} else {
@@ -276,6 +280,34 @@ function updateTimeTable(isFirstTime=false) {
 			el("timeLeftHour").innerHTML = addZero(Math.floor(timeLeft / 3600 + 24) % 24); // +24して%24することで、もしマイナスになった時に24を足した数になるようにしている 普通にプラスだったら%24で足した分はなくなる
 		} else {
 			el("timeLeftHour").display = "none";
+		}
+
+		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
+			const timeTable = el("todayTimeTable");
+			let eachLong = [];
+			while(timeTable.firstChild.id === "timeTableNowSign") { // 子要素を全て削除
+				timeTable.removeChild(timeTable.firstChild);
+			}
+			for(let i = 0; i < todayDailyRoutine.length; i++) {
+				const routine = todayDailyRoutine[i];
+				const timeTableLine = document.createElement("div");
+
+				if(/^[0-9].*/.test(routine[0])) { // もし1stなどの◯時間目なら
+					timeTableLine.style.backgroundColor = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].color;
+				} else if(routine[0].includes("after") && !(routine[0] == "afterSchool")) { // after-1stのような休み時間なら
+					timeTableLine.style.backgroundColor = SUBJECT_DATA["containsAfter"].color;
+				} else {
+					timeTableLine.style.backgroundColor = SUBJECT_DATA[routine[0]].color;
+				}
+
+				eachLong.push((routine[2][0]*60+routine[2][1]) - (routine[1][0]*60+routine[1][1]));
+
+				timeTable.appendChild(timeTableLine);
+			}
+
+			eachLong = eachLong.map((v) => {return v + "fr"}); // 全ての要素にfrを付け足す
+			const eachLongJoined = eachLong.join(" ");
+			timeTable.style.gridTemplateRows = eachLongJoined;
 		}
 	}
 
