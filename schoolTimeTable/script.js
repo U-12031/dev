@@ -187,6 +187,7 @@ const SUBJECT_DATA = {
 		name: "学校外"
 	}
 }
+let todayDailyRoutine = (now.da == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 
 function addZero(num, length=2) {
 	return num.toString().padStart(length, "0");
@@ -229,7 +230,6 @@ function updateTimeTable(isFirstTime=false) {
 
 	let week = now.d;
 	let time = now.h * 60 + now.mi;
-	let todayDailyRoutine = (week == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 	let nowWorkingOn;
 	let nowSubject;
 	let timeLeft;
@@ -288,7 +288,10 @@ function updateTimeTable(isFirstTime=false) {
 			el("todayTimeTableNowSign").style.bottom = `${timeLeftPercent}%`;
 		}
 
-		if((now.m == 0 && now.h == 0) || isFirstTime) updateTodayTimeTable(); // もし日が変わったなら
+		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
+			todayDailyRoutine = (now.da == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
+			updateTodayTimeTable();
+		}
 	}
 
 	function updateTodayTimeTable() {
@@ -310,9 +313,7 @@ function updateTimeTable(isFirstTime=false) {
 				timeTableLine.style.backgroundColor = SUBJECT_DATA[routine[0]].color;
 			}
 
-
 			eachLong.push((routine[2][0]*60+routine[2][1]) - (routine[1][0]*60+routine[1][1]));
-
 
 			timeTable.appendChild(timeTableLine);
 		}
@@ -334,13 +335,23 @@ el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
 el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
 updateTimeTable(true);
 
-// let isTimeTableOpen = false;
-// el("todayTimeTable").addEventListener("click",function() {
-	// if(isTimeTableOpen) {
-		// this.style.left = "-40px";
-	// } else {
-		// this.style.left = "0px";
-	// }
+let isTimeTableOpen = false;
+el("todayTimeTable").addEventListener("click",function() {
+	if(isTimeTableOpen) {
+		this.style.left = "-40px";
+		document.querySelectorAll("#todayTimeTable>div:not(#todayTimeTableNowSign)").forEach((e,i) => {
+			if(/^[0-9].*/.test(todayDailyRoutine[i][0])) { // もし1stなどの◯時間目なら
+				e.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(todayDailyRoutine[i][0][0])-1]].name[0]; // 教科の1文字目を表示する
+			}
+		})
+	} else {
+		this.style.left = "0px";
+		document.querySelectorAll("#todayTimeTable>div:not(#todayTimeTableNowSign)").forEach((e,i) => {
+			if(/^[0-9].*/.test(todayDailyRoutine[i][0])) { // もし1stなどの◯時間目なら
+				e.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(todayDailyRoutine[i][0][0])-1]].name;
+			}
+		})
+	}
 
-	// isTimeTableOpen = !isTimeTableOpen;
-// });
+	isTimeTableOpen = !isTimeTableOpen;
+});
