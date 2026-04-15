@@ -216,6 +216,10 @@ function timeUpdate() {
 	requestAnimationFrame(timeUpdate);
 }
 
+document.addEventListener("visibilitychange",() => { // ページから離れて戻ってきた時にも実行して更新する
+	if(document.visibilityState === "visible") timeUpdate();
+});
+
 timeUpdate();
 el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
 el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
@@ -238,26 +242,23 @@ function updateTimeTable(isFirstTime=false) {
 	}
 	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
 
-	if(now.ms < 200 || isFirstTime) {
-		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) {
+	if(now.s == 0 || isFirstTime) { // できるだけ更新の頻度を低くする
+		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) { // after-1stのような休み時間なら
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
-			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) {
+			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) { // もし1stなどの◯時間目なら
 				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowSubject].name;
-			} else if(nowWorkingOn[0]) {
+			} else {
 				nowSubject = nowWorkingOn[0];
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			}
 		}
-		console.log(nowSubject + "222");
 		if(nowWorkingOn[0] == "afterSchool") {
-			el("timeLeftText").style.display = "none";
 			el("timeLeftGraphParent").style.display = "none";
 		} else {
-			el("timeLeftText").style.display = "inline";
 			el("timeLeftGraphParent").style.display = "block";
 		}
 	}
