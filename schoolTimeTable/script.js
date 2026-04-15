@@ -173,6 +173,9 @@ const SUBJECT_DATA = {
 	},
 	afterSchool: {
 		name: "学校外"
+	},
+	lunch: {
+		name: "昼休み"
 	}
 }
 
@@ -235,7 +238,6 @@ function updateTimeTable(isFirstTime=false) {
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
-			console.log(TIME_TABLE[Number(now.da)])
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
 			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) {
 				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
