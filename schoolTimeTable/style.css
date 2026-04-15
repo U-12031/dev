@@ -52,10 +52,10 @@ body {
 #now {
 	position: absolute;
 	top: 50%;
-	left: calc(50% + 10px);
-	translate: -50% -50%;
+	right: 0;
+	translate: 0 -50%;
+	width: calc(100vw - 30px);
 	font-size: 1.5rem;
-	line-height: 2em;
 	text-align: center;
 
 	&>* {
@@ -72,6 +72,7 @@ body {
 
 #nowSubject {
 	--afterText: "の時間です";
+	margin-bottom: 30px;
 
 	&::after {content: var(--afterText);}
 	&::before {content: "今は";}
