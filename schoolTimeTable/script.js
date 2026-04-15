@@ -234,7 +234,7 @@ function updateTimeTable(isFirstTime=false) {
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
-			if(Number(nowWorkingOn[0][0]) == nowWorkingOn[0][0]) {
+			if(/^[0-9]+$/.test(str)) {
 				nowSubject = TIME_TABLE[now.w][Number(nowWorkingOn[0][0])-1]
 			} else if(nowWorkingOn[0] === "lunch") {
 				nowSubject = "lunch";
