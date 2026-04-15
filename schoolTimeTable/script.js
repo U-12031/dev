@@ -5,6 +5,7 @@ let now = { // nowTimeから分離して使う関数
 	y: null,
 	mo: null,
 	d: null,
+	da: null,
 	h: null,
 	mi: null,
 	s: null,
@@ -42,7 +43,7 @@ const DAILY_ROUTINE = { // 日課表
     ["2nd", [10, 10], [10, 55]],
 		["after-2nd", [10, 55], [11, 5]],
     ["3rd", [11, 5], [11, 50]],
-		["after-3rd", [11, 50], [12, 0]],
+		["4th", [11, 50], [12, 0]],
     ["4th", [12, 0], [12, 45]],
     ["lunch", [12, 45], [13, 25]],
 		["after-lunch", [13, 25], [13, 30]],
@@ -183,6 +184,7 @@ function nowUpdate() {
 	now.y = nowTime.getFullYear();
 	now.mo = nowTime.getMonth();
 	now.d = nowTime.getDate();
+	now.da = nowTime.getDay();
 	now.h = nowTime.getHours();
 	now.mi = nowTime.getMinutes();
 	now.s = nowTime.getSeconds();
@@ -228,18 +230,20 @@ function updateTimeTable(isFirstTime=false) {
 	}
 	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
 
-	if(now.s == 0 || isFirstTime) {
+	if(now.s == 0 || isFirstTime || true) {
 		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) {
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
 		} else {
+			console.log(TIME_TABLE[Number(now.da)])
 			el("nowSubject").style.setProperty("--afterText", "\" の時間です\"");
-			if(/^[0-9]+$/.test(nowWorkingOn[0])) {
-				nowSubject = TIME_TABLE[now.w][Number(nowWorkingOn[0][0])-1]
+			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) {
+				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
+				el("nowSubject").innerHTML = SUBJECT_DATA[nowSubject].name;
 			} else if(nowWorkingOn[0] === "lunch") {
 				nowSubject = "lunch";
+				el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			}
-			el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 		}
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftText").style.display = "none";
