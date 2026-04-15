@@ -126,6 +126,7 @@ body {
 #timeLeftSec::after {content: "秒";}
 
 #timeLeftGraphParent {
+	position: relative;
 	display: block;
 	width: calc(100vw - 140px);
 	height: 40px;
@@ -137,3 +138,14 @@ body {
 	height: 100%;
 	background-color: #adf;
 }
+
+#timeLeftGraphLeft, #timeLeftGraphRight {
+	position: absolute;
+	top: calc(100% + 3px);
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 1rem;
+}
+
+#timeLeftGraphLeft {left: 0;}
+#timeLeftGraphRight {right: 0;}

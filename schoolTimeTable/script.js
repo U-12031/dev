@@ -187,6 +187,7 @@ const SUBJECT_DATA = {
 		name: "学校外"
 	}
 }
+nowUpdate();
 let todayDailyRoutine = (now.da == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 
 function addZero(num, length=2) {
@@ -236,7 +237,7 @@ function updateTimeTable(isFirstTime=false) {
 	let timeLeft;
 
 	for(let i = 0; i < todayDailyRoutine.length; i++) {
-		if(time >= todayDailyRoutine[i][1][0] * 60 + todayDailyRoutine[i][1][1] && time < todayDailyRoutine[i][2][0] * 60 + todayDailyRoutine[i][2][1]) {
+		if((time >= todayDailyRoutine[i][1][0] * 60 + todayDailyRoutine[i][1][1]) && (time < todayDailyRoutine[i][2][0] * 60 + todayDailyRoutine[i][2][1])) {
 			nowWorkingOn = todayDailyRoutine[i];
 			break;
 		}
@@ -271,6 +272,9 @@ function updateTimeTable(isFirstTime=false) {
 			el("timeLeftGraphParent").style.display = "block";
 		}
 
+		el("timeLeftGraphLeft").innerHTML = addZero(nowWorkingOn[1][0]) + ":" + addZero(nowWorkingOn[1][1]);
+		el("timeLeftGraphRight").innerHTML = addZero(nowWorkingOn[2][0]) + ":" + addZero(nowWorkingOn[2][1]);
+
 		if(Math.abs(timeLeft) > 3600) { // 1時間以上なら時間を表示する
 			el("timeLeftHour").display = "block";
 			el("timeLeftHour").innerHTML = addZero(Math.floor(timeLeft / 3600 + 24) % 24); // +24して%24することで、もしマイナスになった時に24を足した数になるようにしている 普通にプラスだったら%24で足した分はなくなる
@@ -278,15 +282,14 @@ function updateTimeTable(isFirstTime=false) {
 			el("timeLeftHour").display = "none";
 		}
 
-		// if(nowWorkingOn[0] == "afterSchool") {
-		if(false) {
-			// el("todayTimeTableNowSign").style.display = "none";
+		if(nowWorkingOn[0] == "afterSchool") {
+			el("todayTimeTableNowSign").style.display = "none";
 		} else {
 			el("todayTimeTableNowSign").style.display = "block";
 			const todayLong = (todayDailyRoutine.at(-1)[2][0]*60 + todayDailyRoutine.at(-1)[2][1]) - (todayDailyRoutine[0][1][0]*60 + todayDailyRoutine[0][1][1])
 			const timeLeft = (todayDailyRoutine.at(-1)[2][0]*60 + todayDailyRoutine.at(-1)[2][1]) - (now.h*60 + now.mi);
 			const timeLeftPercent = (timeLeft / todayLong) * 100;
-			el("todayTimeTableNowSign").style.bottom = `${timeLeftPercent}%`;
+			el("todayTimeTableNowSign").style.top = `${100 - timeLeftPercent}%`;
 		}
 
 		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
