@@ -169,17 +169,18 @@ const SUBJECT_DATA = {
 	},
 	LHR: {
 		name: "LHR",
-		color: "#ccc"
+		color: "#fa9"
 	},
 	containsAfter: {
 		name: "休み時間",
-		color: "#fff"
+		color: "#000"
+	},
+	lunch: {
+		name: "昼休み",
+		color: "#ff9"
 	},
 	afterSchool: {
 		name: "学校外"
-	},
-	lunch: {
-		name: "昼休み"
 	}
 }
 
