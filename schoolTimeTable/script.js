@@ -214,7 +214,8 @@ function timeUpdate() {
 		}
 	}
 	el("secondTime").innerHTML = "." + addZero(now.s);
-	el("secondTime").style.opacity = 1 - now.ms / 1000;
+	el("secondTimeLength").style.width = (now.ms/1000) * 40 + "px";
+	// el("secondTime").style.opacity = 1 - now.ms / 1000;
 
 	updateTimeTable();
 

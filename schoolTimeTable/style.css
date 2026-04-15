@@ -26,11 +26,30 @@ body {
 }
 
 #dateParent {
+	position: relative;
 	padding-right: 10px;
 	text-align: right;
 }
 
-#date, #secondTime {font-size: .75em;}
+#date {font-size: .75em;}
+
+#secondTime {
+	display: inline-block;
+	font-size: .7em;
+	margin-left: 1px;
+	margin-right: 4px;
+	translate: 0 -6px;
+}
+
+#secondTimeLength {
+	display: inline-block;
+	position: absolute;
+	right: 16px;
+	bottom: 20px;
+	width: 40px;
+	height: 3px;
+	background-color: black;
+}
 
 #main {
 	height: calc(100vh - 100px);
@@ -46,6 +65,7 @@ body {
 	translate: 0 -50%;
 	width: 70px;
 	height: min(60vh, calc(100vh - 150px));
+	z-index: 1;
 
 	&>div:not(#todayTimeTableNowSign) {
 		align-content: center;
