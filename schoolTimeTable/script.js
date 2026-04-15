@@ -103,45 +103,25 @@ const TIME_TABLE = [
 	]
 ];
 const SUBJECT_DATA = {
-	languageCulture: {
-		name: "言語文化",
-		color: "#fcd"
+	english: {
+		name: "英コI",
+		color: "#ef8"
 	},
-	health: {
-		name: "保健",
-		color: "#fec"
-	},
-	mathA: {
-		name: "数学A",
-		color: "#5af"
-	},
-	history: {
-		name: "歴史総合",
-		color: "#ec9"
+	englishExpressionI: {
+		name: "論表I",
+		color: "#fe8"
 	},
 	globalLife: {
 		name: "グローバルライフ",
 		color: "#c8f"
 	},
-	indonesiaI: {
-		name: "(インドネシア語I)",
-		color: "#ede"
+	health: {
+		name: "保健",
+		color: "#fec"
 	},
-	mathI: {
-		name: "数学I",
-		color: "#56f"
-	},
-	public: {
-		name: "公共",
-		color: "#f8b"
-	},
-	japanese: {
-		name: "現代国語",
-		color: "#f55"
-	},
-	sport: {
-		name: "体育",
-		color: "#fa5"
+	history: {
+		name: "歴史総合",
+		color: "#ec9"
 	},
 	industry: {
 		name: "産社",
@@ -151,17 +131,37 @@ const SUBJECT_DATA = {
 		name: "情報",
 		color: "#cfe"
 	},
-	english: {
-		name: "英コI",
-		color: "#ef8"
+	indonesiaI: {
+		name: "インドネシア語I",
+		color: "#ede"
 	},
-	englishExpressionI: {
-		name: "論表I",
-		color: "#fe8"
+	japanese: {
+		name: "現代国語",
+		color: "#f55"
+	},
+	languageCulture: {
+		name: "言語文化",
+		color: "#fcd"
+	},
+	mathA: {
+		name: "数学A",
+		color: "#5af"
+	},
+	mathI: {
+		name: "数学I",
+		color: "#56f"
+	},
+	public: {
+		name: "公共",
+		color: "#f8b"
 	},
 	science: {
 		name: "科学人間",
 		color: "#6f4"
+	},
+	sport: {
+		name: "体育",
+		color: "#fa5"
 	},
 	SHR: {
 		name: "SHR",
