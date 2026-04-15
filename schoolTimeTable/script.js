@@ -103,45 +103,13 @@ const TIME_TABLE = [
 	]
 ];
 const SUBJECT_DATA = {
-	englishI: {
-		name: "英コI",
-		color: "#ef8"
-	},
-	englishExpressionI: {
-		name: "論表I",
-		color: "#fe8"
-	},
-	globalLife: {
-		name: "グローバルライフ",
-		color: "#c8f"
-	},
-	health: {
-		name: "保健",
-		color: "#fec"
-	},
-	history: {
-		name: "歴史総合",
-		color: "#ec9"
-	},
-	industry: {
-		name: "産社",
-		color: "#dae"
-	},
-	information: {
-		name: "情報",
-		color: "#cfe"
-	},
-	indonesiaI: {
-		name: "インドネシア語I",
-		color: "#ede"
-	},
 	japanese: {
 		name: "現代国語",
 		color: "#f55"
 	},
 	languageCulture: {
 		name: "言語文化",
-		color: "#fcd"
+		color: "#f55"
 	},
 	mathA: {
 		name: "数学A",
@@ -149,19 +117,51 @@ const SUBJECT_DATA = {
 	},
 	mathI: {
 		name: "数学I",
-		color: "#56f"
-	},
-	public: {
-		name: "公共",
-		color: "#f8b"
+		color: "#5af"
 	},
 	science: {
 		name: "科学人間",
-		color: "#6f4"
+		color: "#4e2"
+	},
+	englishI: {
+		name: "英コI",
+		color: "#fe8"
+	},
+	englishExpressionI: {
+		name: "論表I",
+		color: "#fe8"
+	},
+	globalLife: {
+		name: "グローバルライフ",
+		color: "#f88"
+	},
+	public: {
+		name: "公共",
+		color: "#ea3"
+	},
+	history: {
+		name: "歴史総合",
+		color: "#ea3"
 	},
 	sport: {
 		name: "体育",
-		color: "#fa5"
+		color: "#f95"
+	},
+	health: {
+		name: "保健",
+		color: "#f95"
+	},
+	industry: {
+		name: "産社",
+		color: "#dae"
+	},
+	information: {
+		name: "情報",
+		color: "#5fa"
+	},
+	indonesiaI: {
+		name: "インドネシア語I",
+		color: "#ede"
 	},
 	SHR: {
 		name: "SHR",
@@ -169,11 +169,11 @@ const SUBJECT_DATA = {
 	},
 	LHR: {
 		name: "LHR",
-		color: "#fa9"
+		color: "#fcb"
 	},
 	containsAfter: {
 		name: "休み時間",
-		color: "#333"
+		color: "#555"
 	},
 	lunch: {
 		name: "昼休み",
@@ -223,11 +223,6 @@ function timeUpdate() {
 document.addEventListener("visibilitychange",() => { // ページから離れて戻ってきた時にも実行して更新する
 	if(document.visibilityState === "visible") timeUpdate();
 });
-
-timeUpdate();
-el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
-el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
-updateTimeTable(true);
 
 function updateTimeTable(isFirstTime=false) {
 	nowUpdate();
@@ -308,13 +303,16 @@ function updateTimeTable(isFirstTime=false) {
 
 			if(/^[0-9].*/.test(routine[0])) { // もし1stなどの◯時間目なら
 				timeTableLine.style.backgroundColor = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].color;
+				timeTableLine.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].name[0]; // 教科の1文字目を表示する
 			} else if(routine[0].includes("after") && !(routine[0] == "afterSchool")) { // after-1stのような休み時間なら
 				timeTableLine.style.backgroundColor = SUBJECT_DATA["containsAfter"].color;
 			} else {
 				timeTableLine.style.backgroundColor = SUBJECT_DATA[routine[0]].color;
 			}
 
+
 			eachLong.push((routine[2][0]*60+routine[2][1]) - (routine[1][0]*60+routine[1][1]));
+
 
 			timeTable.appendChild(timeTableLine);
 		}
@@ -330,3 +328,19 @@ function updateTimeTable(isFirstTime=false) {
 	let timeLeftPercent = (timeLeft / ((nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (nowWorkingOn[1][0] * 3600 + nowWorkingOn[1][1] * 60))) * 100;
 	el("timeLeftGraph").style.width = timeLeftPercent + "%";
 }
+
+timeUpdate();
+el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
+el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
+updateTimeTable(true);
+
+// let isTimeTableOpen = false;
+// el("todayTimeTable").addEventListener("click",function() {
+	// if(isTimeTableOpen) {
+		// this.style.left = "-40px";
+	// } else {
+		// this.style.left = "0px";
+	// }
+
+	// isTimeTableOpen = !isTimeTableOpen;
+// });

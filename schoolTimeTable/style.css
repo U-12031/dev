@@ -46,6 +46,13 @@ body {
 	translate: 0 -50%;
 	width: 70px;
 	height: min(60vh, calc(100vh - 150px));
+
+	&>div:not(#todayTimeTableNowSign) {
+		align-content: center;
+		font-size: 1.2rem;
+		text-align: right;
+		padding: 3px;
+	}
 }
 
 #todayTimeTableNowSign {
