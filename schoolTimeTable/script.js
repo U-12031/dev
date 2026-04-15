@@ -272,8 +272,8 @@ function updateTimeTable(isFirstTime=false) {
 			el("timeLeftGraphParent").style.display = "block";
 		}
 
-		el("timeLeftGraphLeft").innerHTML = addZero(nowWorkingOn[1][0]) + ":" + addZero(nowWorkingOn[1][1]);
-		el("timeLeftGraphRight").innerHTML = addZero(nowWorkingOn[2][0]) + ":" + addZero(nowWorkingOn[2][1]);
+		el("timeLeftGraphLeft").innerHTML = addZero(nowWorkingOn[2][0]) + ":" + addZero(nowWorkingOn[2][1]);
+		el("timeLeftGraphRight").innerHTML = addZero(nowWorkingOn[1][0]) + ":" + addZero(nowWorkingOn[1][1]);
 
 		if(Math.abs(timeLeft) > 3600) { // 1時間以上なら時間を表示する
 			el("timeLeftHour").display = "block";
