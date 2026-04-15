@@ -7,15 +7,16 @@
 
 * {font-family: "originalFont";}
 
-body {overflow: hidden;}
+body {
+	overflow: hidden;
+	margin: 0;
+}
 
 #titleAndDate {
-	position: absolute;
-	top: 0;
-	left: 0;
 	display: flex;
 	justify-content: space-between;
 	width: 100vw;
+	height: 100px;
 	padding: 2px 5px;
 	font-weight: bolder;
 	font-size: 2.5rem;
@@ -32,14 +33,27 @@ body {overflow: hidden;}
 #date, #secondTime {font-size: .75em;}
 
 #main {
-	width: 100vw - 50px;
-	position: absolute;
-	top: 50%;
-	left: 0; /* 一応入れとく */
+	height: calc(100vh - 100px);
+	position: relative;
 	width: 100vw;
 }
 
+#todayTimeTable {
+	display: grid;
+	position: absolute;
+	top: 50%;
+	left: -40px;
+	translate: 0 -50%;
+	background-color: #fa0;
+	width: 70px;
+	height: min(60vh, calc(100vh - 150px));
+}
+
 #now {
+	position: absolute;
+	top: 50%;
+	left: calc(50% + 10px);
+	translate: -50% -50%;
 	font-size: 1.5rem;
 	line-height: 2em;
 	text-align: center;
@@ -53,13 +67,14 @@ body {overflow: hidden;}
 ::before, ::after {
 	font-size: 0.67em;
 	font-weight: normal;
+	margin: 5px;
 }
 
 #nowSubject {
-	--afterText: " の時間です";
+	--afterText: "の時間です";
 
 	&::after {content: var(--afterText);}
-	&::before {content: "今は ";}
+	&::before {content: "今は";}
 }
 
 #timeLeftText::before {content: "残り";}

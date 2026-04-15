@@ -33,7 +33,7 @@ const DAILY_ROUTINE = { // 日課表
 		["after-cleaning", [15, 25], [15, 30]],
     ["SHR2", [15, 30], [15, 40]],
 		["after-SHR2", [15, 40], [16, 0]],
-    ["7th", [16, 0], [16, 45]]
+    ["7th", [16, 0], [16, 45]],
 	],
 	thursday: [
 		["SHR1", [9, 0], [9, 10]],
@@ -163,6 +163,10 @@ const SUBJECT_DATA = {
 		name: "科学人間",
 		color: "#6f4"
 	},
+	SHR: {
+		name: "SHR",
+		color: "#ccc"
+	},
 	LHR: {
 		name: "LHR",
 		color: "#ccc"
@@ -211,14 +215,14 @@ function timeUpdate() {
 	requestAnimationFrame(timeUpdate);
 }
 
-nowUpdate();
+timeUpdate();
 el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
 el("date").innerHTML = now.y + "/" + addZero(now.mo + 1) + "/" + addZero(now.d);
-timeUpdate();
 updateTimeTable(true);
 
 function updateTimeTable(isFirstTime=false) {
 	nowUpdate();
+
 	let week = now.d;
 	let time = now.h * 60 + now.mi;
 	let todayDailyRoutine = (week == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
@@ -233,7 +237,7 @@ function updateTimeTable(isFirstTime=false) {
 	}
 	if(nowWorkingOn == undefined) {nowWorkingOn = ["afterSchool",[23,5],[23,60]]};
 
-	if(now.s == 0 || isFirstTime || true) {
+	if(now.ms < 200 || isFirstTime) {
 		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) {
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\" です\"");
@@ -242,11 +246,12 @@ function updateTimeTable(isFirstTime=false) {
 			if(/^[0-9]+$/.test(nowWorkingOn[0][0])) {
 				nowSubject = TIME_TABLE[now.da][Number(nowWorkingOn[0][0])-1]
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowSubject].name;
-			} else if(nowWorkingOn[0] === "lunch") {
-				nowSubject = "lunch";
+			} else if(nowWorkingOn[0]) {
+				nowSubject = nowWorkingOn[0];
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			}
 		}
+		console.log(nowSubject + "222");
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftText").style.display = "none";
 			el("timeLeftGraphParent").style.display = "none";
