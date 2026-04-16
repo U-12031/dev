@@ -301,7 +301,7 @@ function updateTimeTable(isFirstTime=false) {
 	function updateTodayTimeTable() {
 		const timeTable = el("todayTimeTable");
 		let eachLong = [];
-		while(timeTable.firstChild.id === "timeTableNowSign") { // 子要素を全て削除
+		while(timeTable.lastChild.id === "timeTableNowSign") { // 子要素を全て削除
 			timeTable.removeChild(timeTable.firstChild);
 		}
 		for(let i = 0; i < todayDailyRoutine.length; i++) {
