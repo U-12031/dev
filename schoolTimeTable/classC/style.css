@@ -1,0 +1,151 @@
+@font-face {
+	font-family: "originalFont";
+	src: url(/0_data/fonts/MPLUS1p-Regular.ttf) format("truetype");
+	src: url(https://u-12031.github.io/0_data/fonts/MPLUS1p-Regular.ttf);
+	/* ↑codeswing用 */
+}
+
+* {font-family: "originalFont";}
+
+body {
+	overflow: hidden;
+	margin: 0;
+}
+
+#titleAndDate {
+	display: flex;
+	justify-content: space-between;
+	width: 100vw;
+	height: 100px;
+	padding: 2px 5px;
+	font-weight: bolder;
+	font-size: 2.5rem;
+	line-height: 1em;
+	border: 0 solid black;
+	border-bottom-width: 2px;
+}
+
+#dateParent {
+	position: relative;
+	padding-right: 10px;
+	text-align: right;
+}
+
+#date {font-size: .75em;}
+
+#secondTime {
+	display: inline-block;
+	font-size: .7em;
+	margin-left: 1px;
+	margin-right: 4px;
+	translate: 0 -6px;
+}
+
+#secondTimeLength {
+	display: inline-block;
+	position: absolute;
+	right: 16px;
+	bottom: 20px;
+	width: 40px;
+	height: 3px;
+	background-color: black;
+}
+
+#main {
+	height: calc(100vh - 100px);
+	position: relative;
+	width: 100vw;
+}
+
+#todayTimeTable {
+	display: grid;
+	position: absolute;
+	top: 50%;
+	left: -40px;
+	translate: 0 -50%;
+	width: 70px;
+	height: min(60vh, calc(100vh - 150px));
+	z-index: 1;
+
+	&>div:not(#todayTimeTableNowSign) {
+		align-content: center;
+		font-size: 1.2rem;
+		text-align: right;
+		padding: 3px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+}
+
+#todayTimeTableNowSign {
+	position: absolute;
+	left: 100%;
+	translate: 0 -50%;
+	width: 18px;
+	height: 20px;
+	background-color: #f40;
+	clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+#now {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	translate: 0 -50%;
+	width: calc(100vw - 30px);
+	font-size: 1.5rem;
+	text-align: center;
+
+	&>* {
+		font-weight: bolder;
+		font-size: 1.5em;
+	}
+
+}
+::before, ::after {
+	font-size: 0.67em;
+	font-weight: normal;
+	margin: 5px;
+}
+
+#nowSubject {
+	--afterText: "の時間です";
+	margin-bottom: 30px;
+
+	&::after {content: var(--afterText);}
+	&::before {content: "今は";}
+}
+
+#timeLeftText {--timeLeftText-afterText: "残り";}
+#timeLeftText::before {
+	content: var(--timeLeftText-afterText);
+	margin: 0;
+}
+#timeLeftHour::after {content: "時間";}
+#timeLeftMin::after {content: "分";}
+#timeLeftSec::after {content: "秒";}
+
+#timeLeftGraphParent {
+	position: relative;
+	display: block;
+	width: calc(100vw - 140px);
+	height: 40px;
+	margin: 10px auto;
+	background-color: #bfea;
+}
+
+#timeLeftGraph {
+	height: 100%;
+	background-color: #adf;
+}
+
+#timeLeftGraphLeft, #timeLeftGraphRight {
+	position: absolute;
+	top: calc(100% + 3px);
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 1rem;
+}
+
+#timeLeftGraphLeft {left: 0;}
+#timeLeftGraphRight {right: 0;}

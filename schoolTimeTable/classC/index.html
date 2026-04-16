@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-G3VRHWGPB7"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-G3VRHWGPB7');
+	</script>
+
+	<title>時間割</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="manifest" href="manifest.json">
+</head>
+<body>
+	<div id="titleAndDate">
+		<span>時間割</span>
+		<span id="dateParent">
+			<span id="date"></span>
+			<br>
+			<span id="otherTime"></span><span id="secondTime"></span>
+			<span id="secondTimeLength"></span>
+		</span>
+	</div>
+
+	<div id="main">
+		<div id="todayTimeTable">
+			<div id="todayTimeTableNowSign"></div>
+		</div>
+		<div id="now">
+			<div id="nowSubject"></div>
+			<div id="timeLeftParent">
+				<div id="timeLeftText">
+					<span id="timeLeftHour"></span>
+					<span id="timeLeftMin"></span>
+					<span id="timeLeftSec"></span>
+				</div>
+				<div id="timeLeftGraphParent">
+					<div id="timeLeftGraph"></div>
+					<span id="timeLeftGraphLeft">3</span>
+					<span id="timeLeftGraphRight">44</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>

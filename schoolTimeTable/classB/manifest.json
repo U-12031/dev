@@ -1,7 +1,7 @@
 {
   "name": "時間割表示ツール",
   "short_name": "時間割",
-  "start_url": "/dev-github.io/schoolTimeTable",
+  "start_url": "/dev/schoolTimeTable/classB",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000"
