@@ -360,7 +360,9 @@ el("todayTimeTable").addEventListener("click",function() {
 		this.style.left = "0px";
 		document.querySelectorAll("#todayTimeTable>div:not(#todayTimeTableNowSign)").forEach((e,i) => {
 			if(/^[0-9].*/.test(todayDailyRoutine[i][0])) { // もし1stなどの◯時間目なら
-				e.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(todayDailyRoutine[i][0][0])-1]].name;
+				if(TIME_TABLE[now.da][Number(todayDailyRoutine[i][0][0])-1] != null) {
+					e.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(todayDailyRoutine[i][0][0])-1]].name;
+				}
 			}
 		})
 	}
