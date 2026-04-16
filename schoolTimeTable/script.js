@@ -296,7 +296,7 @@ function updateTimeTable(isFirstTime=false) {
 			const timeLeftPercent = (timeLeft / todayLong) * 100;
 			el("todayTimeTableNowSign").style.top = `${100 - timeLeftPercent}%`;
 		}
-	
+
 		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
 			todayDailyRoutine = (now.da == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 			updateTodayTimeTable();
@@ -314,8 +314,10 @@ function updateTimeTable(isFirstTime=false) {
 			const timeTableLine = document.createElement("div");
 
 			if(/^[0-9].*/.test(routine[0])) { // もし1stなどの◯時間目なら
+				if(TIME_TABLE[now.da][Number(routine[0][0])-1] != null) {
 				timeTableLine.style.backgroundColor = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].color;
 				timeTableLine.innerHTML = SUBJECT_DATA[TIME_TABLE[now.da][Number(routine[0][0])-1]].name[0]; // 教科の1文字目を表示する
+				}
 			} else if(routine[0].includes("after") && !(routine[0] == "afterSchool")) { // after-1stのような休み時間なら
 				timeTableLine.style.backgroundColor = SUBJECT_DATA["containsAfter"].color;
 			} else {
