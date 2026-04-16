@@ -223,10 +223,6 @@ function timeUpdate() {
 	requestAnimationFrame(timeUpdate);
 }
 
-document.addEventListener("visibilitychange",() => { // ページから離れて戻ってきた時にも実行して更新する
-	if(document.visibilityState === "visible") updateTimeTable(true);
-});
-
 function updateTimeTable(isFirstTime=false) {
 	nowUpdate();
 
@@ -252,6 +248,15 @@ function updateTimeTable(isFirstTime=false) {
 	timeLeft = (nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (now.h * 3600 + now.mi * 60 + now.s + now.ms / 1000);
 
 	if(now.s == 0 || isFirstTime) { // できるだけ更新の頻度を低くする
+		everyMinuteUpdate();
+	}
+
+	el("timeLeftMin").innerHTML = addZero(Math.floor(timeLeft / 60 % 60 + 60) % 60);
+	el("timeLeftSec").innerHTML = addZero(Math.floor(timeLeft % 60 + 60) % 60);
+	let timeLeftPercent = (timeLeft / ((nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (nowWorkingOn[1][0] * 3600 + nowWorkingOn[1][1] * 60))) * 100;
+	el("timeLeftGraph").style.width = timeLeftPercent + "%";
+
+	function everyMinuteUpdate() {
 		if(nowWorkingOn[0].includes("after") && !(nowWorkingOn[0] == "afterSchool")) { // after-1stのような休み時間なら
 			el("nowSubject").innerHTML = SUBJECT_DATA["containsAfter"].name;
 			el("nowSubject").style.setProperty("--afterText", "\"です\"");
@@ -265,23 +270,23 @@ function updateTimeTable(isFirstTime=false) {
 				el("nowSubject").innerHTML = SUBJECT_DATA[nowWorkingOn[0]].name;
 			}
 		}
-
+	
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("timeLeftGraphParent").style.display = "none";
 		} else {
 			el("timeLeftGraphParent").style.display = "block";
 		}
-
+	
 		el("timeLeftGraphLeft").innerHTML = addZero(nowWorkingOn[2][0]) + ":" + addZero(nowWorkingOn[2][1]);
 		el("timeLeftGraphRight").innerHTML = addZero(nowWorkingOn[1][0]) + ":" + addZero(nowWorkingOn[1][1]);
-
+	
 		if(Math.abs(timeLeft) > 3600) { // 1時間以上なら時間を表示する
 			el("timeLeftHour").style.display = "inline";
 			el("timeLeftHour").innerHTML = addZero(Math.floor(timeLeft / 3600 + 24) % 24); // +24して%24することで、もしマイナスになった時に24を足した数になるようにしている 普通にプラスだったら%24で足した分はなくなる
 		} else {
 			el("timeLeftHour").style.display = "none";
 		}
-
+	
 		if(nowWorkingOn[0] == "afterSchool") {
 			el("todayTimeTableNowSign").style.display = "none";
 		} else {
@@ -291,7 +296,7 @@ function updateTimeTable(isFirstTime=false) {
 			const timeLeftPercent = (timeLeft / todayLong) * 100;
 			el("todayTimeTableNowSign").style.top = `${100 - timeLeftPercent}%`;
 		}
-
+	
 		if((now.m == 0 && now.h == 0) || isFirstTime) { // もし日が変わったなら
 			todayDailyRoutine = (now.da == 4) ? DAILY_ROUTINE.thursday : DAILY_ROUTINE.regular;
 			updateTodayTimeTable();
@@ -326,13 +331,13 @@ function updateTimeTable(isFirstTime=false) {
 		const eachLongJoined = eachLong.join(" ");
 		timeTable.style.gridTemplateRows = eachLongJoined;
 	}
-
-
-	el("timeLeftMin").innerHTML = addZero(Math.floor(timeLeft / 60 % 60 + 60) % 60);
-	el("timeLeftSec").innerHTML = addZero(Math.floor(timeLeft % 60 + 60) % 60);
-	let timeLeftPercent = (timeLeft / ((nowWorkingOn[2][0] * 3600 + nowWorkingOn[2][1] * 60) - (nowWorkingOn[1][0] * 3600 + nowWorkingOn[1][1] * 60))) * 100;
-	el("timeLeftGraph").style.width = timeLeftPercent + "%";
 }
+
+document.addEventListener("visibilitychange",() => { // ページから離れて戻ってきた時にも実行して更新する
+	if(document.visibilityState === "visible") {
+		updateTimeTable(true);
+	}
+});
 
 timeUpdate();
 el("otherTime").innerHTML = addZero(now.h) + ":" + addZero(now.mi);
