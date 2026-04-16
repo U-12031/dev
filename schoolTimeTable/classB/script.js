@@ -93,12 +93,12 @@ const TIME_TABLE = [
 		null
 	],
 	[
-		"englishExpressionI",
-		"englishExpressionI",
-		"science",
-		"science",
+		"history",
 		"englishI",
-		"mathA",
+		"mathI",
+		"japanese",
+		"public",
+		"languageCulture",
 		null
 	],
 ];
