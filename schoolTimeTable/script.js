@@ -55,53 +55,103 @@ const DAILY_ROUTINE = { // 日課表
 	]
 }
 const TIME_TABLE = [
-	undefined,
-	[
-		"languageCulture",
-		"health",
-		"mathA",
-		"history",
-		"globalLife",
-		"globalLife",
-		null
-	],
-	[
-		"mathI",
-		"public",
-		"japanese",
-		"sport",
-		"industry",
-		"industry",
-		null
-	],
-	[
-		"englishI",
-		"sport",
-		"information",
-		"information",
-		"mathI",
-		"LHR",
-		"indonesiaI"
-	],
-	[
-		"englishExpressionI",
-		"englishExpressionI",
-		"science",
-		"science",
-		"englishI",
-		"mathA",
-		null
-	],
-	[
-		"englishExpressionI",
-		"englishExpressionI",
-		"science",
-		"science",
-		"englishI",
-		"mathA",
-		null
+	// classB: [
+		undefined,
+		[
+			"languageCulture",
+			"health",
+			"mathA",
+			"history",
+			"globalLife",
+			"globalLife",
+			null
+		],
+		[
+			"mathI",
+			"public",
+			"japanese",
+			"sport",
+			"industry",
+			"industry",
+			null
+		],
+		[
+			"englishI",
+			"sport",
+			"information",
+			"information",
+			"mathI",
+			"LHR",
+			"indonesiaI"
+		],
+		[
+			"englishExpressionI",
+			"englishExpressionI",
+			"science",
+			"science",
+			"englishI",
+			"mathA",
+			null
+		],
+		[
+			"englishExpressionI",
+			"englishExpressionI",
+			"science",
+			"science",
+			"englishI",
+			"mathA",
+			null
+		],
+	// ],
+	// classC: [
+		undefined,
+		[
+			"languageCulture",
+			"health",
+			"mathA",
+			"history",
+			"globalLife",
+			"globalLife",
+			null
+		],
+		[
+			"mathI",
+			"public",
+			"japanese",
+			"sport",
+			"industry",
+			"industry",
+			null
+		],
+		[
+			"englishI",
+			"sport",
+			"information",
+			"information",
+			"mathI",
+			"LHR",
+			"indonesiaI"
+		],
+		[
+			"englishExpressionI",
+			"englishExpressionI",
+			"science",
+			"science",
+			"englishI",
+			"mathA",
+			null
+		],
+		[
+			"englishExpressionI",
+			"englishExpressionI",
+			"science",
+			"science",
+			"englishI",
+			"mathA",
+			null
+		]
 	]
-];
+// };
 const SUBJECT_DATA = {
 	japanese: {
 		name: "現代国語",
@@ -301,8 +351,8 @@ function updateTimeTable(isFirstTime=false) {
 	function updateTodayTimeTable() {
 		const timeTable = el("todayTimeTable");
 		let eachLong = [];
-		while(timeTable.lastChild.id === "timeTableNowSign") { // 子要素を全て削除
-			timeTable.removeChild(timeTable.firstChild);
+		while(timeTable.childElementCount > 1) { // 子要素を全て削除
+			timeTable.removeChild(timeTable.lastChild);
 		}
 		for(let i = 0; i < todayDailyRoutine.length; i++) {
 			const routine = todayDailyRoutine[i];
