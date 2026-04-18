@@ -13,7 +13,7 @@ body {
 
 @font-face {
 	font-family: "originalFont";
-	src: url("/0_data/fonts/MPLUSRounded1c-Regular.ttf") format("truetype");
+	src: url("../0_data/fonts/GlowSansJ-Normal-Light.otf") format("truetype");
 }
 
 *:not(.formula):not(.formula *) {
@@ -29,7 +29,7 @@ body {
 	height: 30px;
 	background-color: #333;
 	border-bottom: 1px solid #ccc;
-	z-index: 1000;
+	z-index: 1;
 }
 
 #mainFormula {
