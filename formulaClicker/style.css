@@ -2,7 +2,7 @@
 	from {background-color:#524a47;}
 	25%	 {background-color:#404238;}
 	50%	 {background-color:#3b3434;}
-	75% {background-color: #40405a;}
+	75% {background-color: #404050;}
 	to   {background-color:#524a47;}
 }
 
@@ -16,14 +16,12 @@ body {
 	src: url("../0_data/fonts/GlowSansJ-Normal-Light.otf") format("truetype");
 }
 
-*:not(.formula):not(.formula *) {
+:not(.formula):not(.formula *) {
 	font-family: "originalFont";
 	color: #fff;
 }
 
-.formula, .formula * {
-	line-height: 0.5em;
-}
+.formula, .formula * {line-height: 0.5em;}
 
 #pinnedValParent {
 	position: fixed;
@@ -62,6 +60,8 @@ cursor: pointer;
 	opacity: 1;
 	translate: -50% 0;
 }
+
+#m {display: none; /* 初期値 */}
 
 #shop {margin: 10px 5px;}
 

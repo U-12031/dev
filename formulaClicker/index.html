@@ -26,12 +26,16 @@
 	<div id="pinnedValParent"></div>
 	<h1 id="mainFormula" class="formula">
 		\(s=\)
-		<span id="t"><!-- t="time" -->
+		<span id="m"><!-- m="multiplier" スコアの倍率(最初は表示されない) -->
+			\(m\!\!\)
+			<span>\(m=0\)</span>
+		</span>
+		<span id="t"><!-- t="time" 経過した時間 この変数により、放置することでスコアが増えるようになる -->
 			\(\,t\)
 			<span>\(t=50\)</span>
 		</span>
 		\(-\)
-		<span id="s_u"><!-- s_u="score_used" 何かに支払ったスコアの数 -->
+		<span id="s_u"><!-- s_u="used_score" 何かに支払ったスコアの数 -->
 			\(s_u\)
 			<span>\(s_u=1000\)</span>
 		</span>
@@ -44,15 +48,15 @@
 	<div id="shop">
 		<button id="mShop">
 			<span class="left">
-				<span class="title">Unlock<span class="formula">\(~~m\)</span>
+				<span class="title">Unlock<span class="formula">\(~~m\)</span></span>
 				<br>
 				<span class="level">0</span>
 			</span>
 			</span>
 			<span class="right formula">
-				<span class="cost">\(s_u ← + 0\)</span>
+				<span class="effect">\(m ← + 1\)</span>
 				<br>
-				<span class="effect">\(e_r ← + 0\)</span>
+				<span class="cost">\(s_u ← + 5\)</span>
 			</span>
 		</button>
 	</div>
