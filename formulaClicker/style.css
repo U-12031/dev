@@ -1,0 +1,75 @@
+@keyframes bgColor {
+	from {background-color:#524a47;}
+	25%	 {background-color:#404238;}
+	50%	 {background-color:#3b3434;}
+	75% {background-color: #40405a;}
+	to   {background-color:#524a47;}
+}
+
+body {
+	margin: 0;
+	animation: bgColor 40s linear infinite;
+}
+
+@font-face {
+	font-family: "originalFont";
+	src: url("/0_data/fonts/MPLUSRounded1c-Regular.ttf") format("truetype");
+}
+
+*:not(.formula):not(.formula *) {
+	font-family: "originalFont";
+	color: #fff;
+}
+
+#pinnedValParent {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	background-color: #333;
+	border-bottom: 1px solid #ccc;
+	z-index: 1000;
+}
+
+#mainFormula {
+	font-size: 50px;
+	text-align: center;
+}
+
+#mainFormula>span {
+position: relative;
+cursor: pointer;
+}
+
+#mainFormula>span>span {
+	position: absolute;
+	top: 95%;
+	left: 50%;
+	translate: -50% 0;
+	font-size: 20px;
+	transition: all 0.5s ease;
+	translate: -50% -20px;
+	opacity: 0;
+}
+
+#mainFormula>span:hover>span {
+	display: inline;
+	opacity: 1;
+	translate: -50% 0;
+}
+
+#shop {margin: 10px 5px;}
+
+#shop>button {
+	display: block;
+	width: 100%;
+	font-size: 20px;
+	padding: 5px 10px;
+	margin: 5px 0;
+	background-color: #333;
+	color: #fff;
+	border: 1.5px solid #ccc;
+	border-radius: 3px;
+	cursor: pointer;
+}
