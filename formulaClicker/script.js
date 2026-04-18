@@ -1,7 +1,6 @@
 function el(id) {return document.getElementById(id)};
 let score = 0; // s
 let time = 0; // t
-let timeMulti = null; // m
 let usedScore = 0; // s_u
 let scoreError = 0; // e_r
 let animationStartedTime = null;
@@ -9,7 +8,7 @@ let shopData = {
 	m: {
 		name: "m",
 		cost: 5,
-		value: 0,
+		value: null,
 		level: 0,
 		increase: 1,
 		costMultiplier: 1.15
@@ -32,8 +31,9 @@ function buy(shop, val=1) {
 		if(shop.cost <= score) {
 			shop.value += shop.increase;
 			shop.level++;
-			score -= shop.cost;
+			usedScore += shop.cost;
 			shop.cost *= shop.costMultiplier;
+			shop.cost = Number(shop.cost.toFixed(2));
 		};
 	};
 	updateShop(shop.name);
@@ -44,7 +44,14 @@ function update(currentTime) {
 
 	const timeDiffSec = (currentTime - animationStartedTime) / 1000;
 	time = timeDiffSec;
-	score = time * (timeMulti ?? 1) - usedScore - scoreError;
+	score = time * (shopData.m.value ?? 1) - usedScore - scoreError;
+	el("tPinned").innerHTML = `\\(t=${time.toFixed(2)}\\)`;
+	el("sPinned").innerHTML = `\\(s=${score.toFixed(2)}\\)`;
+	MathJax.typesetPromise([el("tPinned"), el("sPinned")]);
+	query("#shop>button", true).forEach(bt => {
+		const shop = shopData[bt.id.split("Shop")[0]];
+		bt.style.setProperty("--beforeWidth", Math.min(score / shop.cost, 1) * 100 + "%");
+	})
 
 	requestAnimationFrame(update);
 }
@@ -54,7 +61,7 @@ requestAnimationFrame(update);
 el("mShop").onclick = function() {
 	const shop = shopData.m;
 
-	if(timeMulti == null) {
+	if(shop.value == null) {
 		el("m").style.display = "inline";
 		buy(shop);
 		shop.cost = 5;
